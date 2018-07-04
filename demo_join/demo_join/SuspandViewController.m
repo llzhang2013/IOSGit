@@ -25,11 +25,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.frame=CGRectZero;
-    self.view.frame = CGRectMake(0, 300, 100, 100);
-    self.view.backgroundColor = [UIColor blueColor];
-    [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:1];
+//    self.view.frame = CGRectMake(0, 300, 100, 100);
+//    self.view.backgroundColor = [UIColor blueColor];
+  //  [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:1];
+    [self createBaseUI];
+    
    
 }
+
+
 
 -(void)viewWillDisappear:(BOOL)animated{
     NSLog(@"zll---SuspandViewController-viewWillDisappear");
@@ -41,11 +45,8 @@
 }
 
 - (void)createBaseUI{
-    
-        viewWidth=200;
-        viewHeight=240;
-    
-  
+    viewWidth=WINDOWS.width;
+    viewHeight=WINDOWS.height;
     _customView=[self createCustomView];
     _customWindow=[self createCustomWindow];
     
@@ -53,6 +54,7 @@
     [_customWindow makeKeyAndVisible];
     
 }
+
 - (suspandView *)createCustomView{
     if(!_customView){
         suspandView *sView = [[suspandView alloc]init];
@@ -63,12 +65,50 @@
         sView.suspendDelegate=self;
         sView.rootView=self.view.superview;
         _customView = sView;
+        [self addButtonTarget];
 
     }
    
-    
     return _customView;
 }
+
+-(void)addButtonTarget{
+    for(UIView *subView in _customView.subviews){
+        if(subView.tag==100){//收起
+             UIButton *button = (UIButton *)subView;
+             [button addTarget:self action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
+            
+        }else if(subView.tag==101){
+            UIButton *button1 = (UIButton *)subView;
+             [button1 addTarget:self action:@selector(upToVideo) forControlEvents:UIControlEventTouchUpInside];
+            
+        }else if(subView.tag==102){
+             UIButton *button2 = (UIButton *)subView;
+             [button2 addTarget:self action:@selector(changeCamera) forControlEvents:UIControlEventTouchUpInside];
+            
+        }
+    }
+}
+-(void)changeCamera{
+    
+    [[ILiveRoomManager getInstance] switchCamera:^{
+        
+        
+    } failed:^(NSString *module, int errId, NSString *errMsg) {
+        
+    }];
+    
+}
+
+-(void)smallView{
+    CGRect rect = CGRectMake(0, 100, 100, 150);
+    [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:rect forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
+    // self.view.frame = CGRectMake(0, 0, 100, 150);
+    _customView.frame = rect;
+    _customWindow.frame = rect;
+    
+}
+
 - (UIWindow *)createCustomWindow{
     if (!_customWindow) {
         _customWindow=[[UIWindow alloc]init];
@@ -78,42 +118,6 @@
         
     }
     return _customWindow;
-}
-
-
-
-#pragma mark --SuspendCustomViewDelegate
-
-- (void)suspendCustomViewClicked:(id)sender{
-    NSLog(@"此处判断点击 还可以通过suspenType类型判断");
-    suspandView *suspendCustomView=(suspandView *)sender;
-    for (UIView *subView in suspendCustomView.subviews) {
-        if ([subView isKindOfClass:[UIButton class]]) {
-            NSLog(@"点击了按钮");
-        }else if([subView isKindOfClass:[UIView class]]){
-            NSLog(@"点击了自定义view");
-//            [self.view removeFromSuperview];
-//            [self removeFromParentViewController];
-            [self upToVideo];
-            
-        }
-    }
-}
-
-- (void)dragToTheLeft{
-    NSLog(@"左划到左边框了");
-    
-}
-- (void)dragToTheRight{
-    NSLog(@"右划到右边框了");
-    
-}
-- (void)dragToTheTop{
-    NSLog(@"上滑到顶部了");
-    
-}
-- (void)dragToTheBottom{
-    NSLog(@"下滑到底部了");
 }
 
 - (void)upToVideo{
@@ -131,8 +135,32 @@
     } failed:^(NSString *module, int errId, NSString *errMsg) {
         NSLog(@"打开麦克风失败");
     }];
-    
 }
+
+#pragma mark --SuspendCustomViewDelegate
+
+- (void)suspendCustomViewClicked:(id)sender{
+    NSLog(@"此处判断点击 还可以通过suspenType类型判断");
+    suspandView *suspendCustomView=(suspandView *)sender;
+    //
+    
+    for (UIView *subView in suspendCustomView.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            NSLog(@"点击了按钮");
+        }else if([subView isKindOfClass:[UIView class]]){
+            NSLog(@"点击了自定义view");
+            [self upToVideo];
+//            [self.view removeFromSuperview];
+//            [self removeFromParentViewController];
+          
+            
+        }
+    }
+}
+
+
+
+
 
 #pragma mark - ILiveMemStatusListener
 // 音视频事件回调
@@ -152,8 +180,7 @@
                 renderView.frame = CGRectMake(0, 0, viewWidth, viewHeight);
                 
                 [_customView addSubview:renderView];
-              
-                //                [_customView sendSubviewToBack:renderView];
+               // [_customView sendSubviewToBack:renderView];
                 //
                 
             }
