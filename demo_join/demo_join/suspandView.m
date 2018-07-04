@@ -45,17 +45,42 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
 - (void)initWithSuspendType:(NSString *)suspendType{
     
     self.suspendViewType=[NSString stringWithFormat:@"%@",suspendType];
-    [self createCustomOtherView];
+   // [self createCustomOtherView];
 }
 //自定义界面
 - (void)createCustomOtherView{
     if (!_customContentView) {
+
         _customContentView=[[SuspendView alloc]init];
         _customContentView.frame=CGRectMake(0, 0, self.viewWidth, self.viewHeight);
         _customContentView.backgroundColor=[UIColor grayColor];
         _customContentView.userInteractionEnabled=YES;
         [self addSubview:_customContentView];
     }
+    [self createButtonsView];
+}
+
+-(void)createButtonsView{
+    
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 100, 50, 50)];
+    [button setTitle:@"收起" forState:UIControlStateNormal];
+    button.tag = 100;
+  
+    
+    UIButton *button1 = [[UIButton alloc]initWithFrame:CGRectMake(100, 100, 50, 50)];
+    [button1 setTitle:@"上麦" forState:UIControlStateNormal];
+    button1.tag = 101;
+   
+    
+    UIButton *button2 = [[UIButton alloc]initWithFrame:CGRectMake(200, 100, 100, 50)];
+    [button2 setTitle:@"切换摄像头" forState:UIControlStateNormal];
+    button2.tag=103;
+   
+    [_customContentView addSubview:button];
+    [_customContentView addSubview:button1];
+    [_customContentView addSubview:button2];
+    
+    
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
