@@ -65,7 +65,12 @@
         suspandView *sView = [[suspandView alloc]init];
         sView.viewWidth = viewWidth;
         sView.viewHeight = viewHeight;
-        [sView initWithSuspendType:@""];
+        sView.bigWidth = viewWidth;
+        sView.bigHeight = viewHeight;
+        sView.smallWidth = smallWidth;
+        sView.smallHeight = smallHeight;
+        sView.mode = BigFrame;
+        //[sView initWithSuspendType:@""];
         sView.frame=CGRectMake(0, 0, viewWidth, viewHeight);
         sView.suspendDelegate=self;
         sView.rootView=self.view.superview;
@@ -74,7 +79,8 @@
         
         
     }
-    [self addButtons];
+   // [self addButtons];
+    [self addAction];
     
     
     return _customView;
@@ -132,12 +138,14 @@
 }
 
 -(void)smallView{
-    CGRect rect = CGRectMake(0, 100, 100, 150);
+//    CGRect rect = CGRectMake(0, 100, 100, 150);
      [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0, smallWidth, smallHeight) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
-    // self.view.frame = CGRectMake(0, 0, 100, 150);
-    _customView.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
-    _customWindow.frame = rect;
-    [self.buttonsBKView removeFromSuperview];
+//    // self.view.frame = CGRectMake(0, 0, 100, 150);
+//    _customView.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
+//    _customWindow.frame = rect;
+//    [self.buttonsBKView removeFromSuperview];
+    _customView.mode = SmallFrame;
+    
     
 }
 
@@ -159,42 +167,16 @@
 - (void)suspendCustomViewClicked:(id)sender{
     NSLog(@"此处判断点击 还可以通过suspenType类型判断");
    // suspandView *suspendCustomView=(suspandView *)sender;
-    CGRect rect = CGRectMake(0, 0, WINDOWS.width, WINDOWS.height);
-    _customView.frame = rect;
-    _customWindow.frame = rect;
-    [self addButtons];
+//    CGRect rect = CGRectMake(0, 0, WINDOWS.width, WINDOWS.height);
+//    _customView.frame = rect;
+//    _customWindow.frame = rect;
+//    [self addButtons];
+    _customView.mode = BigFrame;
      [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0, viewWidth, viewHeight) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
     
-    //放大
-    
-    //    for (UIView *subView in suspendCustomView.subviews) {
-    //        if ([subView isKindOfClass:[UIButton class]]) {
-    //            NSLog(@"点击了按钮");
-    //        }else if([subView isKindOfClass:[UIView class]]){
-    //            NSLog(@"点击了自定义view");
-    ////            [self.view removeFromSuperview];
-    ////            [self removeFromParentViewController];
-    //            [self upToVideo];
-    //
-    //        }
-    //    }
 }
 
-- (void)dragToTheLeft{
-    NSLog(@"左划到左边框了");
-    
-}
-- (void)dragToTheRight{
-    NSLog(@"右划到右边框了");
-    
-}
-- (void)dragToTheTop{
-    NSLog(@"上滑到顶部了");
-    
-}
-- (void)dragToTheBottom{
-    NSLog(@"下滑到底部了");
-}
+
 
 - (void)upToVideo{
     // 上麦，打开摄像头和麦克风

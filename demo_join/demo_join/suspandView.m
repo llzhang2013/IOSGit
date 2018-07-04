@@ -18,50 +18,51 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     ButtonDirectionBottom  =4
 };
 
-@implementation SuspendView
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [[self nextResponder]touchesBegan:touches withEvent:event];
-}
-- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [[self nextResponder]touchesMoved:touches withEvent:event];
-}
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [[self nextResponder]touchesEnded:touches withEvent:event];
-}
-
-@end
 
 @interface suspandView()
-{
-    AVPlayer *_player;
-    
-}
 @property (nonatomic, assign) CGPoint startPoint;
-@property (nonatomic, strong) NSString *suspendViewType;
 @end
 
 @implementation suspandView
 
+-(void)setMode:(FramMode)mode{
+    if(mode==SmallFrame){
+        self.frame = CGRectMake(0, 0, _smallWidth, _smallHeight);
+        self.superview.frame = CGRectMake(0, 0, _smallWidth, _smallHeight);
+        [self.buttonBKView removeFromSuperview];
+        
+    }else if(mode==BigFrame){
+        self.frame = CGRectMake(0, 0, _bigWidth, _bigHeight);
+        self.superview.frame = CGRectMake(0, 0, _bigWidth, _bigHeight);
+        [self addButtons];
+    }
+    _mode = mode;
+}
+
 - (void)initWithSuspendType:(NSString *)suspendType{
-    
-    self.suspendViewType=[NSString stringWithFormat:@"%@",suspendType];
-   // [self createCustomOtherView];
-    //[self addButtons];
+    [self addButtons];
 }
 
 -(void)addButtons{
+    if(self.buttonBKView){
+        [self addSubview:self.buttonBKView];
+        return;
+    }
     self.buttonBKView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _viewWidth, 100)];
     self.buttonBKView.backgroundColor = [UIColor redColor];
     [self addSubview:self.buttonBKView];
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
+    button.tag=100;
     [button setTitle:@"收起" forState:UIControlStateNormal];
    // [button addTarget:self action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *button1 = [[UIButton alloc]initWithFrame:CGRectMake(100, 0, 50, 50)];
     [button1 setTitle:@"上麦" forState:UIControlStateNormal];
+    button1.tag=101;
     //[button1 addTarget:self action:@selector(upToVideo) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *button2 = [[UIButton alloc]initWithFrame:CGRectMake(200, 0, 100, 50)];
+    button2.tag = 102;
     [button2 setTitle:@"切换摄像头" forState:UIControlStateNormal];
    // [button2 addTarget:self action:@selector(changeCamera) forControlEvents:UIControlEventTouchUpInside];
     [self.buttonBKView addSubview:button];
@@ -69,16 +70,7 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     [self.buttonBKView addSubview:button2];
     
 }
-//自定义界面
-- (void)createCustomOtherView{
-    if (!_customContentView) {
-        _customContentView=[[SuspendView alloc]init];
-        _customContentView.frame=CGRectMake(0, 0, self.viewWidth, self.viewHeight);
-        _customContentView.backgroundColor=[UIColor grayColor];
-        _customContentView.userInteractionEnabled=YES;
-        [self addSubview:_customContentView];
-    }
-}
+
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [super touchesBegan:touches withEvent:event];
