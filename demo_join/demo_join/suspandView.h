@@ -32,6 +32,7 @@
 @property (nonatomic, assign) CGFloat viewHeight;
 @property (nonatomic, weak) id<SuspendCustomViewDelegate> suspendDelegate;
 @property (nonatomic, strong) SuspendView *customContentView;
+@property (nonatomic, strong) UIView *buttonBKView;
 - (void)initWithSuspendType:(NSString *)suspendType;
 
 @end

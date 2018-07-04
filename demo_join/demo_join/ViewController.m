@@ -35,17 +35,17 @@ static NSString * const kUserSig1 = @"eJxlj8FOhDAURfd8RcMWoy1QAiYugBBDwhjNiI5uGo
     view.backgroundColor = [UIColor redColor];
     [self.view addSubview:view];
     
+//    SuspandViewController *vc = [[SuspandViewController alloc]init];
+//    [self addChildViewController:vc];
+//    [self.view addSubview:vc.view];
+    
+    
    
 }
 
 // 登录按钮点击
 - (IBAction)onLogin:(id)sender {
-   
-  
-  
-
-  
-    
+ 
 //    SuspandViewController *vc = [[SuspandViewController alloc]init];
 //    [self addChildViewController:vc];
 //    [self.view addSubview:vc.view];

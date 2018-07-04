@@ -45,7 +45,29 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
 - (void)initWithSuspendType:(NSString *)suspendType{
     
     self.suspendViewType=[NSString stringWithFormat:@"%@",suspendType];
-    [self createCustomOtherView];
+   // [self createCustomOtherView];
+    //[self addButtons];
+}
+
+-(void)addButtons{
+    self.buttonBKView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _viewWidth, 100)];
+    self.buttonBKView.backgroundColor = [UIColor redColor];
+    [self addSubview:self.buttonBKView];
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
+    [button setTitle:@"收起" forState:UIControlStateNormal];
+   // [button addTarget:self action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *button1 = [[UIButton alloc]initWithFrame:CGRectMake(100, 0, 50, 50)];
+    [button1 setTitle:@"上麦" forState:UIControlStateNormal];
+    //[button1 addTarget:self action:@selector(upToVideo) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *button2 = [[UIButton alloc]initWithFrame:CGRectMake(200, 0, 100, 50)];
+    [button2 setTitle:@"切换摄像头" forState:UIControlStateNormal];
+   // [button2 addTarget:self action:@selector(changeCamera) forControlEvents:UIControlEventTouchUpInside];
+    [self.buttonBKView addSubview:button];
+    [self.buttonBKView addSubview:button1];
+    [self.buttonBKView addSubview:button2];
+    
 }
 //自定义界面
 - (void)createCustomOtherView{
@@ -71,30 +93,7 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
  
     self.superview.center =currentPoint;
     
-//    UITouch *touch = [touches anyObject];
-//
-//    //求偏移量 = 手指当前点的X - 手指上一个点的X
-//    CGPoint currentPoint = [touch locationInView:self];
-//    CGPoint prePoint = [touch previousLocationInView:self];
-//
-//    NSLog(@"zll--ccurrentPoint = %@", NSStringFromCGPoint(currentPoint));
-//    NSLog(@"zll--prePiont = %@", NSStringFromCGPoint(prePoint));
-//
-//    CGFloat offSetX = currentPoint.x - prePoint.x;
-//    CGFloat offSetY = currentPoint.y - prePoint.y;
-//
-//
-//    //平移
-//        self.superview.transform = CGAffineTransformTranslate(self.superview.transform, offSetX, offSetY);
-    
-   // self.superview.center=CGPointMake(<#CGFloat x#>, <#CGFloat y#>);
-//
-//    //平移
-//  CGAffineTransform tt = CGAffineTransformTranslate(self.transform, offSetX, offSetY);
-//  CGAffineTransformTranslate(self.transform, offSetX, offSetY);
-//    self.transform = tt;
-//
-//
+
     
     
 }

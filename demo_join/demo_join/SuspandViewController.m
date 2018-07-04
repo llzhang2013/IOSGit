@@ -13,10 +13,14 @@
 @interface SuspandViewController ()<SuspendCustomViewDelegate>{
     CGFloat viewWidth;
     CGFloat viewHeight;
+    CGFloat smallWidth;
+    CGFloat smallHeight;
 }
 
 @property (nonatomic, strong) UIWindow *customWindow;
 @property (nonatomic, strong) suspandView *customView;
+@property (nonatomic, strong) UIView *buttonsBKView;
+
 
 @end
 
@@ -25,10 +29,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.frame=CGRectZero;
-    self.view.frame = CGRectMake(0, 300, 100, 100);
-    self.view.backgroundColor = [UIColor blueColor];
+    //    self.view.frame = CGRectMake(0, 300, 100, 100);
+    //    self.view.backgroundColor = [UIColor blueColor];
     [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:1];
-   
+    //  [self createBaseUI];
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -37,15 +42,17 @@
 
 - (void)dealloc
 {
-     NSLog(@"zll---SuspandViewController-dealloc");
+    NSLog(@"zll---SuspandViewController-dealloc");
 }
 
 - (void)createBaseUI{
     
-        viewWidth=200;
-        viewHeight=240;
+    viewWidth=WINDOWS.width;
+    viewHeight=WINDOWS.height;
+    smallWidth = 100;
+    smallHeight = 150;
     
-  
+    
     _customView=[self createCustomView];
     _customWindow=[self createCustomWindow];
     
@@ -62,17 +69,82 @@
         sView.frame=CGRectMake(0, 0, viewWidth, viewHeight);
         sView.suspendDelegate=self;
         sView.rootView=self.view.superview;
+        sView.backgroundColor = [UIColor redColor];
         _customView = sView;
-
+        
+        
     }
-   
+    [self addButtons];
+    
     
     return _customView;
 }
+-(void)addButtons{//???为什么只能在这里加
+    if (self.buttonsBKView) {
+        [_customView addSubview:self.buttonsBKView];
+        return;
+    }
+    
+    self.buttonsBKView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, viewWidth, 50)];
+    [_customView addSubview:self.buttonsBKView];
+    
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
+    [button setTitle:@"收起" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *button1 = [[UIButton alloc]initWithFrame:CGRectMake(100, 0, 50, 50)];
+    [button1 setTitle:@"上麦" forState:UIControlStateNormal];
+    [button1 addTarget:self action:@selector(upToVideo) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *button2 = [[UIButton alloc]initWithFrame:CGRectMake(200, 0, 100, 50)];
+    [button2 setTitle:@"切换摄像头" forState:UIControlStateNormal];
+    [button2 addTarget:self action:@selector(changeCamera) forControlEvents:UIControlEventTouchUpInside];
+    [self.buttonsBKView addSubview:button];
+    [self.buttonsBKView addSubview:button1];
+    [self.buttonsBKView addSubview:button2];
+    
+}
+
+-(void)addAction{
+    for(UIButton *btn in _customView.buttonBKView.subviews){
+        if(btn.tag==100){
+            [btn addTarget:self action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
+            
+        }else if(btn.tag==101){
+            [btn addTarget:self action:@selector(upToVideo) forControlEvents:UIControlEventTouchUpInside];
+        }else if(btn.tag==102){
+            [btn addTarget:self action:@selector(changeCamera)
+          forControlEvents:UIControlEventTouchUpInside];
+            
+        }
+    }
+}
+
+-(void)changeCamera{
+    
+    [[ILiveRoomManager getInstance] switchCamera:^{
+        
+        
+    } failed:^(NSString *module, int errId, NSString *errMsg) {
+        
+    }];
+    
+}
+
+-(void)smallView{
+    CGRect rect = CGRectMake(0, 100, 100, 150);
+     [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0, smallWidth, smallHeight) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
+    // self.view.frame = CGRectMake(0, 0, 100, 150);
+    _customView.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
+    _customWindow.frame = rect;
+    [self.buttonsBKView removeFromSuperview];
+    
+}
+
 - (UIWindow *)createCustomWindow{
     if (!_customWindow) {
         _customWindow=[[UIWindow alloc]init];
-        _customWindow.frame=CGRectMake(WINDOWS.width-viewWidth,WINDOWS.height-viewHeight-49, viewWidth, viewHeight);
+        _customWindow.frame=CGRectMake(0,0, viewWidth, viewHeight);
         _customWindow.windowLevel=UIWindowLevelAlert+1;
         _customWindow.backgroundColor=[UIColor greenColor];
         
@@ -86,18 +158,26 @@
 
 - (void)suspendCustomViewClicked:(id)sender{
     NSLog(@"此处判断点击 还可以通过suspenType类型判断");
-    suspandView *suspendCustomView=(suspandView *)sender;
-    for (UIView *subView in suspendCustomView.subviews) {
-        if ([subView isKindOfClass:[UIButton class]]) {
-            NSLog(@"点击了按钮");
-        }else if([subView isKindOfClass:[UIView class]]){
-            NSLog(@"点击了自定义view");
-//            [self.view removeFromSuperview];
-//            [self removeFromParentViewController];
-            [self upToVideo];
-            
-        }
-    }
+   // suspandView *suspendCustomView=(suspandView *)sender;
+    CGRect rect = CGRectMake(0, 0, WINDOWS.width, WINDOWS.height);
+    _customView.frame = rect;
+    _customWindow.frame = rect;
+    [self addButtons];
+     [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0, viewWidth, viewHeight) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
+    
+    //放大
+    
+    //    for (UIView *subView in suspendCustomView.subviews) {
+    //        if ([subView isKindOfClass:[UIButton class]]) {
+    //            NSLog(@"点击了按钮");
+    //        }else if([subView isKindOfClass:[UIView class]]){
+    //            NSLog(@"点击了自定义view");
+    ////            [self.view removeFromSuperview];
+    ////            [self removeFromParentViewController];
+    //            [self upToVideo];
+    //
+    //        }
+    //    }
 }
 
 - (void)dragToTheLeft{
@@ -152,8 +232,8 @@
                 renderView.frame = CGRectMake(0, 0, viewWidth, viewHeight);
                 
                 [_customView addSubview:renderView];
-              
-                //                [_customView sendSubviewToBack:renderView];
+                
+                [_customView sendSubviewToBack:renderView];
                 //
                 
             }
@@ -197,9 +277,10 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-  
+    
 }
 
 
 
 @end
+
