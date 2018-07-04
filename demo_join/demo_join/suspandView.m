@@ -70,32 +70,7 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     CGPoint currentPoint=[touch locationInView:_rootView];
  
     self.superview.center =currentPoint;
-    
-//    UITouch *touch = [touches anyObject];
-//
-//    //求偏移量 = 手指当前点的X - 手指上一个点的X
-//    CGPoint currentPoint = [touch locationInView:self];
-//    CGPoint prePoint = [touch previousLocationInView:self];
-//
-//    NSLog(@"zll--ccurrentPoint = %@", NSStringFromCGPoint(currentPoint));
-//    NSLog(@"zll--prePiont = %@", NSStringFromCGPoint(prePoint));
-//
-//    CGFloat offSetX = currentPoint.x - prePoint.x;
-//    CGFloat offSetY = currentPoint.y - prePoint.y;
-//
-//
-//    //平移
-//        self.superview.transform = CGAffineTransformTranslate(self.superview.transform, offSetX, offSetY);
-    
-   // self.superview.center=CGPointMake(<#CGFloat x#>, <#CGFloat y#>);
-//
-//    //平移
-//  CGAffineTransform tt = CGAffineTransformTranslate(self.transform, offSetX, offSetY);
-//  CGAffineTransformTranslate(self.transform, offSetX, offSetY);
-//    self.transform = tt;
-//
-//
-    
+
     
 }
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
