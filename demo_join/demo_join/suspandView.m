@@ -42,19 +42,17 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
 -(void)setMode:(FramMode)mode{
     
     if(mode==SmallFrame){
-      
         [self.buttonBKView removeFromSuperview];
         _viewWidth = _smallWidth;
         _viewHeight = _smallHeight;
+        self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
         
     }else if(mode==BigFrame){
-       // self.frame = CGRectMake(0, 0, _bigWidth, _bigHeight);
         _viewWidth = _bigWidth;
         _viewHeight = _bigHeight;
-      
+        self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
+        [self addButtons];
     }
-    self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
-      [self addButtons];
     _mode = mode;
 }
 
