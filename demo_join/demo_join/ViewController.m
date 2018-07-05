@@ -35,9 +35,9 @@ static NSString * const kUserSig1 = @"eJxlj8FOhDAURfd8RcMWoy1QAiYugBBDwhjNiI5uGo
     view.backgroundColor = [UIColor redColor];
     [self.view addSubview:view];
     
-    SuspandViewController *vc = [[SuspandViewController alloc]init];
-    [self addChildViewController:vc];
-    [self.view addSubview:vc.view];
+//    SuspandViewController *vc = [[SuspandViewController alloc]init];
+//    [self addChildViewController:vc];
+//    [self.view addSubview:vc.view];
 //
     
    

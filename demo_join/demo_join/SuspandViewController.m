@@ -130,8 +130,6 @@
 }
 
 - (UIWindow *)createCustomWindow{
-   
-    
     if (!_customWindow) {
         _customWindow=[[UIWindow alloc]init];
         _customWindow.frame=CGRectMake(0,0, viewWidth, viewHeight);
@@ -164,16 +162,20 @@
 
 - (void)cancelWindow{
     
-    [_customWindow resignFirstResponder];
+//    [_customWindow resignFirstResponder];
+//
+//    _customWindow=nil;
+    [[ILiveRoomManager getInstance] quitRoom:^{
+        [_customView removeFromSuperview];
+        [self.view removeFromSuperview];
+        [self removeFromParentViewController];
+        
+    } failed:^(NSString *module, int errId, NSString *errMsg) {
+        
+    }];
+  
     
-    _customWindow=nil;
-    [self.view removeFromSuperview];
-    [self removeFromParentViewController];
 }
-
-
-
-
 
 - (void)upToVideo{
     // 上麦，打开摄像头和麦克风

@@ -52,8 +52,7 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
         [self addSubview:self.buttonBKView];
         return;
     }
-    self.buttonBKView = [[UIView alloc]initWithFrame:CGRectMake(0, self.frame.size.height-100, _viewWidth, 100)];
-    self.buttonBKView.backgroundColor = [UIColor redColor];
+    self.buttonBKView = [[UIView alloc]initWithFrame:CGRectMake(0, self.frame.size.height-100, _viewWidth, 50)];
     [self addSubview:self.buttonBKView];
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
     button.tag=100;
