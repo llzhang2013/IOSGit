@@ -11,16 +11,12 @@
 #import <QAVSDK/QAVCommon.h>
 
 @interface SuspandViewController ()<SuspendCustomViewDelegate>{
-    CGFloat viewWidth;
-    CGFloat viewHeight;
-    CGFloat smallWidth;
-    CGFloat smallHeight;
+  
 }
 
 
 @property (nonatomic, strong) suspandView *customView;
 @property (nonatomic, strong) UIView *buttonsBKView;
-
 
 @end
 
@@ -29,12 +25,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.frame=CGRectZero;
-    //    self.view.frame = CGRectMake(0, 300, 100, 100);
-    //    self.view.backgroundColor = [UIColor blueColor];
-    [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:1];
-    //  [self createBaseUI];
-   
-    
+    [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:0.1];
+
 }
 
 -(void)addbutton{
@@ -45,47 +37,23 @@
     [_customView addSubview:button];
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    NSLog(@"zll---SuspandViewController-viewWillDisappear");
-}
-
-- (void)dealloc
-{
-    NSLog(@"zll---SuspandViewController-dealloc");
-}
 
 - (void)createBaseUI{
-    
-//    viewWidth=WINDOWS.width;
-//    viewHeight=WINDOWS.height;
-//    smallWidth = 100;
-//    smallHeight = 150;
     _customView=[self createCustomView];
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     [window addSubview:_customView];
     [self addAction];
-    
- 
     
 }
 - (suspandView *)createCustomView{
     if(!_customView){
         suspandView *sView = [[suspandView alloc]init];
         [sView initSelf];
-        
-//        sView.bigWidth = viewWidth;
-//        sView.bigHeight = viewHeight;
-//        sView.smallWidth = smallWidth;
-//        sView.smallHeight = smallHeight;
         sView.mode = BigFrame;
         sView.suspendDelegate=self;
         sView.backgroundColor = [UIColor grayColor];
         _customView = sView;
     }
-    
-    
-
-
    return _customView;
 }
 
@@ -123,14 +91,10 @@
 }
 
 -(void)smallView{
-
-     [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0, smallWidth, smallHeight) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
-
-    _customView.mode = SmallFrame;
-    
-    
+//       [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.width) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
+     _customView.mode = SmallFrame;
+    [self changeVideoFrame];
 }
-
 
 - (void)cancelWindow{
     
@@ -164,6 +128,11 @@
     
 }
 
+-(void)changeVideoFrame{
+      [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
+    
+}
+
 #pragma mark --SuspendCustomViewDelegate
 
 - (void)suspendCustomViewClicked:(id)sender{
@@ -173,7 +142,7 @@
         return;
     }
     _customView.mode = BigFrame;
-    [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0, viewWidth, viewHeight) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
+    [self changeVideoFrame];
     
 }
 
@@ -193,10 +162,9 @@
                  */
                 ILiveFrameDispatcher *frameDispatcher = [[ILiveRoomManager getInstance] getFrameDispatcher];
                 ILiveRenderView *renderView = [frameDispatcher addRenderAt:CGRectZero forIdentifier:endpoint.identifier srcType:QAVVIDEO_SRC_TYPE_CAMERA];
-                renderView.frame = CGRectMake(0, 0, viewWidth, viewHeight);
+                renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
                 
                 [_customView addSubview:renderView];
-                
                 [_customView sendSubviewToBack:renderView];
                 //
                 
@@ -237,7 +205,15 @@
     return YES;
 }
 
+#pragma mark --  selfLife
+-(void)viewWillDisappear:(BOOL)animated{
+    NSLog(@"zll---SuspandViewController-viewWillDisappear");
+}
 
+- (void)dealloc
+{
+    NSLog(@"zll---SuspandViewController-dealloc");
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

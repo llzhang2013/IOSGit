@@ -18,9 +18,6 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     ButtonDirectionBottom  =4
 };
 
-
-
-
 @interface suspandView()
 @property (nonatomic, assign) CGPoint startPoint;
 @property (nonatomic, assign) CGFloat smallWidth;
@@ -96,18 +93,12 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
         return;
     }
     UITouch *touch = [touches anyObject];
-    
-    //求偏移量 = 手指当前点的X - 手指上一个点的X
+
     CGPoint currentPoint = [touch locationInView:self];
     CGPoint prePoint = [touch previousLocationInView:self];
-    
-    NSLog(@"ccurrentPoint = %@", NSStringFromCGPoint(currentPoint));
-    NSLog(@"prePiont = %@", NSStringFromCGPoint(prePoint));
-    
     CGFloat offSetX = currentPoint.x - prePoint.x;
     CGFloat offSetY = currentPoint.y - prePoint.y;
     
-    //平移
     self.transform = CGAffineTransformTranslate(self.transform, offSetX, offSetY);
 }
 
@@ -141,9 +132,6 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     if (bottom < minDistance) {
         direction = ButtonDirectionBottom;
     }
-
-    
-    NSLog(@"zll---direction=%li",direction);
 
     switch (direction) {
         case ButtonDirectionLeft:
