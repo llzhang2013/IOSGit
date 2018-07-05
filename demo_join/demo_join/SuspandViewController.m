@@ -171,6 +171,10 @@
 //    _customView.frame = rect;
 //    _customWindow.frame = rect;
 //    [self addButtons];
+    if(_customView.mode==BigFrame){
+        return;
+    }
+        
     _customView.mode = BigFrame;
      [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0, viewWidth, viewHeight) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
     
