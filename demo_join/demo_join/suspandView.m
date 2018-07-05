@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
 -(void)setMode:(FramMode)mode{
     if(mode==SmallFrame){
         self.frame = CGRectMake(0, 0, _smallWidth, _smallHeight);
-        self.superview.frame = CGRectMake(0, 0, _smallWidth, _smallHeight);
+        self.superview.frame = CGRectMake(_bigWidth-_smallWidth, 0, _smallWidth, _smallHeight);
         [self.buttonBKView removeFromSuperview];
         
     }else if(mode==BigFrame){
@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
         [self addSubview:self.buttonBKView];
         return;
     }
-    self.buttonBKView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _viewWidth, 100)];
+    self.buttonBKView = [[UIView alloc]initWithFrame:CGRectMake(0, self.frame.size.height-100, _viewWidth, 100)];
     self.buttonBKView.backgroundColor = [UIColor redColor];
     [self addSubview:self.buttonBKView];
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
@@ -56,18 +56,23 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     [button setTitle:@"收起" forState:UIControlStateNormal];
    // [button addTarget:self action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *button1 = [[UIButton alloc]initWithFrame:CGRectMake(100, 0, 50, 50)];
+    UIButton *button1 = [[UIButton alloc]initWithFrame:CGRectMake(60, 0, 50, 50)];
     [button1 setTitle:@"上麦" forState:UIControlStateNormal];
     button1.tag=101;
     //[button1 addTarget:self action:@selector(upToVideo) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *button2 = [[UIButton alloc]initWithFrame:CGRectMake(200, 0, 100, 50)];
+    UIButton *button2 = [[UIButton alloc]initWithFrame:CGRectMake(120, 0, 100, 50)];
     button2.tag = 102;
     [button2 setTitle:@"切换摄像头" forState:UIControlStateNormal];
    // [button2 addTarget:self action:@selector(changeCamera) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *button3 = [[UIButton alloc]initWithFrame:CGRectMake(230, 0, 50, 50)];
+    button3.tag = 103;
+    [button3 setTitle:@"结束" forState:UIControlStateNormal];
     [self.buttonBKView addSubview:button];
     [self.buttonBKView addSubview:button1];
     [self.buttonBKView addSubview:button2];
+    [self.buttonBKView addSubview:button3];
     
 }
 
@@ -79,18 +84,36 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     
 }
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    if(_mode==BigFrame){
+        return;
+    }
     [super touchesMoved:touches withEvent:event];
     UITouch *touch=[touches anyObject];
     CGPoint currentPoint=[touch locationInView:_rootView];
- 
+
     self.superview.center =currentPoint;
     
-
     
-    
+//    UITouch *touch = [touches anyObject];
+//
+//    //求偏移量 = 手指当前点的X - 手指上一个点的X
+//    CGPoint currentPoint = [touch locationInView:self.superview];
+//    CGPoint prePoint = [touch previousLocationInView:self.superview];
+//
+//    NSLog(@"zll--currentPoint = %@", NSStringFromCGPoint(currentPoint));
+//    NSLog(@"zll--prePiont = %@", NSStringFromCGPoint(prePoint));
+//
+//    CGFloat offSetX = currentPoint.x - prePoint.x;
+//    CGFloat offSetY = currentPoint.y - prePoint.y;
+//
+//    //平移
+//    self.superview.transform = CGAffineTransformTranslate(self.superview.transform, offSetX, offSetY);
+//    NSLog(@"zll--self.superview=%@",NSStringFromCGRect(self.superview.frame));
 }
+
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [super touchesEnded:touches withEvent:event];
+   
     
 
     UITouch *touch=[touches anyObject];
@@ -137,51 +160,43 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
         leftOrRight=self.superview.center.x;
     }
 
-//    switch (direction) {
-//        case ButtonDirectionLeft:
-//        {
-//
-//            [UIView animateWithDuration:0.3 animations:^{
-//                self.superview.center = CGPointMake(self.superview.frame.size.width/2, topOrButtom);
-//            }];
-//            if ([self.suspendDelegate respondsToSelector:@selector(dragToTheLeft)]) {
-//                [self.suspendDelegate dragToTheLeft];
-//            }
-//            break;
-//        }
-//        case ButtonDirectionRight:
-//        {
-//            [UIView animateWithDuration:0.3 animations:^{
-//                self.superview.center = CGPointMake(WINDOWS.width - self.superview.frame.size.width/2, topOrButtom);
-//            }];
-//            if ([self.suspendDelegate respondsToSelector:@selector(dragToTheRight)]) {
-//                [self.suspendDelegate dragToTheRight];
-//            }
-//            break;
-//        }
-//        case ButtonDirectionTop:
-//        {
-//            [UIView animateWithDuration:0.3 animations:^{
-//                self.superview.center = CGPointMake(leftOrRight, self.superview.frame.size.height/2+NavigationBarHeight);
-//            }];
-//            if ([self.suspendDelegate respondsToSelector:@selector(dragToTheTop)]) {
-//                [self.suspendDelegate dragToTheTop];
-//            }
-//            break;
-//        }
-//        case ButtonDirectionBottom:
-//        {
-//            [UIView animateWithDuration:0.3 animations:^{
-//                self.superview.center = CGPointMake(leftOrRight, WINDOWS.height - self.superview.frame.size.height/2-TabBarHeight);
-//            }];
-//            if ([self.suspendDelegate respondsToSelector:@selector(dragToTheBottom)]) {
-//                [self.suspendDelegate dragToTheBottom];
-//            }
-//            break;
-//        }
-//        default:
-//            break;
-//    }
+    switch (direction) {
+        case ButtonDirectionLeft:
+        {
+
+            [UIView animateWithDuration:0.3 animations:^{
+                self.superview.center = CGPointMake(self.superview.frame.size.width/2, topOrButtom);
+            }];
+          
+            break;
+        }
+        case ButtonDirectionRight:
+        {
+            [UIView animateWithDuration:0.3 animations:^{
+                self.superview.center = CGPointMake(WINDOWS.width - self.superview.frame.size.width/2, topOrButtom);
+            }];
+           
+            break;
+        }
+        case ButtonDirectionTop:
+        {
+            [UIView animateWithDuration:0.3 animations:^{
+                self.superview.center = CGPointMake(leftOrRight, self.superview.frame.size.height/2+NavigationBarHeight);
+            }];
+          
+            break;
+        }
+        case ButtonDirectionBottom:
+        {
+            [UIView animateWithDuration:0.3 animations:^{
+                self.superview.center = CGPointMake(leftOrRight, WINDOWS.height - self.superview.frame.size.height/2-TabBarHeight);
+            }];
+           
+            break;
+        }
+        default:
+            break;
+    }
 
 }
 

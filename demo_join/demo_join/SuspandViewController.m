@@ -85,31 +85,6 @@
     
     return _customView;
 }
--(void)addButtons{//???为什么只能在这里加
-    if (self.buttonsBKView) {
-        [_customView addSubview:self.buttonsBKView];
-        return;
-    }
-    
-    self.buttonsBKView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, viewWidth, 50)];
-    [_customView addSubview:self.buttonsBKView];
-    
-    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
-    [button setTitle:@"收起" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton *button1 = [[UIButton alloc]initWithFrame:CGRectMake(100, 0, 50, 50)];
-    [button1 setTitle:@"上麦" forState:UIControlStateNormal];
-    [button1 addTarget:self action:@selector(upToVideo) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIButton *button2 = [[UIButton alloc]initWithFrame:CGRectMake(200, 0, 100, 50)];
-    [button2 setTitle:@"切换摄像头" forState:UIControlStateNormal];
-    [button2 addTarget:self action:@selector(changeCamera) forControlEvents:UIControlEventTouchUpInside];
-    [self.buttonsBKView addSubview:button];
-    [self.buttonsBKView addSubview:button1];
-    [self.buttonsBKView addSubview:button2];
-    
-}
 
 -(void)addAction{
     for(UIButton *btn in _customView.buttonBKView.subviews){
@@ -120,6 +95,11 @@
             [btn addTarget:self action:@selector(upToVideo) forControlEvents:UIControlEventTouchUpInside];
         }else if(btn.tag==102){
             [btn addTarget:self action:@selector(changeCamera)
+          forControlEvents:UIControlEventTouchUpInside];
+            
+        }
+        else if(btn.tag==103){
+            [btn addTarget:self action:@selector(cancelWindow)
           forControlEvents:UIControlEventTouchUpInside];
             
         }
@@ -179,6 +159,17 @@
      [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0, viewWidth, viewHeight) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
     
 }
+
+- (void)cancelWindow{
+    
+    [_customWindow resignFirstResponder];
+    
+    _customWindow=nil;
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+}
+
+
 
 
 
