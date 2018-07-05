@@ -20,20 +20,14 @@ typedef NS_ENUM(NSInteger,FramMode){
     BigFrame    =1,
 };
 
-
-
 @interface suspandView : UIView
 
-@property (nonatomic, strong) UIView *rootView;
 @property (nonatomic, assign) CGFloat viewWidth;
 @property (nonatomic, assign) CGFloat viewHeight;
-@property (nonatomic, assign) CGFloat smallWidth;
-@property (nonatomic, assign) CGFloat smallHeight;
-@property (nonatomic, assign) CGFloat bigWidth;
-@property (nonatomic, assign) CGFloat bigHeight;
+
 @property (nonatomic, weak) id<SuspendCustomViewDelegate> suspendDelegate;
 @property (nonatomic, strong) UIView *buttonBKView;
 @property (nonatomic, assign) FramMode mode;
-- (void)initWithSuspendType:(NSString *)suspendType;
+-(void)initSelf;
 
 @end

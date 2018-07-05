@@ -17,7 +17,7 @@
     CGFloat smallHeight;
 }
 
-@property (nonatomic, strong) UIWindow *customWindow;
+
 @property (nonatomic, strong) suspandView *customView;
 @property (nonatomic, strong) UIView *buttonsBKView;
 
@@ -33,7 +33,16 @@
     //    self.view.backgroundColor = [UIColor blueColor];
     [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:1];
     //  [self createBaseUI];
+   
     
+}
+
+-(void)addbutton{
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
+
+    [button setTitle:@"收起" forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
+    [_customView addSubview:button];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -47,43 +56,37 @@
 
 - (void)createBaseUI{
     
-    viewWidth=WINDOWS.width;
-    viewHeight=WINDOWS.height;
-    smallWidth = 100;
-    smallHeight = 150;
-    
-    
+//    viewWidth=WINDOWS.width;
+//    viewHeight=WINDOWS.height;
+//    smallWidth = 100;
+//    smallHeight = 150;
     _customView=[self createCustomView];
-    _customWindow=[self createCustomWindow];
-     UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
     [window addSubview:_customView];
-    //[_customWindow makeKeyAndVisible];
+    [self addAction];
+    
+ 
     
 }
 - (suspandView *)createCustomView{
     if(!_customView){
         suspandView *sView = [[suspandView alloc]init];
-        sView.viewWidth = viewWidth;
-        sView.viewHeight = viewHeight;
-        sView.bigWidth = viewWidth;
-        sView.bigHeight = viewHeight;
-        sView.smallWidth = smallWidth;
-        sView.smallHeight = smallHeight;
+        [sView initSelf];
+        
+//        sView.bigWidth = viewWidth;
+//        sView.bigHeight = viewHeight;
+//        sView.smallWidth = smallWidth;
+//        sView.smallHeight = smallHeight;
         sView.mode = BigFrame;
-        //[sView initWithSuspendType:@""];
-        sView.frame=CGRectMake(0, 0, viewWidth, viewHeight);
         sView.suspendDelegate=self;
-        sView.rootView=self.view.superview;
-        sView.backgroundColor = [UIColor redColor];
+        sView.backgroundColor = [UIColor grayColor];
         _customView = sView;
-        
-        
     }
-   // [self addButtons];
-    [self addAction];
     
     
-    return _customView;
+
+
+   return _customView;
 }
 
 -(void)addAction{
@@ -106,6 +109,8 @@
     }
 }
 
+#pragma mark -- Action
+
 -(void)changeCamera{
     
     [[ILiveRoomManager getInstance] switchCamera:^{
@@ -118,53 +123,17 @@
 }
 
 -(void)smallView{
-//    CGRect rect = CGRectMake(0, 100, 100, 150);
+
      [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0, smallWidth, smallHeight) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
-//    // self.view.frame = CGRectMake(0, 0, 100, 150);
-//    _customView.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
-//    _customWindow.frame = rect;
-//    [self.buttonsBKView removeFromSuperview];
+
     _customView.mode = SmallFrame;
     
     
 }
 
-- (UIWindow *)createCustomWindow{
-    if (!_customWindow) {
-        _customWindow=[[UIWindow alloc]init];
-        _customWindow.frame=CGRectMake(0,0, viewWidth, viewHeight);
-        _customWindow.windowLevel=UIWindowLevelAlert+1;
-        _customWindow.backgroundColor=[UIColor greenColor];
-        
-    }
-    return _customWindow;
-}
-
-
-
-#pragma mark --SuspendCustomViewDelegate
-
-- (void)suspendCustomViewClicked:(id)sender{
-    NSLog(@"此处判断点击 还可以通过suspenType类型判断");
-   // suspandView *suspendCustomView=(suspandView *)sender;
-//    CGRect rect = CGRectMake(0, 0, WINDOWS.width, WINDOWS.height);
-//    _customView.frame = rect;
-//    _customWindow.frame = rect;
-//    [self addButtons];
-    if(_customView.mode==BigFrame){
-        return;
-    }
-        
-    _customView.mode = BigFrame;
-     [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0, viewWidth, viewHeight) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
-    
-}
 
 - (void)cancelWindow{
     
-//    [_customWindow resignFirstResponder];
-//
-//    _customWindow=nil;
     [[ILiveRoomManager getInstance] quitRoom:^{
         [_customView removeFromSuperview];
         [self.view removeFromSuperview];
@@ -194,6 +163,20 @@
     }];
     
 }
+
+#pragma mark --SuspendCustomViewDelegate
+
+- (void)suspendCustomViewClicked:(id)sender{
+    NSLog(@"此处判断点击 还可以通过suspenType类型判断");
+    
+    if(_customView.mode==BigFrame){
+        return;
+    }
+    _customView.mode = BigFrame;
+    [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0, viewWidth, viewHeight) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
+    
+}
+
 
 #pragma mark - ILiveMemStatusListener
 // 音视频事件回调
