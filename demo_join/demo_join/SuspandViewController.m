@@ -55,9 +55,9 @@
     
     _customView=[self createCustomView];
     _customWindow=[self createCustomWindow];
-    
-    [_customWindow addSubview:_customView];
-    [_customWindow makeKeyAndVisible];
+     UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    [window addSubview:_customView];
+    //[_customWindow makeKeyAndVisible];
     
 }
 - (suspandView *)createCustomView{
@@ -130,6 +130,8 @@
 }
 
 - (UIWindow *)createCustomWindow{
+   
+    
     if (!_customWindow) {
         _customWindow=[[UIWindow alloc]init];
         _customWindow.frame=CGRectMake(0,0, viewWidth, viewHeight);
