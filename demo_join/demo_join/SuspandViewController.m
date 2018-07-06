@@ -11,9 +11,16 @@
 #import <QAVSDK/QAVCommon.h>
 
 @interface SuspandViewController ()<SuspendCustomViewDelegate>{
-    NSString *bigRender;
+    ILiveRenderView *bigRenderView;
+    NSMutableArray *smallRenders;
+    CGRect smallRect;
+    CGRect bigRect;
+    
+    ILiveRenderView *selfRender;
+    NSMutableArray *otherRenders;
+    
+    
 }
-@property (nonatomic, strong) NSMutableArray *renderViews;
 @property (nonatomic, strong) suspandView *customView;
 @property (nonatomic, strong) UIView *buttonsBKView;
 
@@ -24,8 +31,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.frame=CGRectZero;
-    [[ILiveRoomManager getInstance] setBeauty:9.0];
-    [[ILiveRoomManager getInstance] setWhite:9.0];
+    [[ILiveRoomManager getInstance] setBeauty:5.0];
+    [[ILiveRoomManager getInstance] setWhite:5.0];
     [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:0.1];
 
 }
@@ -56,71 +63,98 @@
     } failed:^(NSString *module, int errId, NSString *errMsg) {
         
     }];
-  
-    
-}
-
-- (void)upToVideo{
-    // 上麦，打开摄像头和麦克风
-    [[ILiveRoomManager getInstance] enableCamera:CameraPosFront enable:YES succ:^{
-        NSLog(@"打开摄像头成功");
-        [[ILiveRoomManager getInstance] setBeauty:9.0];
-        [[ILiveRoomManager getInstance] setWhite:9.0];
-    } failed:^(NSString *module, int errId, NSString *errMsg) {
-        NSLog(@"打开摄像头失败");
-    }];
-    
-    [[ILiveRoomManager getInstance] enableMic:YES succ:^{
-        NSLog(@"打开麦克风成功");
-    } failed:^(NSString *module, int errId, NSString *errMsg) {
-        NSLog(@"打开麦克风失败");
-    }];
-    
 }
 
 -(void)changeVideoFrame{
-      [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
-    
+     bigRenderView.frame =CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
+    if(_customView.mode == SmallFrame){//大的变小的 小的变没有
+        [smallRenders enumerateObjectsUsingBlock:^(ILiveRenderView *renderView, NSUInteger idx, BOOL * _Nonnull stop) {
+            renderView.frame = CGRectMake(0, 0,  0,  0);
+        }];
+    }else{
+      
+        [smallRenders enumerateObjectsUsingBlock:^(ILiveRenderView *renderView, NSUInteger idx, BOOL * _Nonnull stop) {
+            renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
+        }];
+    }
 }
 
 #pragma mark --SuspendCustomViewDelegate
 
-- (void)suspendCustomViewClicked:(id)sender{
+- (void)suspendCustomViewClicked:(id)sender point:(CGPoint)point{
     NSLog(@"此处判断点击 还可以通过suspenType类型判断");
-    
     if(_customView.mode==BigFrame){
-        return;
+        if(CGRectContainsPoint(smallRect,point)&&smallRenders.count>0){
+          //  ILiveFrameDispatcher *frameDispatcher = [[ILiveRoomManager getInstance] getFrameDispatcher];
+            ILiveRenderView *renderView =smallRenders[0];
+//            [frameDispatcher switchRenderViewOf:renderView.identifier srcType:QAVVIDEO_SRC_TYPE_CAMERA withRender:bigRenderView.identifier anotherSrcType:QAVVIDEO_SRC_TYPE_CAMERA];
+            renderView.frame = bigRect;
+            bigRenderView.frame = smallRect;
+            [smallRenders addObject:bigRenderView];
+             bigRenderView = renderView;
+            [smallRenders removeObject:renderView];
+
+            [_customView sendSubviewToBack:bigRenderView];
+           
+            
+        }
+     
+    }else{
+        _customView.mode = BigFrame;
+        [self changeVideoFrame];
     }
-    _customView.mode = BigFrame;
-    [self changeVideoFrame];
-    
+//    if([sender isKindOfClass:ILiveRenderView.class]){
+//        ILiveRenderView *renderView = (ILiveRenderView *)sender;
+//        if([renderView.identifier isEqualToString:bigRenderView.identifier]){
+//            if(_customView.mode==BigFrame){
+//                return;
+//            }else{
+//                _customView.mode = BigFrame;
+//                [self changeVideoFrame];
+//            }
+//
+//        }else{//点击的小窗口
+//             ILiveFrameDispatcher *frameDispatcher = [[ILiveRoomManager getInstance] getFrameDispatcher];
+//            [frameDispatcher switchRenderViewOf:renderView.identifier srcType:QAVVIDEO_SRC_TYPE_CAMERA withRender:bigRenderView.identifier anotherSrcType:QAVVIDEO_SRC_TYPE_CAMERA];
+//
+//        }
+//    }
+   
 }
 
 #pragma mark - ILiveMemStatusListener
--(void)onCameraNumChange{
+-(void)onCameraAdd:(ILiveRenderView *)renderView{
+    if(!_customView){
+        [self createBaseUI];
+    }
     
-    // 获取当前所有渲染视图
-    NSArray *allRenderViews = [[[ILiveRoomManager getInstance] getFrameDispatcher] getAllRenderViews];
-    //如果是第一个 就是大屏 如果有好几个 别人的是大屏 如果用户点选了大屏  就按照用户的意思 毕竟他们是上帝
-    if(allRenderViews.count==1){
-        ILiveRenderView *renderView = allRenderViews[0];
-        renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
-        bigRender = renderView.identifier;
-    }else{
-        [allRenderViews enumerateObjectsUsingBlock:^(ILiveRenderView *renderView, NSUInteger idx, BOOL * _Nonnull stop) {
-            if([renderView.identifier isEqualToString:bigRender]){
-                 renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
-            }else{//小的
-                 renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
-                [_customView bringSubviewToFront:renderView];
-                [_customView bringSubviewToFront:_customView.buttonBKView];
-                
-            }
-            
-        }];
-        
+    renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
+    [_customView addSubview:renderView];
+
+    if(!bigRenderView){//第一个来
+        bigRenderView = renderView;
+
+    }else{//第二个 将原来的变小 这个已经是大的了
+        renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
+        if(!smallRenders){
+            smallRenders = [[NSMutableArray alloc]init];
+        }
+        [smallRenders addObject:renderView];
+    }
+    [_customView sendSubviewToBack:bigRenderView];
+}
+
+-(void)onCameraRemove:(ILiveRenderView *)renderView{
+    [renderView removeFromSuperview];
+    if([renderView.identifier isEqualToString:bigRenderView.identifier]){
+        if(smallRenders.count>0){
+            bigRenderView = smallRenders[0];
+            bigRenderView.frame = CGRectMake(0, 0, _customView.frame.size.width, _customView.frame.size.height);
+            [_customView sendSubviewToBack:bigRenderView];
+        }
     }
 }
+
 
 // 音视频事件回调
 - (BOOL)onEndpointsUpdateInfo:(QAVUpdateEvent)event updateList:(NSArray *)endpoints {
@@ -136,13 +170,10 @@
                  */
                 ILiveFrameDispatcher *frameDispatcher = [[ILiveRoomManager getInstance] getFrameDispatcher];
                 ILiveRenderView *renderView = [frameDispatcher addRenderAt:CGRectZero forIdentifier:endpoint.identifier srcType:QAVVIDEO_SRC_TYPE_CAMERA];
-              
-                
-                [_customView addSubview:renderView];
-                 [_customView sendSubviewToBack:renderView];
-                [self onCameraNumChange];
-                //
-                
+                renderView.identifier =endpoint.identifier;
+                NSLog(@"zll----renderView.identifier=%@",renderView.identifier);
+                [self onCameraAdd:renderView];
+             
             }
                 break;
             case QAV_EVENT_ID_ENDPOINT_NO_CAMERA_VIDEO:
@@ -150,10 +181,9 @@
                 // 移除渲染视图
                 ILiveFrameDispatcher *frameDispatcher = [[ILiveRoomManager getInstance] getFrameDispatcher];
                 ILiveRenderView *renderView = [frameDispatcher removeRenderViewFor:endpoint.identifier srcType:QAVVIDEO_SRC_TYPE_CAMERA];
-                renderView.backgroundColor = [UIColor clearColor];
-                [renderView removeFromSuperview];
-                // 房间内上麦用户数量变化，重新布局渲染视图
-                [self onCameraNumChange];
+                renderView.identifier =endpoint.identifier;
+                [self onCameraRemove:renderView];
+  
             }
                 break;
             default:
@@ -162,8 +192,6 @@
     }
     return YES;
 }
-
-
 
 #pragma mark - ILiveRoomDisconnectListener
 /**
@@ -181,9 +209,14 @@
 #pragma mark --  selfLife
 
 - (void)createBaseUI{
+    if(_customView){
+        return;
+    }
     _customView=[self createCustomView];
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     [window addSubview:_customView];
+    smallRect =CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
+    bigRect = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
     [self addAction];
     
 }
@@ -193,7 +226,7 @@
         [sView initSelf];
         sView.mode = BigFrame;
         sView.suspendDelegate=self;
-        sView.backgroundColor = [UIColor grayColor];
+      //  sView.backgroundColor = [UIColor grayColor];
         _customView = sView;
     }
     return _customView;
@@ -204,8 +237,6 @@
         if(btn.tag==100){
             [btn addTarget:self action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
             
-        }else if(btn.tag==101){
-            [btn addTarget:self action:@selector(upToVideo) forControlEvents:UIControlEventTouchUpInside];
         }else if(btn.tag==102){
             [btn addTarget:self action:@selector(changeCamera)
           forControlEvents:UIControlEventTouchUpInside];

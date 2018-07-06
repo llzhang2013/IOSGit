@@ -61,9 +61,9 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     button.tag=100;
     [button setTitle:@"收起" forState:UIControlStateNormal];
     
-    UIButton *button1 = [[UIButton alloc]initWithFrame:CGRectMake(60, 0, 50, 50)];
-    [button1 setTitle:@"上麦" forState:UIControlStateNormal];
-    button1.tag=101;
+//    UIButton *button1 = [[UIButton alloc]initWithFrame:CGRectMake(60, 0, 50, 50)];
+//    [button1 setTitle:@"上麦" forState:UIControlStateNormal];
+//    button1.tag=101;
    
     UIButton *button2 = [[UIButton alloc]initWithFrame:CGRectMake(120, 0, 100, 50)];
     button2.tag = 102;
@@ -73,7 +73,6 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     button3.tag = 103;
     [button3 setTitle:@"结束" forState:UIControlStateNormal];
     [self.buttonBKView addSubview:button];
-    [self.buttonBKView addSubview:button1];
     [self.buttonBKView addSubview:button2];
     [self.buttonBKView addSubview:button3];
     
@@ -107,8 +106,8 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
      NSLog(@"zll--currentPointEnd=%@",NSStringFromCGPoint(currentPoint));
     
     if ((pow((_startPoint.x-currentPoint.x), 2)+pow((_startPoint.y-currentPoint.y), 2))<1) {
-        if ([self.suspendDelegate respondsToSelector:@selector(suspendCustomViewClicked:)]) {
-            [self.suspendDelegate  suspendCustomViewClicked:self];
+        if ([self.suspendDelegate respondsToSelector:@selector(suspendCustomViewClicked:point:)]) {
+            [self.suspendDelegate  suspendCustomViewClicked:self point:currentPoint];
 
         }
     }

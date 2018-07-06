@@ -12,7 +12,7 @@
 
 @protocol SuspendCustomViewDelegate <NSObject>
 @optional
-- (void)suspendCustomViewClicked:(id)sender;
+- (void)suspendCustomViewClicked:(id)sender point:(CGPoint)point;
 @end
 
 typedef NS_ENUM(NSInteger,FramMode){
