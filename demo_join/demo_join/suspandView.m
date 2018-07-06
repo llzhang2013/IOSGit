@@ -20,10 +20,7 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
 
 @interface suspandView()
 @property (nonatomic, assign) CGPoint startPoint;
-@property (nonatomic, assign) CGFloat smallWidth;
-@property (nonatomic, assign) CGFloat smallHeight;
-@property (nonatomic, assign) CGFloat bigWidth;
-@property (nonatomic, assign) CGFloat bigHeight;
+
 @end
 
 @implementation suspandView
@@ -42,7 +39,7 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
         [self.buttonBKView removeFromSuperview];
         _viewWidth = _smallWidth;
         _viewHeight = _smallHeight;
-        self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
+        self.frame = CGRectMake(WINDOWS.width-_viewWidth, 0, _viewWidth, _viewHeight);
         
     }else if(mode==BigFrame){
         _viewWidth = _bigWidth;

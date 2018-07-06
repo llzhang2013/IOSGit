@@ -11,10 +11,9 @@
 #import <QAVSDK/QAVCommon.h>
 
 @interface SuspandViewController ()<SuspendCustomViewDelegate>{
-  
+    NSString *bigRender;
 }
-
-
+@property (nonatomic, strong) NSMutableArray *renderViews;
 @property (nonatomic, strong) suspandView *customView;
 @property (nonatomic, strong) UIView *buttonsBKView;
 
@@ -25,58 +24,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.frame=CGRectZero;
+    [[ILiveRoomManager getInstance] setBeauty:9.0];
+    [[ILiveRoomManager getInstance] setWhite:9.0];
     [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:0.1];
 
 }
-
--(void)addbutton{
-    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
-
-    [button setTitle:@"收起" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
-    [_customView addSubview:button];
-}
-
-
-- (void)createBaseUI{
-    _customView=[self createCustomView];
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    [window addSubview:_customView];
-    [self addAction];
-    
-}
-- (suspandView *)createCustomView{
-    if(!_customView){
-        suspandView *sView = [[suspandView alloc]init];
-        [sView initSelf];
-        sView.mode = BigFrame;
-        sView.suspendDelegate=self;
-        sView.backgroundColor = [UIColor grayColor];
-        _customView = sView;
-    }
-   return _customView;
-}
-
--(void)addAction{
-    for(UIButton *btn in _customView.buttonBKView.subviews){
-        if(btn.tag==100){
-            [btn addTarget:self action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
-            
-        }else if(btn.tag==101){
-            [btn addTarget:self action:@selector(upToVideo) forControlEvents:UIControlEventTouchUpInside];
-        }else if(btn.tag==102){
-            [btn addTarget:self action:@selector(changeCamera)
-          forControlEvents:UIControlEventTouchUpInside];
-            
-        }
-        else if(btn.tag==103){
-            [btn addTarget:self action:@selector(cancelWindow)
-          forControlEvents:UIControlEventTouchUpInside];
-            
-        }
-    }
-}
-
 #pragma mark -- Action
 
 -(void)changeCamera{
@@ -87,12 +39,10 @@
     } failed:^(NSString *module, int errId, NSString *errMsg) {
         
     }];
-    
 }
 
 -(void)smallView{
-//       [[[ILiveRoomManager getInstance] getFrameDispatcher] modifyAVRenderView:CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.width) forIdentifier:@"zll1" srcType:QAVVIDEO_SRC_TYPE_CAMERA];
-     _customView.mode = SmallFrame;
+    _customView.mode = SmallFrame;
     [self changeVideoFrame];
 }
 
@@ -146,8 +96,32 @@
     
 }
 
-
 #pragma mark - ILiveMemStatusListener
+-(void)onCameraNumChange{
+    
+    // 获取当前所有渲染视图
+    NSArray *allRenderViews = [[[ILiveRoomManager getInstance] getFrameDispatcher] getAllRenderViews];
+    //如果是第一个 就是大屏 如果有好几个 别人的是大屏 如果用户点选了大屏  就按照用户的意思 毕竟他们是上帝
+    if(allRenderViews.count==1){
+        ILiveRenderView *renderView = allRenderViews[0];
+        renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
+        bigRender = renderView.identifier;
+    }else{
+        [allRenderViews enumerateObjectsUsingBlock:^(ILiveRenderView *renderView, NSUInteger idx, BOOL * _Nonnull stop) {
+            if([renderView.identifier isEqualToString:bigRender]){
+                 renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
+            }else{//小的
+                 renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
+                [_customView bringSubviewToFront:renderView];
+                [_customView bringSubviewToFront:_customView.buttonBKView];
+                
+            }
+            
+        }];
+        
+    }
+}
+
 // 音视频事件回调
 - (BOOL)onEndpointsUpdateInfo:(QAVUpdateEvent)event updateList:(NSArray *)endpoints {
     if (endpoints.count <= 0) {
@@ -162,10 +136,11 @@
                  */
                 ILiveFrameDispatcher *frameDispatcher = [[ILiveRoomManager getInstance] getFrameDispatcher];
                 ILiveRenderView *renderView = [frameDispatcher addRenderAt:CGRectZero forIdentifier:endpoint.identifier srcType:QAVVIDEO_SRC_TYPE_CAMERA];
-                renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
+              
                 
                 [_customView addSubview:renderView];
-                [_customView sendSubviewToBack:renderView];
+                 [_customView sendSubviewToBack:renderView];
+                [self onCameraNumChange];
                 //
                 
             }
@@ -188,9 +163,7 @@
     return YES;
 }
 
--(void)onCameraNumChange{
-    
-}
+
 
 #pragma mark - ILiveRoomDisconnectListener
 /**
@@ -206,6 +179,46 @@
 }
 
 #pragma mark --  selfLife
+
+- (void)createBaseUI{
+    _customView=[self createCustomView];
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    [window addSubview:_customView];
+    [self addAction];
+    
+}
+- (suspandView *)createCustomView{
+    if(!_customView){
+        suspandView *sView = [[suspandView alloc]init];
+        [sView initSelf];
+        sView.mode = BigFrame;
+        sView.suspendDelegate=self;
+        sView.backgroundColor = [UIColor grayColor];
+        _customView = sView;
+    }
+    return _customView;
+}
+
+-(void)addAction{
+    for(UIButton *btn in _customView.buttonBKView.subviews){
+        if(btn.tag==100){
+            [btn addTarget:self action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
+            
+        }else if(btn.tag==101){
+            [btn addTarget:self action:@selector(upToVideo) forControlEvents:UIControlEventTouchUpInside];
+        }else if(btn.tag==102){
+            [btn addTarget:self action:@selector(changeCamera)
+          forControlEvents:UIControlEventTouchUpInside];
+            
+        }
+        else if(btn.tag==103){
+            [btn addTarget:self action:@selector(cancelWindow)
+          forControlEvents:UIControlEventTouchUpInside];
+            
+        }
+    }
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     NSLog(@"zll---SuspandViewController-viewWillDisappear");
 }

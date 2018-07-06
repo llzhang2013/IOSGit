@@ -80,17 +80,17 @@
     // 2. 创建房间配置对象
     ILiveRoomOption *option = [ILiveRoomOption defaultHostLiveOption];
     option.imOption.imSupport = NO;
-    // 不自动打开摄像头
-    option.avOption.autoCamera = NO;
-    // 不自动打开mic
-    option.avOption.autoMic = NO;
+//    // 不自动打开摄像头
+//    option.avOption.autoCamera = NO;
+//    // 不自动打开mic
+//    option.avOption.autoMic = NO;
     // 设置房间内音视频监听
     option.memberStatusListener = liveRoomVC;
     // 设置房间中断事件监听
     option.roomDisconnectListener = liveRoomVC;
     
     // 该参数代表进房之后使用什么规格音视频参数，参数具体值为客户在腾讯云实时音视频控制台画面设定中配置的角色名（例如：默认角色名为user, 可设置controlRole = @"user"）
-    option.controlRole = @"zll2";
+    option.controlRole = @"zll1";
     
     // 3. 调用创建房间接口，传入房间ID和房间配置对象
     [[ILiveRoomManager getInstance] joinRoom:[self.roomIDTF.text intValue] option:option succ:^{
