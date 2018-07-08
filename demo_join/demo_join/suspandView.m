@@ -18,7 +18,10 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     ButtonDirectionBottom  =4
 };
 
-@interface suspandView()
+@interface suspandView(){
+    CGFloat offX;
+    CGFloat offY;
+}
 @property (nonatomic, assign) CGPoint startPoint;
 @property (nonatomic, strong) UIWindow *myWindow;
 
@@ -45,18 +48,12 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
 }
 
 -(void)setMode:(FramMode)mode{
-    
-    
     if(mode==SmallFrame){
         [self.buttonBKView removeFromSuperview];
         _viewWidth = _smallWidth;
         _viewHeight = _smallHeight;
          self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
         _myWindow.frame = CGRectMake(WINDOWS.width-_viewWidth, 0, _viewWidth, _viewHeight);
-
-        
-        
-        
     }else if(mode==BigFrame){
         _viewWidth = _bigWidth;
         _viewHeight = _bigHeight;
@@ -99,15 +96,17 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     [super touchesBegan:touches withEvent:event];
     UITouch *touch=[touches anyObject];
     _startPoint=[touch locationInView:_rootView];
+    CGPoint viewCenter =self.superview.center;
+    offX = viewCenter.x - _startPoint.x;
+    offY = viewCenter.y - _startPoint.y;
     
 }
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [super touchesMoved:touches withEvent:event];
     UITouch *touch=[touches anyObject];
     CGPoint currentPoint=[touch locationInView:_rootView];
-    self.superview.center=currentPoint;
-    
-    
+    CGPoint newPoint = CGPointMake(currentPoint.x+offX, currentPoint.y+offY);
+    self.superview.center=newPoint;
     
 }
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -131,13 +130,13 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
         minDistance = right;
         direction = ButtonDirectionRight;
     }
-    if (top < minDistance) {
-        minDistance = top;
-        direction = ButtonDirectionTop;
-    }
-    if (bottom < minDistance) {
-        direction = ButtonDirectionBottom;
-    }
+//    if (top < minDistance) {
+//        minDistance = top;
+//        direction = ButtonDirectionTop;
+//    }
+//    if (bottom < minDistance) {
+//        direction = ButtonDirectionBottom;
+//    }
     NSInteger topOrButtom;
     if (self.superview.center.y<_viewHeight/2+NavigationBarHeight) {
         topOrButtom=_viewHeight/2+NavigationBarHeight;
