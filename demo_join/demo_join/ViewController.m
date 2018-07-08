@@ -11,6 +11,7 @@
 #import "CreateRoomViewController.h"
 #import "MoveRenderView.h"
 #import "SuspandViewController.h"
+#import "WindowMoveView.h"
 
 //static NSString * const kUserName1 = @"zll2";
 //static NSString * const kUserSig1 = @"eJxlj9FOgzAUhu95iqa3Gm1pmWDixWQmMkZk2QjGG0JogQpCKWVuM767ji2RxHP7ff-5z-kyAABwu9rcpFnWDo1O9EFyCO4BRPD6D0opWJLqhCj2D-K9FIonaa65GiG2LMtEaOoIxhstcnExjnVtTmjPqmSsOMfpb9axMZku6EUxwuApcr21extH9cbPcmpbgtPlgJZ88Pz9W7dSURj0iIbFlY-nHXuZe4Xr381s0VbHsqN88f6p7KAMd9INFiSNm-jwmm3X7eNziaLqYVKpxQe--EMQdWxnNr15x1Uv2mYUTIQtbBJ0Gmh8Gz9gglx6" ;
@@ -22,7 +23,8 @@ static NSString * const kUserSig1 = @"eJxlj8FOhDAURfd8RcMWoy1QAiYugBBDwhjNiI5uGo
 
 @property (weak, nonatomic) IBOutlet UITextField *userIDTF;
 @property (weak, nonatomic) IBOutlet UITextField *userSigTF;
-@property (nonatomic, strong) UIAlertController *alertCtrl;     //!< 提示框
+@property (nonatomic, strong) UIAlertController *alertCtrl;
+@property (nonatomic, strong) UIWindow *myWindow;
 
 @end
 
@@ -41,9 +43,18 @@ static NSString * const kUserSig1 = @"eJxlj8FOhDAURfd8RcMWoy1QAiYugBBDwhjNiI5uGo
 //    SuspandViewController *vc = [[SuspandViewController alloc]init];
 //    [self addChildViewController:vc];
 //    [self.view addSubview:vc.view];
-
     
-   
+//    WindowMoveView *view1 = [[WindowMoveView alloc]init];
+//    [view1 initSelf];
+//    [view1 makeKeyAndVisible];
+//  //  [self.view addSubview:view1];
+////
+//    UIWindow *window = [[UIWindow alloc]initWithFrame:CGRectMake(0, 0, 200, 200)];
+//    window.backgroundColor = [UIColor blueColor];
+//    //window.windowLevel = UIWindowLevelAlert+1;
+//    [window makeKeyAndVisible];
+//    _myWindow = window;
+  
 }
 
 // 登录按钮点击

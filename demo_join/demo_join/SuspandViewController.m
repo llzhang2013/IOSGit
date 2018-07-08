@@ -41,10 +41,7 @@
 -(void)changeCamera{
     
     [[ILiveRoomManager getInstance] switchCamera:^{
-        
-        
     } failed:^(NSString *module, int errId, NSString *errMsg) {
-        
     }];
 }
 
@@ -85,9 +82,7 @@
     NSLog(@"此处判断点击 还可以通过suspenType类型判断");
     if(_customView.mode==BigFrame){
         if(CGRectContainsPoint(smallRect,point)&&smallRenders.count>0){
-          //  ILiveFrameDispatcher *frameDispatcher = [[ILiveRoomManager getInstance] getFrameDispatcher];
             ILiveRenderView *renderView =smallRenders[0];
-//            [frameDispatcher switchRenderViewOf:renderView.identifier srcType:QAVVIDEO_SRC_TYPE_CAMERA withRender:bigRenderView.identifier anotherSrcType:QAVVIDEO_SRC_TYPE_CAMERA];
             renderView.frame = bigRect;
             bigRenderView.frame = smallRect;
             [smallRenders addObject:bigRenderView];
@@ -103,22 +98,6 @@
         _customView.mode = BigFrame;
         [self changeVideoFrame];
     }
-//    if([sender isKindOfClass:ILiveRenderView.class]){
-//        ILiveRenderView *renderView = (ILiveRenderView *)sender;
-//        if([renderView.identifier isEqualToString:bigRenderView.identifier]){
-//            if(_customView.mode==BigFrame){
-//                return;
-//            }else{
-//                _customView.mode = BigFrame;
-//                [self changeVideoFrame];
-//            }
-//
-//        }else{//点击的小窗口
-//             ILiveFrameDispatcher *frameDispatcher = [[ILiveRoomManager getInstance] getFrameDispatcher];
-//            [frameDispatcher switchRenderViewOf:renderView.identifier srcType:QAVVIDEO_SRC_TYPE_CAMERA withRender:bigRenderView.identifier anotherSrcType:QAVVIDEO_SRC_TYPE_CAMERA];
-//
-//        }
-//    }
    
 }
 
@@ -155,8 +134,6 @@
     }
 }
 
-
-// 音视频事件回调
 - (BOOL)onEndpointsUpdateInfo:(QAVUpdateEvent)event updateList:(NSArray *)endpoints {
     if (endpoints.count <= 0) {
         return NO;
@@ -250,21 +227,10 @@
     }
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    NSLog(@"zll---SuspandViewController-viewWillDisappear");
-}
-
-- (void)dealloc
-{
-    NSLog(@"zll---SuspandViewController-dealloc");
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
 }
-
-
 
 @end
 

@@ -10,7 +10,6 @@
 #import <ILiveSDK/ILiveCoreHeader.h>
 #import "LiveRoomViewController.h"
 #import "SuspandViewController.h"
-#import "VideoViewController.h"
 
 @interface CreateRoomViewController ()
 
@@ -73,7 +72,7 @@
     // 1. 创建live房间页面
    // LiveRoomViewController *liveRoomVC = [[LiveRoomViewController alloc] init];
     
-   //VideoViewController *liveRoomVC = [[VideoViewController alloc]init];
+
     SuspandViewController *liveRoomVC = [[SuspandViewController alloc]init];
     
     
