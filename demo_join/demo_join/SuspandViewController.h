@@ -10,5 +10,6 @@
 #import <ILiveSDK/ILiveCoreHeader.h>
 
 @interface SuspandViewController : UIViewController<ILiveMemStatusListener, ILiveRoomDisconnectListener>
++ (SuspandViewController *)shareSuspandViewController;
 
 @end

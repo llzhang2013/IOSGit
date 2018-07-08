@@ -95,13 +95,12 @@
     [[ILiveRoomManager getInstance] joinRoom:[self.roomIDTF.text intValue] option:option succ:^{
         NSLog(@"加入房间成功，跳转到房间页");
         // 加入房间成功，跳转到房间页
-        [self.suprerVC addChildViewController:liveRoomVC];
-         [self.suprerVC.view addSubview:liveRoomVC.view];
-       // [self.navigationController pushViewController:liveRoomVC animated:YES];
-//        SuspandViewController *vc = [[SuspandViewController alloc]init];
-//        UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-//        [window.rootViewController addChildViewController:vc];
-//        [window.rootViewController.view addSubview:vc.view];
+        
+
+        UIViewController *vc =  self.navigationController.viewControllers[0];
+        [vc addChildViewController:liveRoomVC];
+        [vc.view addSubview:liveRoomVC.view];
+        
       
     } failed:^(NSString *module, int errId, NSString *errMsg) {
         // 加入房间失败

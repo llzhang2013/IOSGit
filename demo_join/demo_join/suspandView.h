@@ -33,6 +33,7 @@ typedef NS_ENUM(NSInteger,FramMode){
 @property (nonatomic, strong) UIView *buttonBKView;
 @property (nonatomic, assign) FramMode mode;
 @property (nonatomic, strong) UIView *rootView;
+@property (nonatomic, strong) UIView *smallRenderView;
 -(void)initSelf;
 
 @end

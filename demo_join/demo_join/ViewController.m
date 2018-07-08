@@ -39,10 +39,13 @@ static NSString * const kUserSig1 = @"eJxlj8FOhDAURfd8RcMWoy1QAiYugBBDwhjNiI5uGo
 //    MoveRenderView *view = [[MoveRenderView alloc]initWithFrame:CGRectMake(0, 400, 100, 100)];
 //    view.backgroundColor = [UIColor redColor];
 //    [self.view addSubview:view];
-    
-    SuspandViewController *vc = [[SuspandViewController alloc]init];
-    [self addChildViewController:vc];
-    [self.view addSubview:vc.view];
+//
+//    SuspandViewController *vc = [[SuspandViewController alloc]init];
+//    [self addChildViewController:vc];
+//    [self.view addSubview:vc.view];
+//    SuspandViewController *vc = [SuspandViewController shareSuspandViewController];
+//    [self addChildViewController:vc];
+//     [self.view addSubview:vc.view];
     
 //    WindowMoveView *view1 = [[WindowMoveView alloc]init];
 //    [view1 initSelf];

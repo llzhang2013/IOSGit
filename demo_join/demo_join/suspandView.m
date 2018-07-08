@@ -40,7 +40,7 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     UIWindow *window = [[UIWindow alloc]init];
     window.backgroundColor = [UIColor yellowColor];
     [window addSubview:self];
-    //window.windowLevel = UIWindowLevelAlert+1;
+    window.windowLevel = UIWindowLevelAlert+1;
     [window makeKeyAndVisible];
     _myWindow = window;
     
@@ -102,11 +102,23 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     
 }
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [super touchesMoved:touches withEvent:event];
     UITouch *touch=[touches anyObject];
     CGPoint currentPoint=[touch locationInView:_rootView];
-    CGPoint newPoint = CGPointMake(currentPoint.x+offX, currentPoint.y+offY);
-    self.superview.center=newPoint;
+    if(_mode==BigFrame){
+//        if(CGRectContainsPoint(self.smallRenderView.frame, currentPoint)){
+//            [super touchesMoved:touches withEvent:event];
+//
+//            CGPoint newPoint = CGPointMake(currentPoint.x+offX, currentPoint.y+offY);
+//            self.superview.center=newPoint;
+//        }//TODO
+        
+    }else{
+        [super touchesMoved:touches withEvent:event];
+        
+        CGPoint newPoint = CGPointMake(currentPoint.x+offX, currentPoint.y+offY);
+        self.superview.center=newPoint;
+    }
+   
     
 }
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

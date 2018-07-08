@@ -29,6 +29,22 @@
 
 @implementation SuspandViewController
 
++ (SuspandViewController *)shareSuspandViewController
+{
+    static SuspandViewController *vc = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if(vc==nil){
+            vc = [[SuspandViewController alloc]init];
+        }
+        
+    });
+    
+    return vc;
+}
+
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.frame=CGRectZero;
@@ -120,6 +136,7 @@
             smallRenders = [[NSMutableArray alloc]init];
         }
         [smallRenders addObject:renderView];
+        _customView.smallRenderView = renderView;
     }
     [_customView sendSubviewToBack:bigRenderView];
 }
