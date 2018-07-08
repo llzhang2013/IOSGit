@@ -23,6 +23,7 @@
 }
 @property (nonatomic, strong) suspandView *customView;
 @property (nonatomic, strong) UIView *buttonsBKView;
+@property (nonatomic, strong) UIWindow *myWindow;
 
 @end
 
@@ -190,8 +191,18 @@
         return;
     }
     _customView=[self createCustomView];
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    [window addSubview:_customView];
+//    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+//    [window addSubview:_customView];
+    
+//    UIWindow *window = [[UIWindow alloc]initWithFrame:CGRectMake(0, 0, 200, 200)];
+//    window.backgroundColor = [UIColor blueColor];
+//     [window addSubview:_customView];
+//    //window.windowLevel = UIWindowLevelAlert+1;
+//    [window makeKeyAndVisible];
+//    _myWindow = window;
+    
+    
+
     smallRect =CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
     bigRect = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
     [self addAction];
@@ -201,6 +212,7 @@
     if(!_customView){
         suspandView *sView = [[suspandView alloc]init];
         [sView initSelf];
+        sView.rootView = self.view.superview;
         sView.mode = BigFrame;
         sView.suspendDelegate=self;
       //  sView.backgroundColor = [UIColor grayColor];

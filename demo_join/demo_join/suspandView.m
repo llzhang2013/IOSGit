@@ -20,6 +20,7 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
 
 @interface suspandView()
 @property (nonatomic, assign) CGPoint startPoint;
+@property (nonatomic, strong) UIWindow *myWindow;
 
 @end
 
@@ -30,21 +31,37 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     _smallHeight = 150;
     _bigWidth = WINDOWS.width;
     _bigHeight = WINDOWS.height;
+    self.backgroundColor = [UIColor redColor];
+    
+    
+    UIWindow *window = [[UIWindow alloc]init];
+    window.backgroundColor = [UIColor yellowColor];
+    [window addSubview:self];
+    //window.windowLevel = UIWindowLevelAlert+1;
+    [window makeKeyAndVisible];
+    _myWindow = window;
+    
     
 }
 
 -(void)setMode:(FramMode)mode{
     
+    
     if(mode==SmallFrame){
         [self.buttonBKView removeFromSuperview];
         _viewWidth = _smallWidth;
         _viewHeight = _smallHeight;
-        self.frame = CGRectMake(WINDOWS.width-_viewWidth, 0, _viewWidth, _viewHeight);
+         self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
+        _myWindow.frame = CGRectMake(WINDOWS.width-_viewWidth, 0, _viewWidth, _viewHeight);
+
+        
+        
         
     }else if(mode==BigFrame){
         _viewWidth = _bigWidth;
         _viewHeight = _bigHeight;
-        self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
+         self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
+        _myWindow.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
         [self addButtons];
     }
     _mode = mode;
@@ -81,34 +98,27 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [super touchesBegan:touches withEvent:event];
     UITouch *touch=[touches anyObject];
-    _startPoint=[touch locationInView:self.superview];
+    _startPoint=[touch locationInView:_rootView];
     
 }
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    if(_mode==BigFrame){
-        return;
-    }
-    UITouch *touch = [touches anyObject];
-
-    CGPoint currentPoint = [touch locationInView:self];
-    CGPoint prePoint = [touch previousLocationInView:self];
-    CGFloat offSetX = currentPoint.x - prePoint.x;
-    CGFloat offSetY = currentPoint.y - prePoint.y;
+    [super touchesMoved:touches withEvent:event];
+    UITouch *touch=[touches anyObject];
+    CGPoint currentPoint=[touch locationInView:_rootView];
+    self.superview.center=currentPoint;
     
-    self.transform = CGAffineTransformTranslate(self.transform, offSetX, offSetY);
+    
+    
 }
-
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [super touchesEnded:touches withEvent:event];
-   
-    UITouch *touch=[touches anyObject];
-    CGPoint currentPoint=[touch locationInView:self.superview];
-     NSLog(@"zll--currentPointEnd=%@",NSStringFromCGPoint(currentPoint));
     
+    UITouch *touch=[touches anyObject];
+    CGPoint currentPoint=[touch locationInView:_rootView];
     if ((pow((_startPoint.x-currentPoint.x), 2)+pow((_startPoint.y-currentPoint.y), 2))<1) {
         if ([self.suspendDelegate respondsToSelector:@selector(suspendCustomViewClicked:point:)]) {
             [self.suspendDelegate  suspendCustomViewClicked:self point:currentPoint];
-
+            
         }
     }
     CGFloat left = currentPoint.x;
@@ -128,49 +138,53 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     if (bottom < minDistance) {
         direction = ButtonDirectionBottom;
     }
-
+    NSInteger topOrButtom;
+    if (self.superview.center.y<_viewHeight/2+NavigationBarHeight) {
+        topOrButtom=_viewHeight/2+NavigationBarHeight;
+    }else if (self.superview.center.y>WINDOWS.height-TabBarHeight-_viewHeight/2-NavigationBarHeight){
+        topOrButtom=WINDOWS.height-TabBarHeight-_viewHeight/2-NavigationBarHeight;
+    }else{
+        topOrButtom=self.superview.center.y;
+    }
+    NSInteger leftOrRight;
+    if (self.superview.center.x<_viewWidth/2) {
+        leftOrRight=_viewWidth/2;
+    }else if (self.superview.center.x>WINDOWS.width-_viewWidth/2){
+        leftOrRight=WINDOWS.width-_viewWidth/2;
+    }else{
+        leftOrRight=self.superview.center.x;
+    }
+    
     switch (direction) {
         case ButtonDirectionLeft:
         {
+            
             [UIView animateWithDuration:0.3 animations:^{
-              
-                CGRect frame = self.frame;
-                frame.origin.x = 0;
-                NSLog(@"zll---self.window1=%@",NSStringFromCGRect(frame));
-                self.frame = frame;
+                self.superview.center = CGPointMake(self.superview.frame.size.width/2, topOrButtom);
             }];
-          
+           
             break;
         }
         case ButtonDirectionRight:
         {
             [UIView animateWithDuration:0.3 animations:^{
-                CGRect frame = self.frame;
-                frame.origin.x = WINDOWS.width - self.frame.size.width;
-                NSLog(@"zll---self.window2=%@",NSStringFromCGRect(frame));
-                self.frame = frame;
+                self.superview.center = CGPointMake(WINDOWS.width - self.superview.frame.size.width/2, topOrButtom);
             }];
-           
+          
             break;
         }
         case ButtonDirectionTop:
         {
             [UIView animateWithDuration:0.3 animations:^{
-                CGRect frame = self.frame;
-                frame.origin.y =0;
-                NSLog(@"zll---self.window3=%@",NSStringFromCGRect(frame));
-                self.frame = frame;
+                self.superview.center = CGPointMake(leftOrRight, self.superview.frame.size.height/2+NavigationBarHeight);
             }];
-          
+         
             break;
         }
         case ButtonDirectionBottom:
         {
             [UIView animateWithDuration:0.3 animations:^{
-                CGRect frame = self.frame;
-                frame.origin.y = WINDOWS.height - self.frame.size.height;
-                NSLog(@"zll---self.window4=%@",NSStringFromCGRect(frame));
-                self.frame = frame;
+                self.superview.center = CGPointMake(leftOrRight, WINDOWS.height - self.superview.frame.size.height/2-TabBarHeight);
             }];
            
             break;
@@ -178,20 +192,6 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
         default:
             break;
     }
-     CGRect frame = self.frame;
-    if(frame.origin.x<0){
-        frame.origin.x = 0;
-    }
-    if(frame.origin.y<0){
-        frame.origin.y=0;
-    }
-    if(frame.origin.x>WINDOWS.width - self.frame.size.width){
-        frame.origin.x = WINDOWS.width - self.frame.size.width;
-    }
-    if(frame.origin.y>WINDOWS.height - self.frame.size.height){
-        frame.origin.y = WINDOWS.height - self.frame.size.height;
-    }
-    self.frame = frame;
+    
 }
-
 @end

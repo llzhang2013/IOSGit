@@ -32,6 +32,7 @@ typedef NS_ENUM(NSInteger,FramMode){
 @property (nonatomic, weak) id<SuspendCustomViewDelegate> suspendDelegate;
 @property (nonatomic, strong) UIView *buttonBKView;
 @property (nonatomic, assign) FramMode mode;
+@property (nonatomic, strong) UIView *rootView;
 -(void)initSelf;
 
 @end
