@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5B3EFCC620EF5BBE00D9210A /* WindowMoveView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3EFCC520EF5BBE00D9210A /* WindowMoveView.m */; };
+		5B3EFCE220F5D65700D9210A /* videoSmallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3EFCE120F5D65700D9210A /* videoSmallView.m */; };
 		5B89C65120EA135400BAA4A5 /* MoveRenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B89C65020EA135400BAA4A5 /* MoveRenderView.m */; };
 		5B89C69E20EB64BE00BAA4A5 /* SuspandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B89C69D20EB64BE00BAA4A5 /* SuspandViewController.m */; };
 		5B89C6A120EB657400BAA4A5 /* suspandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B89C6A020EB657400BAA4A5 /* suspandView.m */; };
@@ -150,6 +151,8 @@
 /* Begin PBXFileReference section */
 		5B3EFCC420EF5BBE00D9210A /* WindowMoveView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WindowMoveView.h; sourceTree = "<group>"; };
 		5B3EFCC520EF5BBE00D9210A /* WindowMoveView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WindowMoveView.m; sourceTree = "<group>"; };
+		5B3EFCE020F5D65700D9210A /* videoSmallView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = videoSmallView.h; sourceTree = "<group>"; };
+		5B3EFCE120F5D65700D9210A /* videoSmallView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = videoSmallView.m; sourceTree = "<group>"; };
 		5B89C64F20EA135400BAA4A5 /* MoveRenderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MoveRenderView.h; sourceTree = "<group>"; };
 		5B89C65020EA135400BAA4A5 /* MoveRenderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MoveRenderView.m; sourceTree = "<group>"; };
 		5B89C65220EA16DE00BAA4A5 /* ILiveRenderView+move.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ILiveRenderView+move.h"; sourceTree = "<group>"; };
@@ -401,6 +404,8 @@
 				5B89C69D20EB64BE00BAA4A5 /* SuspandViewController.m */,
 				5B89C69F20EB657400BAA4A5 /* suspandView.h */,
 				5B89C6A020EB657400BAA4A5 /* suspandView.m */,
+				5B3EFCE020F5D65700D9210A /* videoSmallView.h */,
+				5B3EFCE120F5D65700D9210A /* videoSmallView.m */,
 			);
 			path = demo_join;
 			sourceTree = "<group>";
@@ -860,6 +865,7 @@
 				5B89C6A820EC741300BAA4A5 /* ILiveRenderView+move.m in Sources */,
 				6A5014F52080B69D00132260 /* ViewController.m in Sources */,
 				6A50161C2080B7B700132260 /* LiveRoomViewController.m in Sources */,
+				5B3EFCE220F5D65700D9210A /* videoSmallView.m in Sources */,
 				6A50161B2080B7B700132260 /* CreateRoomViewController.m in Sources */,
 				5B89C6A120EB657400BAA4A5 /* suspandView.m in Sources */,
 				5B3EFCC620EF5BBE00D9210A /* WindowMoveView.m in Sources */,
