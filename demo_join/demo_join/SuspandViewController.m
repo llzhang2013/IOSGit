@@ -9,6 +9,7 @@
 #import "SuspandViewController.h"
 #import "suspandView.h"
 #import <QAVSDK/QAVCommon.h>
+#import "videoSmallView.h"
 
 @interface SuspandViewController ()<SuspendCustomViewDelegate>{
     ILiveRenderView *bigRenderView;

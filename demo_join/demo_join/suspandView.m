@@ -9,14 +9,7 @@
 #import "suspandView.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
-#define NavigationBarHeight 0
-#define TabBarHeight 0
-typedef NS_ENUM(NSInteger,ButtonDirection){
-    ButtonDirectionLeft    =0,
-    ButtonDirectionRight   =1,
-    ButtonDirectionTop     =3,
-    ButtonDirectionBottom  =4
-};
+
 
 @interface suspandView(){
     CGFloat offX;

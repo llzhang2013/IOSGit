@@ -9,6 +9,15 @@
 #import <UIKit/UIKit.h>
 
 #define WINDOWS [UIScreen mainScreen].bounds.size
+#define NavigationBarHeight 0
+#define TabBarHeight 0
+typedef NS_ENUM(NSInteger,ButtonDirection){
+    ButtonDirectionLeft    =0,
+    ButtonDirectionRight   =1,
+    ButtonDirectionTop     =3,
+    ButtonDirectionBottom  =4
+};
+
 
 @protocol SuspendCustomViewDelegate <NSObject>
 @optional

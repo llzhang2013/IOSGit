@@ -9,8 +9,16 @@
 #import <UIKit/UIKit.h>
 #import <ILiveSDK/ILiveCoreHeader.h>
 
+#define WINDOWS [UIScreen mainScreen].bounds.size
+
+@protocol videoSmallViewDelegate <NSObject>
+@optional
+- (void)videoSmallViewClicked:(id)sender point:(CGPoint)point;
+@end
+
 @interface videoSmallView : UIView
 
 @property(nonatomic,strong) ILiveRenderView *liveRenderView;
+@property (nonatomic, weak) id<videoSmallViewDelegate> delegate;
 
 @end
