@@ -105,12 +105,13 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
     UITouch *touch=[touches anyObject];
     CGPoint currentPoint=[touch locationInView:_rootView];
     if(_mode==BigFrame){
-//        if(CGRectContainsPoint(self.smallRenderView.frame, currentPoint)){
-//            [super touchesMoved:touches withEvent:event];
-//
+        if(CGRectContainsPoint(self.smallRenderView.frame, currentPoint)){
+          //  [super touchesMoved:touches withEvent:event];
+
 //            CGPoint newPoint = CGPointMake(currentPoint.x+offX, currentPoint.y+offY);
-//            self.superview.center=newPoint;
-//        }//TODO
+            CGPoint newPoint = CGPointMake(currentPoint.x, currentPoint.y);
+            self.smallRenderView.center=newPoint;
+        }
         
     }else{
         [super touchesMoved:touches withEvent:event];

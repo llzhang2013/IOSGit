@@ -43,15 +43,13 @@
     return vc;
 }
 
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.frame=CGRectZero;
     [[ILiveRoomManager getInstance] setBeauty:5.0];
     [[ILiveRoomManager getInstance] setWhite:5.0];
     [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:0.1];
-
+    
 }
 #pragma mark -- Action
 
@@ -80,13 +78,13 @@
 }
 
 -(void)changeVideoFrame{
-     bigRenderView.frame =CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
+    bigRenderView.frame =CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
     if(_customView.mode == SmallFrame){//大的变小的 小的变没有
         [smallRenders enumerateObjectsUsingBlock:^(ILiveRenderView *renderView, NSUInteger idx, BOOL * _Nonnull stop) {
             renderView.frame = CGRectMake(0, 0,  0,  0);
         }];
     }else{
-      
+        
         [smallRenders enumerateObjectsUsingBlock:^(ILiveRenderView *renderView, NSUInteger idx, BOOL * _Nonnull stop) {
             renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
         }];
@@ -98,24 +96,22 @@
 - (void)suspendCustomViewClicked:(id)sender point:(CGPoint)point{
     NSLog(@"此处判断点击 还可以通过suspenType类型判断");
     if(_customView.mode==BigFrame){
-        if(CGRectContainsPoint(smallRect,point)&&smallRenders.count>0){
+        if(CGRectContainsPoint(_customView.smallRenderView.frame,point)&&smallRenders.count>0){
             ILiveRenderView *renderView =smallRenders[0];
             renderView.frame = bigRect;
             bigRenderView.frame = smallRect;
+            _customView.smallRenderView = bigRenderView;
             [smallRenders addObject:bigRenderView];
-             bigRenderView = renderView;
+            bigRenderView = renderView;
             [smallRenders removeObject:renderView];
-
             [_customView sendSubviewToBack:bigRenderView];
-           
-            
         }
-     
+        
     }else{
         _customView.mode = BigFrame;
         [self changeVideoFrame];
     }
-   
+    
 }
 
 #pragma mark - ILiveMemStatusListener
@@ -126,10 +122,10 @@
     
     renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
     [_customView addSubview:renderView];
-
+    
     if(!bigRenderView){//第一个来
         bigRenderView = renderView;
-
+        
     }else{//第二个 将原来的变小 这个已经是大的了
         renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
         if(!smallRenders){
@@ -168,7 +164,7 @@
                 renderView.identifier =endpoint.identifier;
                 NSLog(@"zll----renderView.identifier=%@",renderView.identifier);
                 [self onCameraAdd:renderView];
-             
+                
             }
                 break;
             case QAV_EVENT_ID_ENDPOINT_NO_CAMERA_VIDEO:
@@ -178,7 +174,7 @@
                 ILiveRenderView *renderView = [frameDispatcher removeRenderViewFor:endpoint.identifier srcType:QAVVIDEO_SRC_TYPE_CAMERA];
                 renderView.identifier =endpoint.identifier;
                 [self onCameraRemove:renderView];
-  
+                
             }
                 break;
             default:
@@ -208,18 +204,18 @@
         return;
     }
     _customView=[self createCustomView];
-//    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-//    [window addSubview:_customView];
+    //    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    //    [window addSubview:_customView];
     
-//    UIWindow *window = [[UIWindow alloc]initWithFrame:CGRectMake(0, 0, 200, 200)];
-//    window.backgroundColor = [UIColor blueColor];
-//     [window addSubview:_customView];
-//    //window.windowLevel = UIWindowLevelAlert+1;
-//    [window makeKeyAndVisible];
-//    _myWindow = window;
+    //    UIWindow *window = [[UIWindow alloc]initWithFrame:CGRectMake(0, 0, 200, 200)];
+    //    window.backgroundColor = [UIColor blueColor];
+    //     [window addSubview:_customView];
+    //    //window.windowLevel = UIWindowLevelAlert+1;
+    //    [window makeKeyAndVisible];
+    //    _myWindow = window;
     
     
-
+    
     smallRect =CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
     bigRect = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
     [self addAction];
@@ -232,7 +228,7 @@
         sView.rootView = self.view.superview;
         sView.mode = BigFrame;
         sView.suspendDelegate=self;
-      //  sView.backgroundColor = [UIColor grayColor];
+        //  sView.backgroundColor = [UIColor grayColor];
         _customView = sView;
     }
     return _customView;
