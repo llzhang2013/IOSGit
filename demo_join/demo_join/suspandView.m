@@ -16,7 +16,7 @@
     CGFloat offY;
 }
 @property (nonatomic, assign) CGPoint startPoint;
-@property (nonatomic, strong) UIWindow *myWindow;
+
 
 @end
 
@@ -27,7 +27,7 @@
     _smallHeight = 150;
     _bigWidth = WINDOWS.width;
     _bigHeight = WINDOWS.height;
-    self.backgroundColor = [UIColor redColor];
+    self.backgroundColor = [UIColor whiteColor];
     
     
     UIWindow *window = [[UIWindow alloc]init];

@@ -43,6 +43,8 @@ typedef NS_ENUM(NSInteger,FramMode){
 @property (nonatomic, assign) FramMode mode;
 @property (nonatomic, strong) UIView *rootView;
 @property (nonatomic, strong) UIView *smallRenderView;
+@property (nonatomic, strong) UIWindow *myWindow;
 -(void)initSelf;
+
 
 @end

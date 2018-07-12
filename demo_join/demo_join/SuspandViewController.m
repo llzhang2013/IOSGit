@@ -70,6 +70,7 @@
     
     [[ILiveRoomManager getInstance] quitRoom:^{
         [_customView removeFromSuperview];
+        _customView.myWindow = nil;
         [self.view removeFromSuperview];
         [self removeFromParentViewController];
         
@@ -106,6 +107,7 @@
             bigRenderView = renderView;
             [smallRenders removeObject:renderView];
             [_customView sendSubviewToBack:bigRenderView];
+            NSLog(@"引用计数%@,%@",[bigRenderView valueForKey:@"retainCount"],[renderView valueForKey:@"retainCount"]);
         }
         
     }else{
