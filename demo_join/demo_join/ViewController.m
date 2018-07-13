@@ -36,28 +36,14 @@ static NSString * const kUserSig1 = @"eJxlj8FOhDAURfd8RcMWoy1QAiYugBBDwhjNiI5uGo
     self.userIDTF.text = kUserName1;
     self.userSigTF.text = kUserSig1;
     
-//    MoveRenderView *view = [[MoveRenderView alloc]initWithFrame:CGRectMake(0, 400, 100, 100)];
-//    view.backgroundColor = [UIColor redColor];
-//    [self.view addSubview:view];
-//
-//    SuspandViewController *vc = [[SuspandViewController alloc]init];
-//    [self addChildViewController:vc];
-//    [self.view addSubview:vc.view];
-//    SuspandViewController *vc = [SuspandViewController shareSuspandViewController];
-//    [self addChildViewController:vc];
-//     [self.view addSubview:vc.view];
+    //获取版本号
+    NSLog(@"ILiveSDK version:%@",[[ILiveSDK getInstance] getVersion]);
+    NSLog(@"AVSDK version:%@",[QAVContext getVersion]);
+    NSLog(@"IMSDK version:%@",[[TIMManager sharedInstance] GetVersion]);
     
-//    WindowMoveView *view1 = [[WindowMoveView alloc]init];
-//    [view1 initSelf];
-//    [view1 makeKeyAndVisible];
-//  //  [self.view addSubview:view1];
-////
-//    UIWindow *window = [[UIWindow alloc]initWithFrame:CGRectMake(0, 0, 200, 200)];
-//    window.backgroundColor = [UIColor blueColor];
-//    //window.windowLevel = UIWindowLevelAlert+1;
-//    [window makeKeyAndVisible];
-//    _myWindow = window;
-  
+//    2018-07-13 13:47:00.974769+0800 demo_join[78164:4329375] ILiveSDK version:1.8.4.13473
+//    2018-07-13 13:47:00.974967+0800 demo_join[78164:4329375] AVSDK version:1.9.8.8.release- 36687
+//    2018-07-13 13:47:00.975237+0800 demo_join[78164:4329375] IMSDK version:v2.5.6.11389.11327
 }
 
 // 登录按钮点击
