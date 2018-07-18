@@ -47,8 +47,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.frame=CGRectZero;
-    [[ILiveRoomManager getInstance] setBeauty:5.0];
-    [[ILiveRoomManager getInstance] setWhite:5.0];
     [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:0.1];
     
 }
@@ -81,6 +79,8 @@
 
 -(void)changeVideoFrame{
     bigRenderView.frame =CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
+    //先出线对方 对方结束  点击收起 就没了
+    NSLog(@"zll---bigRenderView---%@",bigRenderView);
     if(_customView.mode == SmallFrame){//大的变小的 小的变没有
         [smallRenders enumerateObjectsUsingBlock:^(ILiveRenderView *renderView, NSUInteger idx, BOOL * _Nonnull stop) {
             renderView.frame = CGRectMake(0, 0,  0,  0);
@@ -128,6 +128,8 @@
     
     if(!bigRenderView){//第一个来
         bigRenderView = renderView;
+        [[ILiveRoomManager getInstance] setBeauty:5.0];
+        [[ILiveRoomManager getInstance] setWhite:5.0];
         
     }else{//第二个 将原来的变小 这个已经是大的了
         renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
@@ -145,6 +147,7 @@
     if([renderView.identifier isEqualToString:bigRenderView.identifier]){
         if(smallRenders.count>0){
             bigRenderView = smallRenders[0];
+            [smallRenders removeObjectAtIndex:0];
             bigRenderView.frame = CGRectMake(0, 0, _customView.frame.size.width, _customView.frame.size.height);
             [_customView sendSubviewToBack:bigRenderView];
         }
@@ -152,6 +155,7 @@
 }
 
 - (BOOL)onEndpointsUpdateInfo:(QAVUpdateEvent)event updateList:(NSArray *)endpoints {
+    NSLog(@"zlllive---onEndpointsUpdateInfo-%ld",event);
     if (endpoints.count <= 0) {
         return NO;
     }
