@@ -22,8 +22,15 @@ static  const int kAccountType = 28332;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     // 初始化SDK
+    ILiveSDK *live =[ILiveSDK getInstance] ;
     [[ILiveSDK getInstance] initSdk:kSDKAppID accountType:kAccountType];
     
+    [[ILiveSDK getInstance] setLogLevel:0];
+    [[ILiveSDK getInstance] setConsoleLogPrint:NO];
+    [live iLiveLog:@"" level:0 pos:@"" msg:@"" ext:@""];
+    [live iLivelog:0 tag:@"" msg:@""];
+   //[[ILiveSDK getInstance] iLivelog:O tag:@"" msg:@""];
+  
     return YES;
 }
 

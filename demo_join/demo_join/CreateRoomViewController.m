@@ -25,7 +25,7 @@
     self.title = @"创建直播间";
     
     // 房间号默认值，用户也可手动输入
-    self.roomIDTF.text = @"8888";
+    self.roomIDTF.text = @"88881";
     
     // 检测音视频权限
     [self detectAuthorizationStatus];
@@ -74,6 +74,9 @@
     
 
     SuspandViewController *liveRoomVC = [[SuspandViewController alloc]init];
+    UIViewController *vc =  self.navigationController.viewControllers[0];
+    [vc addChildViewController:liveRoomVC];
+    [vc.view addSubview:liveRoomVC.view];
     
     
     // 2. 创建房间配置对象
@@ -97,9 +100,7 @@
         // 加入房间成功，跳转到房间页
         
 
-        UIViewController *vc =  self.navigationController.viewControllers[0];
-        [vc addChildViewController:liveRoomVC];
-        [vc.view addSubview:liveRoomVC.view];
+      
         
       
     } failed:^(NSString *module, int errId, NSString *errMsg) {
