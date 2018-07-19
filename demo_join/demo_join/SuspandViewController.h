@@ -11,5 +11,8 @@
 
 @interface SuspandViewController : UIViewController<ILiveMemStatusListener, ILiveRoomDisconnectListener>
 + (SuspandViewController *)shareSuspandViewController;
+-(void)didJoinRoom;
+-(void)close;
+
 
 @end

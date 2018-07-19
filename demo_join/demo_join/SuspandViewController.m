@@ -9,6 +9,7 @@
 #import "SuspandViewController.h"
 #import "suspandView.h"
 #import <QAVSDK/QAVCommon.h>
+#import <TILLiveSDK/TILLiveSDK.h>
 #import "videoSmallView.h"
 
 @interface SuspandViewController ()<SuspendCustomViewDelegate>{
@@ -28,26 +29,40 @@
 
 @end
 
+static SuspandViewController *SuspandViewControllerSingle = nil;
+
 @implementation SuspandViewController
 
+//TODO 1 实现单利  2 自己的是小屏幕 3 测试小屏幕的时候来个视频（其实本身在请求视频的时候是不能缩小）
+
+//不能单利 否则退出再进入就会崩溃
 + (SuspandViewController *)shareSuspandViewController
 {
-    static SuspandViewController *vc = nil;
+   
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        if(vc==nil){
-            vc = [[SuspandViewController alloc]init];
+        if(SuspandViewControllerSingle==nil){
+            SuspandViewControllerSingle = [[SuspandViewController alloc]init];
         }
         
     });
     
-    return vc;
+    return SuspandViewControllerSingle;
 }
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.frame=CGRectZero;
-    [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:0.1];
+    self.view.frame = CGRectZero;
+//    self.view.frame=[UIScreen mainScreen].bounds;设置也没用 因为view加载在最底层 会被上面的view覆盖
+//    self.view.backgroundColor = [UIColor redColor];
+   [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:0.1];
+    
+}
+
+-(void)didJoinRoom{
+    [_customView showCamera];
     
 }
 #pragma mark -- Action
@@ -64,17 +79,27 @@
     [self changeVideoFrame];
 }
 
+-(void)close{
+    [_customView removeFromSuperview];
+    _customView.myWindow = nil;
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+}
+
 - (void)cancelWindow{
     
     [[ILiveRoomManager getInstance] quitRoom:^{
-        [_customView removeFromSuperview];
-        _customView.myWindow = nil;
-        [self.view removeFromSuperview];
-        [self removeFromParentViewController];
-        
+        NSLog(@"zlllive---退出房间成功");
+        [self close];
+       
+       
     } failed:^(NSString *module, int errId, NSString *errMsg) {
-        
+         NSLog(@"zlllive---退出房间失败-%@",errMsg);
     }];
+}
+
+-(void)dealloc{
+    
 }
 
 -(void)changeVideoFrame{
@@ -122,15 +147,54 @@
     if(!_customView){
         [self createBaseUI];
     }
+    if(!smallRenders){
+        smallRenders = [[NSMutableArray alloc]init];
+    }
+    /*永远使对方为大图  但是在切换过程中会有一闪黑屏出现
+     [_customView addSubview:renderView];
+     NSString *selfName =  [[TIMManager sharedInstance] getLoginUser];
+    if(renderView.identifier==selfName){
+        [[ILiveRoomManager getInstance] setBeauty:5.0];
+        [[ILiveRoomManager getInstance] setWhite:5.0];
+    }
+    
+    if(!bigRenderView){//第一个来是全屏的
+        renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
+       // [_customView addSubview:renderView];
+        bigRenderView = renderView;
+       
+        
+    }else{//第二个来后 是自己是就是小的  是别人就是大的
+       
+        if(renderView.identifier==selfName){//自己 作为小的添加即可
+            renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
+          
+            [smallRenders addObject:renderView];
+            _customView.smallRenderView = renderView;
+          //  [_customView addSubview:renderView];
+            
+        }else{//别人 得变大的 把大的变小的
+            renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
+           // [_customView addSubview:renderView];
+          //  bigRenderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
+            [[TILLiveManager getInstance] modifyAVRenderView:CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight) forIdentifier:bigRenderView.identifier srcType:QAVVIDEO_SRC_TYPE_CAMERA];
+            _customView.smallRenderView = bigRenderView;
+            [smallRenders addObject:bigRenderView];
+            bigRenderView = renderView;
+    
+        }//TODO  没实现
+        
+    }
+    */
     
     renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
     [_customView addSubview:renderView];
-    
+
     if(!bigRenderView){//第一个来
         bigRenderView = renderView;
         [[ILiveRoomManager getInstance] setBeauty:5.0];
         [[ILiveRoomManager getInstance] setWhite:5.0];
-        
+
     }else{//第二个 将原来的变小 这个已经是大的了
         renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
         if(!smallRenders){
@@ -144,10 +208,14 @@
 
 -(void)onCameraRemove:(ILiveRenderView *)renderView{
     [renderView removeFromSuperview];
+    NSLog(@"zlllive----onCameraRemove0-%@,%@",renderView.identifier,bigRenderView.identifier);
     if([renderView.identifier isEqualToString:bigRenderView.identifier]){
+        NSLog(@"zlllive----onCameraRemove1");
         if(smallRenders.count>0){
+             NSLog(@"zlllive----onCameraRemove2");
             bigRenderView = smallRenders[0];
             [smallRenders removeObjectAtIndex:0];
+            _customView.smallRenderView = nil;
             bigRenderView.frame = CGRectMake(0, 0, _customView.frame.size.width, _customView.frame.size.height);
             [_customView sendSubviewToBack:bigRenderView];
         }
@@ -201,6 +269,7 @@
  */
 - (BOOL)onRoomDisconnect:(int)reason {
     NSLog(@"房间异常退出：%d", reason);
+   // [self cancelWindow];
     return YES;
 }
 
@@ -211,18 +280,7 @@
         return;
     }
     _customView=[self createCustomView];
-    //    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    //    [window addSubview:_customView];
-    
-    //    UIWindow *window = [[UIWindow alloc]initWithFrame:CGRectMake(0, 0, 200, 200)];
-    //    window.backgroundColor = [UIColor blueColor];
-    //     [window addSubview:_customView];
-    //    //window.windowLevel = UIWindowLevelAlert+1;
-    //    [window makeKeyAndVisible];
-    //    _myWindow = window;
-    
-    
-    
+ 
     smallRect =CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
     bigRect = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
     [self addAction];
@@ -233,7 +291,7 @@
         suspandView *sView = [[suspandView alloc]init];
         [sView initSelf];
         sView.rootView = self.view.superview;
-        sView.mode = BigFrame;
+       // sView.mode = BigFrame;
         sView.suspendDelegate=self;
         //  sView.backgroundColor = [UIColor grayColor];
         _customView = sView;

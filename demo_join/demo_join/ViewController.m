@@ -13,6 +13,7 @@
 #import "SuspandViewController.h"
 #import "WindowMoveView.h"
 
+
 //static NSString * const kUserName1 = @"zll2";
 //static NSString * const kUserSig1 = @"eJxlj9FOgzAUhu95iqa3Gm1pmWDixWQmMkZk2QjGG0JogQpCKWVuM767ji2RxHP7ff-5z-kyAABwu9rcpFnWDo1O9EFyCO4BRPD6D0opWJLqhCj2D-K9FIonaa65GiG2LMtEaOoIxhstcnExjnVtTmjPqmSsOMfpb9axMZku6EUxwuApcr21extH9cbPcmpbgtPlgJZ88Pz9W7dSURj0iIbFlY-nHXuZe4Xr381s0VbHsqN88f6p7KAMd9INFiSNm-jwmm3X7eNziaLqYVKpxQe--EMQdWxnNr15x1Uv2mYUTIQtbBJ0Gmh8Gz9gglx6" ;
 
@@ -44,6 +45,20 @@ static NSString * const kUserSig1 = @"eJxlj8FOhDAURfd8RcMWoy1QAiYugBBDwhjNiI5uGo
 //    2018-07-13 13:47:00.974769+0800 demo_join[78164:4329375] ILiveSDK version:1.8.4.13473
 //    2018-07-13 13:47:00.974967+0800 demo_join[78164:4329375] AVSDK version:1.9.8.8.release- 36687
 //    2018-07-13 13:47:00.975237+0800 demo_join[78164:4329375] IMSDK version:v2.5.6.11389.11327
+ //   SuspandViewController *vc1 = [[SuspandViewController alloc]init];
+    
+//    UIViewController *vc =  self.navigationController.viewControllers[0];
+//    [vc addChildViewController:vc1];
+//    [vc.view addSubview:vc1.view];
+    
+//    NSArray *arr1 = [[NSArray alloc]initWithObjects:@"1", nil];
+//    NSArray *arr2 = [[NSArray alloc]initWithObjects:@"12", nil];
+//    NSArray *arr3 = arr1;
+//    arr1 = arr2;
+//    NSLog(@"%@,%@",arr1,arr3);
+    
+    
+    
 }
 
 // 登录按钮点击

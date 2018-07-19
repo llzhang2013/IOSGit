@@ -16,6 +16,7 @@
     CGFloat offY;
 }
 @property (nonatomic, assign) CGPoint startPoint;
+@property (nonatomic, strong)UIActivityIndicatorView *activityIndicator;
 
 
 @end
@@ -27,18 +28,42 @@
     _smallHeight = 150;
     _bigWidth = WINDOWS.width;
     _bigHeight = WINDOWS.height;
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor blackColor];
     
     
     UIWindow *window = [[UIWindow alloc]init];
-    window.backgroundColor = [UIColor yellowColor];
+    //window.backgroundColor = [UIColor yellowColor];
     [window addSubview:self];
     window.windowLevel = UIWindowLevelAlert+1;
     [window makeKeyAndVisible];
     _myWindow = window;
     
+    [self setMode:BigFrame];
+    [self showActivity];
+  
+    
     
 }
+-(void)showActivity{
+   // UIActivity *activity = [[UIActivity alloc]init];
+    self.activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhiteLarge)];
+    [self addSubview:self.activityIndicator];
+  
+    self.activityIndicator.center = self.center;
+   // self.activityIndicator.color = [UIColor blueColor];
+   // self.activityIndicator.backgroundColor = [UIColor cyanColor];
+    self.activityIndicator.hidesWhenStopped = NO;
+    [self.activityIndicator startAnimating];
+}
+
+-(void)showCamera{
+    if(self.activityIndicator){
+        [self.activityIndicator removeFromSuperview];
+        self.activityIndicator = nil;
+    }
+}
+
+
 
 -(void)setMode:(FramMode)mode{
     if(mode==SmallFrame){
@@ -58,6 +83,7 @@
 }
 
 -(void)addButtons{
+   
     if(self.buttonBKView){
         [self addSubview:self.buttonBKView];
         return;

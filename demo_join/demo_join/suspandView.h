@@ -45,6 +45,8 @@ typedef NS_ENUM(NSInteger,FramMode){
 @property (nonatomic, strong) UIView *smallRenderView;
 @property (nonatomic, strong) UIWindow *myWindow;
 -(void)initSelf;
+-(void)showActivity;
+-(void)showCamera;
 
 
 @end

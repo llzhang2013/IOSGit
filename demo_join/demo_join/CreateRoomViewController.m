@@ -61,17 +61,6 @@
 }
 
 - (IBAction)onJoinRoom:(id)sender {
-//            SuspandViewController *vc = [[SuspandViewController alloc]init];
-////            UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-////            [window.rootViewController addChildViewController:vc];
-////            [window.rootViewController.view addSubview:vc.view];
-//    [self.suprerVC addChildViewController:vc];
-//    [self.suprerVC.view addSubview:vc.view];
-//
-   //  return;
-    // 1. 创建live房间页面
-   // LiveRoomViewController *liveRoomVC = [[LiveRoomViewController alloc] init];
-    
 
     SuspandViewController *liveRoomVC = [[SuspandViewController alloc]init];
     UIViewController *vc =  self.navigationController.viewControllers[0];
@@ -79,7 +68,6 @@
     [vc.view addSubview:liveRoomVC.view];
     
     
-    // 2. 创建房间配置对象
     ILiveRoomOption *option = [ILiveRoomOption defaultHostLiveOption];
     option.imOption.imSupport = NO;
 //    // 不自动打开摄像头
@@ -90,25 +78,21 @@
     option.memberStatusListener = liveRoomVC;
     // 设置房间中断事件监听
     option.roomDisconnectListener = liveRoomVC;
-    
+//
     // 该参数代表进房之后使用什么规格音视频参数，参数具体值为客户在腾讯云实时音视频控制台画面设定中配置的角色名（例如：默认角色名为user, 可设置controlRole = @"user"）
-    option.controlRole = @"zll1";
+    option.controlRole = @"zll2";
     
-    // 3. 调用创建房间接口，传入房间ID和房间配置对象
     [[ILiveRoomManager getInstance] joinRoom:[self.roomIDTF.text intValue] option:option succ:^{
         NSLog(@"加入房间成功，跳转到房间页");
-        // 加入房间成功，跳转到房间页
-        
-
-      
-        
-      
+        [liveRoomVC didJoinRoom];
     } failed:^(NSString *module, int errId, NSString *errMsg) {
         // 加入房间失败
         NSLog(@"加入房间失败");
         self.alertCtrl.title = @"加入房间失败";
         self.alertCtrl.message = [NSString stringWithFormat:@"errId:%d errMsg:%@",errId, errMsg];
         [self presentViewController:self.alertCtrl animated:YES completion:nil];
+         [liveRoomVC close];
+      
     }];
 }
 
