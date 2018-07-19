@@ -26,6 +26,7 @@
 @property (nonatomic, strong) suspandView *customView;
 @property (nonatomic, strong) UIView *buttonsBKView;
 @property (nonatomic, strong) UIWindow *myWindow;
+@property (nonatomic, strong) UIAlertController *alertCtrl;     //!< 提示框
 
 @end
 
@@ -58,6 +59,7 @@ static SuspandViewController *SuspandViewControllerSingle = nil;
 //    self.view.frame=[UIScreen mainScreen].bounds;设置也没用 因为view加载在最底层 会被上面的view覆盖
 //    self.view.backgroundColor = [UIColor redColor];
    [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:0.1];
+  
     
 }
 
@@ -269,10 +271,23 @@ static SuspandViewController *SuspandViewControllerSingle = nil;
  */
 - (BOOL)onRoomDisconnect:(int)reason {
     NSLog(@"房间异常退出：%d", reason);
-   // [self cancelWindow];
+    
+    self.alertCtrl.title = @"视频异常关闭";
+    self.alertCtrl.message = [NSString stringWithFormat:@"errId:%d errMsg:%d",reason ];
+    [self presentViewController:self.alertCtrl animated:YES completion:nil];
+    [self cancelWindow];
     return YES;
 }
-
+- (UIAlertController *)alertCtrl {
+    if (!_alertCtrl) {
+        _alertCtrl = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }] ;
+        [_alertCtrl addAction:action];
+    }
+    return _alertCtrl;
+}
 #pragma mark --  selfLife
 
 - (void)createBaseUI{
