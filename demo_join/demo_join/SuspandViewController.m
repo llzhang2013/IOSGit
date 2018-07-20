@@ -152,6 +152,24 @@ static SuspandViewController *SuspandViewControllerSingle = nil;
     if(!smallRenders){
         smallRenders = [[NSMutableArray alloc]init];
     }
+    
+    renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
+    [_customView addSubview:renderView];
+    
+    if(!bigRenderView){//第一个来
+        bigRenderView = renderView;
+        [[ILiveRoomManager getInstance] setBeauty:5.0];
+        [[ILiveRoomManager getInstance] setWhite:5.0];
+        
+    }else{//第二个 将原来的变小 这个已经是大的了
+        renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
+        if(!smallRenders){
+            smallRenders = [[NSMutableArray alloc]init];
+        }
+        [smallRenders addObject:renderView];
+        _customView.smallRenderView = renderView;
+    }
+    [_customView sendSubviewToBack:bigRenderView];
     /*永远使对方为大图  但是在切换过程中会有一闪黑屏出现
      [_customView addSubview:renderView];
      NSString *selfName =  [[TIMManager sharedInstance] getLoginUser];
@@ -188,24 +206,7 @@ static SuspandViewController *SuspandViewControllerSingle = nil;
         
     }
     */
-    
-    renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
-    [_customView addSubview:renderView];
-
-    if(!bigRenderView){//第一个来
-        bigRenderView = renderView;
-        [[ILiveRoomManager getInstance] setBeauty:5.0];
-        [[ILiveRoomManager getInstance] setWhite:5.0];
-
-    }else{//第二个 将原来的变小 这个已经是大的了
-        renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
-        if(!smallRenders){
-            smallRenders = [[NSMutableArray alloc]init];
-        }
-        [smallRenders addObject:renderView];
-        _customView.smallRenderView = renderView;
-    }
-    [_customView sendSubviewToBack:bigRenderView];
+  
 }
 
 -(void)onCameraRemove:(ILiveRenderView *)renderView{
