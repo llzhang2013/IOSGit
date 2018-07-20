@@ -23,7 +23,9 @@
 
 @implementation suspandView
 
--(void)initSelf{
+-(void)initWithController:(UIViewController *)viewController rootView:(UIView *)rootView{
+    self.selfController = viewController;
+    self.rootView = rootView;
     _smallWidth = 100;
     _smallHeight = 150;
     _bigWidth = WINDOWS.width;
@@ -40,8 +42,6 @@
     
     [self setMode:BigFrame];
     [self showActivity];
-  
-    
     
 }
 -(void)showActivity{
@@ -93,6 +93,7 @@
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
     button.tag=100;
     [button setTitle:@"收起" forState:UIControlStateNormal];
+    [button addTarget:self.selfController action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
     
 //    UIButton *button1 = [[UIButton alloc]initWithFrame:CGRectMake(60, 0, 50, 50)];
 //    [button1 setTitle:@"上麦" forState:UIControlStateNormal];
@@ -101,10 +102,14 @@
     UIButton *button2 = [[UIButton alloc]initWithFrame:CGRectMake(120, 0, 100, 50)];
     button2.tag = 102;
     [button2 setTitle:@"切换摄像头" forState:UIControlStateNormal];
+    [button2 addTarget:self.selfController action:@selector(changeCamera)
+  forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *button3 = [[UIButton alloc]initWithFrame:CGRectMake(230, 0, 50, 50)];
     button3.tag = 103;
     [button3 setTitle:@"结束" forState:UIControlStateNormal];
+    [button3 addTarget:self.selfController action:@selector(cancelWindow)
+  forControlEvents:UIControlEventTouchUpInside];
     [self.buttonBKView addSubview:button];
     [self.buttonBKView addSubview:button2];
     [self.buttonBKView addSubview:button3];
