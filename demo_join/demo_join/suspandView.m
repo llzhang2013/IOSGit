@@ -9,7 +9,7 @@
 #import "suspandView.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
-  
+
 
 @interface suspandView(){
     CGFloat offX;
@@ -17,8 +17,6 @@
 }
 @property (nonatomic, assign) CGPoint startPoint;
 @property (nonatomic, strong)UIActivityIndicatorView *activityIndicator;
-
-
 @end
 
 @implementation suspandView
@@ -32,9 +30,7 @@
     _bigHeight = WINDOWS.height;
     self.backgroundColor = [UIColor blackColor];
     
-    
     UIWindow *window = [[UIWindow alloc]init];
-    //window.backgroundColor = [UIColor yellowColor];
     [window addSubview:self];
     window.windowLevel = UIWindowLevelAlert+1;
     [window makeKeyAndVisible];
@@ -45,13 +41,9 @@
     
 }
 -(void)showActivity{
-   // UIActivity *activity = [[UIActivity alloc]init];
     self.activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhiteLarge)];
     [self addSubview:self.activityIndicator];
-  
     self.activityIndicator.center = self.center;
-   // self.activityIndicator.color = [UIColor blueColor];
-   // self.activityIndicator.backgroundColor = [UIColor cyanColor];
     self.activityIndicator.hidesWhenStopped = NO;
     [self.activityIndicator startAnimating];
 }
@@ -63,19 +55,17 @@
     }
 }
 
-
-
 -(void)setMode:(FramMode)mode{
     if(mode==SmallFrame){
         [self.buttonBKView removeFromSuperview];
         _viewWidth = _smallWidth;
         _viewHeight = _smallHeight;
-         self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
+        self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
         _myWindow.frame = CGRectMake(WINDOWS.width-_viewWidth, 0, _viewWidth, _viewHeight);
     }else if(mode==BigFrame){
         _viewWidth = _bigWidth;
         _viewHeight = _bigHeight;
-         self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
+        self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
         _myWindow.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
         [self addButtons];
     }
@@ -83,7 +73,7 @@
 }
 
 -(void)addButtons{
-   
+    
     if(self.buttonBKView){
         [self addSubview:self.buttonBKView];
         return;
@@ -95,21 +85,17 @@
     [button setTitle:@"收起" forState:UIControlStateNormal];
     [button addTarget:self.selfController action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
     
-//    UIButton *button1 = [[UIButton alloc]initWithFrame:CGRectMake(60, 0, 50, 50)];
-//    [button1 setTitle:@"上麦" forState:UIControlStateNormal];
-//    button1.tag=101;
-   
     UIButton *button2 = [[UIButton alloc]initWithFrame:CGRectMake(120, 0, 100, 50)];
     button2.tag = 102;
     [button2 setTitle:@"切换摄像头" forState:UIControlStateNormal];
     [button2 addTarget:self.selfController action:@selector(changeCamera)
-  forControlEvents:UIControlEventTouchUpInside];
+      forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *button3 = [[UIButton alloc]initWithFrame:CGRectMake(230, 0, 50, 50)];
     button3.tag = 103;
     [button3 setTitle:@"结束" forState:UIControlStateNormal];
     [button3 addTarget:self.selfController action:@selector(cancelWindow)
-  forControlEvents:UIControlEventTouchUpInside];
+      forControlEvents:UIControlEventTouchUpInside];
     [self.buttonBKView addSubview:button];
     [self.buttonBKView addSubview:button2];
     [self.buttonBKView addSubview:button3];
@@ -130,9 +116,9 @@
     CGPoint currentPoint=[touch locationInView:_rootView];
     if(_mode==BigFrame){
         if(CGRectContainsPoint(self.smallRenderView.frame, currentPoint)){
-          //  [super touchesMoved:touches withEvent:event];
-
-//            CGPoint newPoint = CGPointMake(currentPoint.x+offX, currentPoint.y+offY);
+            //  [super touchesMoved:touches withEvent:event];
+            
+            //            CGPoint newPoint = CGPointMake(currentPoint.x+offX, currentPoint.y+offY);
             CGPoint newPoint = CGPointMake(currentPoint.x, currentPoint.y);
             self.smallRenderView.center=newPoint;
         }
@@ -143,7 +129,7 @@
         CGPoint newPoint = CGPointMake(currentPoint.x+offX, currentPoint.y+offY);
         self.superview.center=newPoint;
     }
-   
+    
     
 }
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -167,13 +153,13 @@
         minDistance = right;
         direction = ButtonDirectionRight;
     }
-//    if (top < minDistance) {
-//        minDistance = top;
-//        direction = ButtonDirectionTop;
-//    }
-//    if (bottom < minDistance) {
-//        direction = ButtonDirectionBottom;
-//    }
+    //    if (top < minDistance) {
+    //        minDistance = top;
+    //        direction = ButtonDirectionTop;
+    //    }
+    //    if (bottom < minDistance) {
+    //        direction = ButtonDirectionBottom;
+    //    }
     NSInteger topOrButtom;
     if (self.superview.center.y<_viewHeight/2+NavigationBarHeight) {
         topOrButtom=_viewHeight/2+NavigationBarHeight;
@@ -198,7 +184,7 @@
             [UIView animateWithDuration:0.3 animations:^{
                 self.superview.center = CGPointMake(self.superview.frame.size.width/2, topOrButtom);
             }];
-           
+            
             break;
         }
         case ButtonDirectionRight:
@@ -206,7 +192,7 @@
             [UIView animateWithDuration:0.3 animations:^{
                 self.superview.center = CGPointMake(WINDOWS.width - self.superview.frame.size.width/2, topOrButtom);
             }];
-          
+            
             break;
         }
         case ButtonDirectionTop:
@@ -214,7 +200,7 @@
             [UIView animateWithDuration:0.3 animations:^{
                 self.superview.center = CGPointMake(leftOrRight, self.superview.frame.size.height/2+NavigationBarHeight);
             }];
-         
+            
             break;
         }
         case ButtonDirectionBottom:
@@ -222,7 +208,7 @@
             [UIView animateWithDuration:0.3 animations:^{
                 self.superview.center = CGPointMake(leftOrRight, WINDOWS.height - self.superview.frame.size.height/2-TabBarHeight);
             }];
-           
+            
             break;
         }
         default:
@@ -231,3 +217,4 @@
     
 }
 @end
+

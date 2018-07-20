@@ -17,11 +17,6 @@
     NSMutableArray *smallRenders;
     CGRect smallRect;
     CGRect bigRect;
-    
-    ILiveRenderView *selfRender;
-    NSMutableArray *otherRenders;
-    
-    
 }
 @property (nonatomic, strong) suspandView *customView;
 @property (nonatomic, strong) UIView *buttonsBKView;
@@ -58,8 +53,8 @@ static dispatch_once_t onceToken;
     _customView=[self createCustomView];
     smallRect =CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
     bigRect = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
-    
 }
+
 - (suspandView *)createCustomView{
     if(!_customView){
         suspandView *sView = [[suspandView alloc]init];
@@ -84,10 +79,8 @@ static dispatch_once_t onceToken;
     option.memberStatusListener = self;
     // 设置房间中断事件监听
     option.roomDisconnectListener = self;
-    //
     // 该参数代表进房之后使用什么规格音视频参数，参数具体值为客户在腾讯云实时音视频控制台画面设定中配置的角色名（例如：默认角色名为user, 可设置controlRole = @"user"）
     option.controlRole = roleName;
-    
     [[ILiveRoomManager getInstance] joinRoom:[roomId intValue] option:option succ:^{
         NSLog(@"加入房间成功，跳转到房间页");
         [self didJoinRoom];
