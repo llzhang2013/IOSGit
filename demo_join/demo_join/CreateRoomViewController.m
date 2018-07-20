@@ -57,43 +57,19 @@
         self.alertCtrl.message = [NSString stringWithFormat:@"errId:%d errMsg:%@",errId, errMsg];
         [self presentViewController:self.alertCtrl animated:YES completion:nil];
     }];
-    
 }
 
 - (IBAction)onJoinRoom:(id)sender {
 
-    SuspandViewController *liveRoomVC = [[SuspandViewController alloc]init];
+    SuspandViewController *liveRoomVC = [SuspandViewController shareSuspandViewController];
+    if(liveRoomVC.roomId){
+        NSLog(@"zlllive---正在视频中 不能再开启了");
+        return;
+    }
     UIViewController *vc =  self.navigationController.viewControllers[0];
     [vc addChildViewController:liveRoomVC];
     [vc.view addSubview:liveRoomVC.view];
-    
-    
-    ILiveRoomOption *option = [ILiveRoomOption defaultHostLiveOption];
-    option.imOption.imSupport = NO;
-//    // 不自动打开摄像头
-//    option.avOption.autoCamera = NO;
-//    // 不自动打开mic
-//    option.avOption.autoMic = NO;
-    // 设置房间内音视频监听
-    option.memberStatusListener = liveRoomVC;
-    // 设置房间中断事件监听
-    option.roomDisconnectListener = liveRoomVC;
-//
-    // 该参数代表进房之后使用什么规格音视频参数，参数具体值为客户在腾讯云实时音视频控制台画面设定中配置的角色名（例如：默认角色名为user, 可设置controlRole = @"user"）
-    option.controlRole = @"zll2";
-    
-    [[ILiveRoomManager getInstance] joinRoom:[self.roomIDTF.text intValue] option:option succ:^{
-        NSLog(@"加入房间成功，跳转到房间页");
-        [liveRoomVC didJoinRoom];
-    } failed:^(NSString *module, int errId, NSString *errMsg) {
-        // 加入房间失败
-        NSLog(@"加入房间失败");
-        self.alertCtrl.title = @"加入房间失败";
-        self.alertCtrl.message = [NSString stringWithFormat:@"errId:%d errMsg:%@",errId, errMsg];
-        [self presentViewController:self.alertCtrl animated:YES completion:nil];
-         [liveRoomVC close];
-      
-    }];
+    [liveRoomVC toJoinRoom:self.roomIDTF.text role:@"zll1"];
 }
 
 #pragma mark - Custom Method

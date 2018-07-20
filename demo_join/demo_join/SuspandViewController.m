@@ -31,27 +31,21 @@
 @end
 
 static SuspandViewController *SuspandViewControllerSingle = nil;
+ static dispatch_once_t onceToken;
 
 @implementation SuspandViewController
 
-//TODO 1 实现单利  2 自己的是小屏幕 3 测试小屏幕的时候来个视频（其实本身在请求视频的时候是不能缩小）
+//TODO 1 实现单利(以实现)  2 自己的是小屏幕 3 测试小屏幕的时候来个视频（其实本身在请求视频的时候是不能缩小）
 
-//不能单利 否则退出再进入就会崩溃
 + (SuspandViewController *)shareSuspandViewController
 {
-   
-    static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if(SuspandViewControllerSingle==nil){
             SuspandViewControllerSingle = [[SuspandViewController alloc]init];
         }
-        
     });
-    
     return SuspandViewControllerSingle;
 }
-
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -59,8 +53,38 @@ static SuspandViewController *SuspandViewControllerSingle = nil;
 //    self.view.frame=[UIScreen mainScreen].bounds;设置也没用 因为view加载在最底层 会被上面的view覆盖
 //    self.view.backgroundColor = [UIColor redColor];
    [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:0.1];
-  
+}
+
+-(void)toJoinRoom:(NSString *)roomId role:(NSString *)roleName{
+    self.roleName = roleName;
+    self.roomId = roomId;
     
+    ILiveRoomOption *option = [ILiveRoomOption defaultHostLiveOption];
+    option.imOption.imSupport = NO;
+    //    // 不自动打开摄像头
+    //    option.avOption.autoCamera = NO;
+    //    // 不自动打开mic
+    //    option.avOption.autoMic = NO;
+    // 设置房间内音视频监听
+    option.memberStatusListener = self;
+    // 设置房间中断事件监听
+    option.roomDisconnectListener = self;
+    //
+    // 该参数代表进房之后使用什么规格音视频参数，参数具体值为客户在腾讯云实时音视频控制台画面设定中配置的角色名（例如：默认角色名为user, 可设置controlRole = @"user"）
+    option.controlRole = roleName;
+    
+    [[ILiveRoomManager getInstance] joinRoom:[roomId intValue] option:option succ:^{
+        NSLog(@"加入房间成功，跳转到房间页");
+        [self didJoinRoom];
+    } failed:^(NSString *module, int errId, NSString *errMsg) {
+        // 加入房间失败
+        NSLog(@"加入房间失败");
+        self.alertCtrl.title = @"加入房间失败";
+        self.alertCtrl.message = [NSString stringWithFormat:@"errId:%d errMsg:%@",errId, errMsg];
+        [self presentViewController:self.alertCtrl animated:YES completion:nil];
+        [self close];
+        
+    }];
 }
 
 -(void)didJoinRoom{
@@ -86,6 +110,8 @@ static SuspandViewController *SuspandViewControllerSingle = nil;
     _customView.myWindow = nil;
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
+    SuspandViewControllerSingle = nil;
+    onceToken = 0;
 }
 
 - (void)cancelWindow{
@@ -136,12 +162,10 @@ static SuspandViewController *SuspandViewControllerSingle = nil;
             [_customView sendSubviewToBack:bigRenderView];
             NSLog(@"引用计数%@,%@",[bigRenderView valueForKey:@"retainCount"],[renderView valueForKey:@"retainCount"]);
         }
-        
     }else{
         _customView.mode = BigFrame;
         [self changeVideoFrame];
     }
-    
 }
 
 #pragma mark - ILiveMemStatusListener
@@ -274,7 +298,7 @@ static SuspandViewController *SuspandViewControllerSingle = nil;
     NSLog(@"房间异常退出：%d", reason);
     
     self.alertCtrl.title = @"视频异常关闭";
-    self.alertCtrl.message = [NSString stringWithFormat:@"errId:%d errMsg:%d",reason ];
+    self.alertCtrl.message = [NSString stringWithFormat:@"errId:%d",reason ];
     [self presentViewController:self.alertCtrl animated:YES completion:nil];
     [self cancelWindow];
     return YES;

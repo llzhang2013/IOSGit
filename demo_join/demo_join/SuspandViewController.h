@@ -10,6 +10,11 @@
 #import <ILiveSDK/ILiveCoreHeader.h>
 
 @interface SuspandViewController : UIViewController<ILiveMemStatusListener, ILiveRoomDisconnectListener>
+@property(nonatomic,copy) NSString *roomId;
+@property(nonatomic,copy) NSString *roleName;
+-(void)toJoinRoom:(NSString *)roomId role:(NSString *)roleName;
+
+
 + (SuspandViewController *)shareSuspandViewController;
 -(void)didJoinRoom;
 -(void)close;
