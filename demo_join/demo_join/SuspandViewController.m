@@ -51,7 +51,6 @@ static SuspandViewController *SuspandViewControllerSingle = nil;
     [super viewDidLoad];
     self.view.frame = CGRectZero;
 //    self.view.frame=[UIScreen mainScreen].bounds;设置也没用 因为view加载在最底层 会被上面的view覆盖
-//    self.view.backgroundColor = [UIColor redColor];
    [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:0.1];
 }
 
@@ -126,24 +125,28 @@ static SuspandViewController *SuspandViewControllerSingle = nil;
     }];
 }
 
--(void)dealloc{
-    
-}
-
 -(void)changeVideoFrame{
-    bigRenderView.frame =CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
+    [self modifyRenderViewFrame:bigRenderView frame:CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height)];
+//    bigRenderView.frame =CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
     //先出线对方 对方结束  点击收起 就没了
     NSLog(@"zll---bigRenderView---%@",bigRenderView);
     if(_customView.mode == SmallFrame){//大的变小的 小的变没有
         [smallRenders enumerateObjectsUsingBlock:^(ILiveRenderView *renderView, NSUInteger idx, BOOL * _Nonnull stop) {
-            renderView.frame = CGRectMake(0, 0,  0,  0);
+            //renderView.frame = CGRectMake(0, 0,  0,  0);
+            [self modifyRenderViewFrame:renderView frame:CGRectZero];
         }];
     }else{
         
         [smallRenders enumerateObjectsUsingBlock:^(ILiveRenderView *renderView, NSUInteger idx, BOOL * _Nonnull stop) {
-            renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
+          //  renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
+            [self modifyRenderViewFrame:renderView frame:CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight)];
         }];
     }
+}
+
+-(void)modifyRenderViewFrame:(ILiveRenderView *)view frame:(CGRect)frame{
+    
+     [[TILLiveManager getInstance] modifyAVRenderView:frame forIdentifier:view.identifier srcType:QAVVIDEO_SRC_TYPE_CAMERA];
 }
 
 #pragma mark --SuspendCustomViewDelegate
@@ -153,8 +156,10 @@ static SuspandViewController *SuspandViewControllerSingle = nil;
     if(_customView.mode==BigFrame){
         if(CGRectContainsPoint(_customView.smallRenderView.frame,point)&&smallRenders.count>0){
             ILiveRenderView *renderView =smallRenders[0];
-            renderView.frame = bigRect;
-            bigRenderView.frame = smallRect;
+            [self modifyRenderViewFrame:renderView frame:bigRect];
+           // renderView.frame = bigRect;
+           // bigRenderView.frame = smallRect;
+            [self modifyRenderViewFrame:bigRenderView frame:smallRect];
             _customView.smallRenderView = bigRenderView;
             [smallRenders addObject:bigRenderView];
             bigRenderView = renderView;
@@ -177,7 +182,8 @@ static SuspandViewController *SuspandViewControllerSingle = nil;
         smallRenders = [[NSMutableArray alloc]init];
     }
     
-    renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
+    //renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
+    [self modifyRenderViewFrame:renderView frame:CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height)];
     [_customView addSubview:renderView];
     
     if(!bigRenderView){//第一个来
@@ -186,7 +192,8 @@ static SuspandViewController *SuspandViewControllerSingle = nil;
         [[ILiveRoomManager getInstance] setWhite:5.0];
         
     }else{//第二个 将原来的变小 这个已经是大的了
-        renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
+       // renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
+        [self modifyRenderViewFrame:renderView frame: CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight)];
         if(!smallRenders){
             smallRenders = [[NSMutableArray alloc]init];
         }
