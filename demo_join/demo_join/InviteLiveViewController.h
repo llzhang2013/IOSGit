@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface InviteLiveViewController : UIViewController
+@property(nonatomic,copy) NSString *roomId;
+@property(nonatomic,copy) NSString *roleName;
 +(InviteLiveViewController *)shareInviteLiveViewController;
 -(void)destorySelf;
+-(void)initData:(NSString *)roomId role:(NSString *)roleName;
 
 
 @end

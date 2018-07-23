@@ -23,12 +23,18 @@ static InviteLiveViewController *inviteLiveViewController = NULL;
     dispatch_once(&onceToken, ^{
         inviteLiveViewController = [[InviteLiveViewController alloc]init];
     });
+
     return inviteLiveViewController;
 }
 -(void)destorySelf{
     _myWindow = nil;
     inviteLiveViewController = nil;
     onceToken = 0;
+}
+
+-(void)initData:(NSString *)roomId role:(NSString *)roleName{
+    self.roomId = roomId;
+    self.roleName = roleName;
     
 }
 
@@ -63,9 +69,7 @@ static InviteLiveViewController *inviteLiveViewController = NULL;
     UIViewController *vc =  self.navigationController.viewControllers[0];
     [vc addChildViewController:liveRoomVC];
     [vc.view addSubview:liveRoomVC.view];
-    [liveRoomVC toJoinRoom:@"8881" role:@"zll1"];
-    
-    
+    [liveRoomVC toJoinRoom:self.roomId role:self.roomId];
 }
 
 -(void)refusedClicked{

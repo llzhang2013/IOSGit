@@ -64,6 +64,7 @@
      UIViewController *vc =  self.navigationController.viewControllers[0];
     
     InviteLiveViewController *invite = [InviteLiveViewController shareInviteLiveViewController];
+    [invite initData:self.roomIDTF.text role:@"zll1"];
     [vc addChildViewController:invite];
     [vc.view addSubview:invite.view];
     return;
