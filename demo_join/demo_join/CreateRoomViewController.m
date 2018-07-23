@@ -10,6 +10,7 @@
 #import <ILiveSDK/ILiveCoreHeader.h>
 #import "LiveRoomViewController.h"
 #import "SuspandViewController.h"
+#import "InviteLiveViewController.h"
 
 @interface CreateRoomViewController ()
 
@@ -60,13 +61,19 @@
 }
 
 - (IBAction)onJoinRoom:(id)sender {
+     UIViewController *vc =  self.navigationController.viewControllers[0];
+    
+    InviteLiveViewController *invite = [InviteLiveViewController shareInviteLiveViewController];
+    [vc addChildViewController:invite];
+    [vc.view addSubview:invite.view];
+    return;
 
     SuspandViewController *liveRoomVC = [SuspandViewController shareSuspandViewController];
     if(liveRoomVC.roomId){
         NSLog(@"zlllive---正在视频中 不能再开启了");
         return;
     }
-    UIViewController *vc =  self.navigationController.viewControllers[0];
+   
     [vc addChildViewController:liveRoomVC];
     [vc.view addSubview:liveRoomVC.view];
     [liveRoomVC toJoinRoom:self.roomIDTF.text role:@"zll1"];

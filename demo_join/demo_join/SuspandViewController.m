@@ -11,6 +11,8 @@
 #import <QAVSDK/QAVCommon.h>
 #import <TILLiveSDK/TILLiveSDK.h>
 #import "videoSmallView.h"
+#import "InviteLiveViewController.h"
+
 
 @interface SuspandViewController ()<SuspendCustomViewDelegate>{
     ILiveRenderView *bigRenderView;
@@ -46,7 +48,8 @@ static dispatch_once_t onceToken;
     [super viewDidLoad];
     self.view.frame = CGRectZero;
     //    self.view.frame=[UIScreen mainScreen].bounds;设置也没用 因为view加载在最底层 会被上面的view覆盖
-    [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:0.1];
+    //[self performSelector:@selector(createBaseUI) withObject:nil afterDelay:0.1];
+    [self createBaseUI];
 }
 
 - (void)createBaseUI{
@@ -114,12 +117,16 @@ static dispatch_once_t onceToken;
 }
 
 -(void)close{
+    if(!self.isMaster){
+        [[InviteLiveViewController shareInviteLiveViewController]destorySelf];;
+    }
     [_customView removeFromSuperview];
     _customView.myWindow = nil;
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
     SuspandViewControllerSingle = nil;
     onceToken = 0;
+    
 }
 
 - (void)cancelWindow{

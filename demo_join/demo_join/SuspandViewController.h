@@ -12,6 +12,8 @@
 @interface SuspandViewController : UIViewController<ILiveMemStatusListener, ILiveRoomDisconnectListener>
 @property(nonatomic,copy) NSString *roomId;
 @property(nonatomic,copy) NSString *roleName;
+@property(nonatomic,assign) BOOL isMaster;//是不是我发起的视频
+
 -(void)toJoinRoom:(NSString *)roomId role:(NSString *)roleName;
 
 
