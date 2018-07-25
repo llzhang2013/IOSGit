@@ -39,7 +39,10 @@ typedef NS_ENUM(NSInteger,FramMode){
 @property (nonatomic, assign) CGFloat bigHeight;
 
 @property (nonatomic, weak) id<SuspendCustomViewDelegate> suspendDelegate;
-@property (nonatomic, strong) UIView *buttonBKView;
+
+@property (nonatomic, strong) UIView *buttonBKView;//通话过程中
+@property (nonatomic, strong) UIView *waitingAccepetView;//等待对方接受
+
 @property (nonatomic, assign) FramMode mode;
 @property (nonatomic, strong) UIView *rootView;
 @property (nonatomic, strong) UIView *smallRenderView;
@@ -48,7 +51,8 @@ typedef NS_ENUM(NSInteger,FramMode){
 
 -(void)initWithController:(UIViewController *)viewController rootView:(UIView *)rootView;
 -(void)showActivity;
--(void)showCamera;
+-(void)showCamera:(BOOL)isMaster;
+-(void)makeLivingButtonView;
 
 
 @end

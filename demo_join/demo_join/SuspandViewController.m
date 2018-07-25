@@ -99,10 +99,13 @@ static dispatch_once_t onceToken;
 }
 
 -(void)didJoinRoom{
-    [_customView showCamera];
+   [_customView showCamera:self.isMaster];
     
 }
 #pragma mark -- Action
+-(void)cancelVideoInvite{
+    [self  cancelWindow];
+}
 
 -(void)changeCamera{
     
@@ -132,6 +135,18 @@ static dispatch_once_t onceToken;
 - (void)cancelWindow{
     [[ILiveRoomManager getInstance] quitRoom:^{
         NSLog(@"zlllive---退出房间成功");
+        //必须是对方没有接受之前才走这个代理 TODO
+        if(self.isMaster&&_customView.waitingAccepetView){
+            if([self.delegate respondsToSelector:@selector(cancelVideoInvite)]){
+                [self.delegate cancelInviteVideo];
+            }
+            
+        }else{
+            if([self.delegate respondsToSelector:@selector(overVideo)]){
+                [self.delegate overVideo];
+            }
+        }
+     
         [self close];
     } failed:^(NSString *module, int errId, NSString *errMsg) {
         NSLog(@"zlllive---退出房间失败-%@",errMsg);
@@ -198,7 +213,10 @@ static dispatch_once_t onceToken;
         [[ILiveRoomManager getInstance] setWhite:5.0];
         
     }else{//第二个 将原来的变小 这个已经是大的了
-        
+        if(self.isMaster){
+           [_customView makeLivingButtonView];
+        }
+      
         [self modifyRenderViewFrame:renderView frame: CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight)];
         if(!smallRenders){
             smallRenders = [[NSMutableArray alloc]init];
@@ -207,6 +225,7 @@ static dispatch_once_t onceToken;
         _customView.smallRenderView = renderView;
     }
     [_customView sendSubviewToBack:bigRenderView];
+    
     /*永远使对方为大图  但是在切换过程中会有一闪黑屏出现
      [_customView addSubview:renderView];
      NSString *selfName =  [[TIMManager sharedInstance] getLoginUser];
@@ -247,6 +266,9 @@ static dispatch_once_t onceToken;
 }
 
 -(void)onCameraRemove:(ILiveRenderView *)renderView{
+    //有一方离开就结束
+    [self cancelWindow];
+    return;
     [renderView removeFromSuperview];
     NSLog(@"zlllive----onCameraRemove0-%@,%@",renderView.identifier,bigRenderView.identifier);
     if([renderView.identifier isEqualToString:bigRenderView.identifier]){

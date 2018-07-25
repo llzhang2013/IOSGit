@@ -16,7 +16,8 @@
     CGFloat offY;
 }
 @property (nonatomic, assign) CGPoint startPoint;
-@property (nonatomic, strong)UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+
 @end
 
 @implementation suspandView
@@ -48,16 +49,24 @@
     [self.activityIndicator startAnimating];
 }
 
--(void)showCamera{
+-(void)showCamera:(BOOL)isMaster{
     if(self.activityIndicator){
         [self.activityIndicator removeFromSuperview];
         self.activityIndicator = nil;
+    }
+    //如果是我发起的视频 出现等待接受 否则出现收起等按钮
+    if(isMaster){
+        [self makeWaitingView];
+    }else{
+        [self makeLivingButtonView];
     }
 }
 
 -(void)setMode:(FramMode)mode{
     if(mode==SmallFrame){
-        [self.buttonBKView removeFromSuperview];
+        if(self.buttonBKView){
+          [self.buttonBKView removeFromSuperview];
+        }
         _viewWidth = _smallWidth;
         _viewHeight = _smallHeight;
         self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
@@ -67,17 +76,35 @@
         _viewHeight = _bigHeight;
         self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
         _myWindow.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
-        [self addButtons];
+        if(self.buttonBKView){
+          [self addSubview:self.buttonBKView];
+        }
     }
     _mode = mode;
 }
 
--(void)addButtons{
+-(void)makeWaitingView{
+   UIView *view = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    [self addSubview:view];
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(100, 100, 50, 50)];
+    [button setTitle:@"取消" forState:UIControlStateNormal];
+    [button addTarget:self.selfController action:@selector(cancelVideoInvite) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:button];
     
-    if(self.buttonBKView){
-        [self addSubview:self.buttonBKView];
-        return;
+    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(100,200 , 200, 50)];
+    lab.text = @"正在等待对方接受";
+    lab.textColor = [UIColor whiteColor];
+    [view addSubview:lab];
+    self.waitingAccepetView = view;
+   
+}
+
+-(void)makeLivingButtonView{
+    if(self.waitingAccepetView){
+        [self.waitingAccepetView removeFromSuperview];
+        self.waitingAccepetView = nil;
     }
+ 
     self.buttonBKView = [[UIView alloc]initWithFrame:CGRectMake(0, self.frame.size.height-100, _viewWidth, 50)];
     [self addSubview:self.buttonBKView];
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];

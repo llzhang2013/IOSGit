@@ -12,7 +12,7 @@
 #import "SuspandViewController.h"
 #import "InviteLiveViewController.h"
 
-@interface CreateRoomViewController ()
+@interface CreateRoomViewController ()<SuspandViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *roomIDTF;
 @property (nonatomic, strong) UIAlertController *alertCtrl;     //!< 提示框
@@ -60,16 +60,19 @@
     }];
 }
 
+
 - (IBAction)onJoinRoom:(id)sender {
      UIViewController *vc =  self.navigationController.viewControllers[0];
     
-    InviteLiveViewController *invite = [InviteLiveViewController shareInviteLiveViewController];
-    [invite initData:self.roomIDTF.text role:@"zll1"];
-    [vc addChildViewController:invite];
-    [vc.view addSubview:invite.view];
-    return;
+//    InviteLiveViewController *invite = [InviteLiveViewController shareInviteLiveViewController];
+//    [invite initData:self.roomIDTF.text role:@"zll1"];
+//    [vc addChildViewController:invite];
+//    [vc.view addSubview:invite.view];
+//    return;
 
     SuspandViewController *liveRoomVC = [SuspandViewController shareSuspandViewController];
+    liveRoomVC.delegate = self;
+    liveRoomVC.isMaster = YES;
     if(liveRoomVC.roomId){
         NSLog(@"zlllive---正在视频中 不能再开启了");
         return;
