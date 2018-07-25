@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+typedef void(^onResult)(int result);//0 接受 1 拒绝
 @interface InviteLiveViewController : UIViewController
+@property(nonatomic,strong) onResult resultBlock;
 @property(nonatomic,copy) NSString *roomId;
 @property(nonatomic,copy) NSString *roleName;
 +(InviteLiveViewController *)shareInviteLiveViewController;

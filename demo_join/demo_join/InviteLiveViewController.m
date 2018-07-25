@@ -7,7 +7,7 @@
 //
 
 #import "InviteLiveViewController.h"
-#import "SuspandViewController.h"
+//#import "SuspandViewController.h"
 static dispatch_once_t onceToken;
 static InviteLiveViewController *inviteLiveViewController = NULL;
 
@@ -42,7 +42,7 @@ static InviteLiveViewController *inviteLiveViewController = NULL;
     [super viewDidLoad];
     self.view.frame = CGRectZero;
     UIWindow *window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    window.backgroundColor = [UIColor blackColor];
+    window.backgroundColor = [UIColor yellowColor];
     window.windowLevel = UIWindowLevelAlert+1;
     [window makeKeyAndVisible];
     _myWindow = window;
@@ -60,19 +60,21 @@ static InviteLiveViewController *inviteLiveViewController = NULL;
 }
 
 -(void)accpectClicked{
-    SuspandViewController *liveRoomVC = [SuspandViewController shareSuspandViewController];
-    liveRoomVC.isMaster = NO;
-    if(liveRoomVC.roomId){
-        NSLog(@"zlllive---正在视频中 不能再开启了");
-        return;
-    }
-    UIViewController *vc =  self.navigationController.viewControllers[0];
-    [vc addChildViewController:liveRoomVC];
-    [vc.view addSubview:liveRoomVC.view];
-    [liveRoomVC toJoinRoom:self.roomId role:self.roomId];
+    self.resultBlock(0);
+//    SuspandViewController *liveRoomVC = [SuspandViewController shareSuspandViewController];
+//    liveRoomVC.isMaster = NO;
+//    if(liveRoomVC.roomId){
+//        NSLog(@"zlllive---正在视频中 不能再开启了");
+//        return;
+//    }
+//    UIViewController *vc =  self.navigationController.viewControllers[0];
+//    [vc addChildViewController:liveRoomVC];
+//    [vc.view addSubview:liveRoomVC.view];
+//    [liveRoomVC toJoinRoom:self.roomId role:self.roomId];
 }
 
 -(void)refusedClicked{
+    self.resultBlock(1);
     [self destorySelf];
     
 }
