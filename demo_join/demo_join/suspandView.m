@@ -114,6 +114,13 @@
         make.height.equalTo(@55);
         make.centerX.equalTo(view);
     }];
+    
+    UIButton *button1 = [[UIButton alloc]initWithFrame:CGRectMake(0, 300, 50, 50)];
+    //[button setTitle:@"收起" forState:UIControlStateNormal];
+    [button1 setBackgroundImage:[UIImage imageNamed:@"small"] forState:UIControlStateNormal];
+    [button1 addTarget:self.selfController action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
+     [view addSubview:button1];
+    
    
 }
 

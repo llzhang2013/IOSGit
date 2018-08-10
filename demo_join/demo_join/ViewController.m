@@ -17,11 +17,11 @@
 
 
 
-//static NSString * const kUserName1 = @"zll2";
-//static NSString * const kUserSig1 = @"eJxlj9FOgzAUhu95iqa3Gm1pmWDixWQmMkZk2QjGG0JogQpCKWVuM767ji2RxHP7ff-5z-kyAABwu9rcpFnWDo1O9EFyCO4BRPD6D0opWJLqhCj2D-K9FIonaa65GiG2LMtEaOoIxhstcnExjnVtTmjPqmSsOMfpb9axMZku6EUxwuApcr21extH9cbPcmpbgtPlgJZ88Pz9W7dSURj0iIbFlY-nHXuZe4Xr381s0VbHsqN88f6p7KAMd9INFiSNm-jwmm3X7eNziaLqYVKpxQe--EMQdWxnNr15x1Uv2mYUTIQtbBJ0Gmh8Gz9gglx6" ;
+static NSString * const kUserName1 = @"zll2";
+static NSString * const kUserSig1 = @"eJxlj9FOgzAUhu95iqa3Gm1pmWDixWQmMkZk2QjGG0JogQpCKWVuM767ji2RxHP7ff-5z-kyAABwu9rcpFnWDo1O9EFyCO4BRPD6D0opWJLqhCj2D-K9FIonaa65GiG2LMtEaOoIxhstcnExjnVtTmjPqmSsOMfpb9axMZku6EUxwuApcr21extH9cbPcmpbgtPlgJZ88Pz9W7dSURj0iIbFlY-nHXuZe4Xr381s0VbHsqN88f6p7KAMd9INFiSNm-jwmm3X7eNziaLqYVKpxQe--EMQdWxnNr15x1Uv2mYUTIQtbBJ0Gmh8Gz9gglx6" ;
 
-static NSString * const kUserName1 = @"zll1";
-static NSString * const kUserSig1 = @"eJxlj8FOhDAURfd8RcMWoy1QAiYugBBDwhjNiI5uGoQydixQSnEA47*rOIlNfNtz7r15HwYAwLzPtudFWXZjq4iaBTXBJTChefYHhWAVKRRxZPUP0kkwSUlRKypXiDDGNoS6wyraKlazk7FwjjQ6VG9knfiNu9-ZwEeOXjCw-Qo3SR6nEVfjvGStNT-kB*s6sZ5u*8c*nodUKbpHNz0vGi8pa9s-hCwJMW-oVPrH2buI6ikNl4w*77zxKDZx1-jOdpe68vUuGl66-EqbVKyhp38c6AZ*4AYafadyYF27CjZEGNkO-DnT*DS*ADgbXgI_" ;
+//static NSString * const kUserName1 = @"zll1";
+//static NSString * const kUserSig1 = @"eJxlj8FOhDAURfd8RcMWoy1QAiYugBBDwhjNiI5uGoQydixQSnEA47*rOIlNfNtz7r15HwYAwLzPtudFWXZjq4iaBTXBJTChefYHhWAVKRRxZPUP0kkwSUlRKypXiDDGNoS6wyraKlazk7FwjjQ6VG9knfiNu9-ZwEeOXjCw-Qo3SR6nEVfjvGStNT-kB*s6sZ5u*8c*nodUKbpHNz0vGi8pa9s-hCwJMW-oVPrH2buI6ikNl4w*77zxKDZx1-jOdpe68vUuGl66-EqbVKyhp38c6AZ*4AYafadyYF27CjZEGNkO-DnT*DS*ADgbXgI_" ;
 
 @interface ViewController ()<AVAudioPlayerDelegate>
 

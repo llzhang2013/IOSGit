@@ -81,7 +81,7 @@
    
     [vc addChildViewController:liveRoomVC];
     [vc.view addSubview:liveRoomVC.view];
-    [liveRoomVC toJoinRoom:self.roomIDTF.text role:@"zll1"];
+    [liveRoomVC toJoinRoom:self.roomIDTF.text role:@"zll2"];
 }
 
 #pragma mark - Custom Method
