@@ -105,7 +105,7 @@ static dispatch_once_t onceToken;
 }
 
 -(void)didJoinRoom{
-   [_customView showCamera:self.isMaster];
+     [_customView showCamera:self.isMaster];
     
 }
 #pragma mark -- Action
@@ -206,6 +206,8 @@ static dispatch_once_t onceToken;
     if(!_customView){
         [self createBaseUI];
     }
+    [_customView showCameraView:self.isMaster];
+   
     if(!smallRenders){
         smallRenders = [[NSMutableArray alloc]init];
     }
@@ -214,6 +216,7 @@ static dispatch_once_t onceToken;
     [_customView addSubview:renderView];
     
     if(!bigRenderView){//第一个来
+       
         bigRenderView = renderView;
         [[ILiveRoomManager getInstance] setBeauty:5.0];
         [[ILiveRoomManager getInstance] setWhite:5.0];

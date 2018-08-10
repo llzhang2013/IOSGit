@@ -27,6 +27,7 @@ typedef NS_ENUM(NSInteger,ButtonDirection){
 typedef NS_ENUM(NSInteger,FramMode){
     SmallFrame  =0,
     BigFrame    =1,
+    NoneFrame   = 2
 };
 
 @interface suspandView : UIView
@@ -53,6 +54,7 @@ typedef NS_ENUM(NSInteger,FramMode){
 -(void)showActivity;
 -(void)showCamera:(BOOL)isMaster;
 -(void)makeLivingButtonView;
+-(void)showCameraView:(BOOL)isMaster;
 
 
 @end

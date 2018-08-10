@@ -30,7 +30,7 @@
     _smallHeight = 150;
     _bigWidth = WINDOWS.width;
     _bigHeight = WINDOWS.height;
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor blackColor];
     
     UIWindow *window = [[UIWindow alloc]init];
     [window addSubview:self];
@@ -38,8 +38,8 @@
     [window makeKeyAndVisible];
     _myWindow = window;
     
-    [self setMode:BigFrame];
-    [self showActivity];
+    [self setMode:NoneFrame];
+   // [self showActivity];
     //[self showCamera:<#(BOOL)#>]
     
 }
@@ -57,11 +57,16 @@
         self.activityIndicator = nil;
     }
     //如果是我发起的视频 出现等待接受 否则出现收起等按钮
-    if(isMaster){
-        [self makeWaitingView];
-    }else{
-        [self makeLivingButtonView];
-    }
+    [self setMode:BigFrame];
+
+}
+
+-(void)showCameraView:(BOOL)isMaster{
+        if(isMaster){
+            [self makeWaitingView];
+        }else{
+            [self makeLivingButtonView];
+        }
 }
 
 -(void)setMode:(FramMode)mode{
@@ -83,6 +88,9 @@
          //[self addSubview:self.buttonBKView];
             self.buttonBKView.hidden = NO;
         }
+    }else if(mode==NoneFrame){
+        self.frame = CGRectZero;
+        _myWindow.frame = CGRectZero;
     }
     _mode = mode;
 }
