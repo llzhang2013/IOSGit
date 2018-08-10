@@ -8,6 +8,5 @@
 
 #import "Constant.h"
 
-@implementation Constant
+NSString *const XUserName = @"StrongX";
 
-@end

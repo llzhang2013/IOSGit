@@ -36,6 +36,7 @@ static dispatch_once_t onceToken;
 
 + (SuspandViewController *)shareSuspandViewController
 {
+    NSLog(@"vvv---3");
     dispatch_once(&onceToken, ^{
         if(SuspandViewControllerSingle==nil){
             SuspandViewControllerSingle = [[SuspandViewController alloc]init];
@@ -46,13 +47,16 @@ static dispatch_once_t onceToken;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"vvv---4");
     self.view.frame = CGRectZero;
     //    self.view.frame=[UIScreen mainScreen].bounds;设置也没用 因为view加载在最底层 会被上面的view覆盖
     //[self performSelector:@selector(createBaseUI) withObject:nil afterDelay:0.1];
     [self createBaseUI];
+    NSLog(@"vvv---6");
 }
 
 - (void)createBaseUI{
+    NSLog(@"vvv---5");
     _customView=[self createCustomView];
     smallRect =CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
     bigRect = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
@@ -74,17 +78,19 @@ static dispatch_once_t onceToken;
     
     ILiveRoomOption *option = [ILiveRoomOption defaultHostLiveOption];
     option.imOption.imSupport = NO;
-    //    // 不自动打开摄像头
-    //    option.avOption.autoCamera = NO;
-    //    // 不自动打开mic
-    //    option.avOption.autoMic = NO;
+//    //    // 不自动打开摄像头
+//    option.avOption.autoCamera = YES;
+//        // 不自动打开mic
+//    option.avOption.autoMic = YES;
     // 设置房间内音视频监听
     option.memberStatusListener = self;
     // 设置房间中断事件监听
     option.roomDisconnectListener = self;
     // 该参数代表进房之后使用什么规格音视频参数，参数具体值为客户在腾讯云实时音视频控制台画面设定中配置的角色名（例如：默认角色名为user, 可设置controlRole = @"user"）
     option.controlRole = roleName;
+    NSLog(@"vvv---1");
     [[ILiveRoomManager getInstance] joinRoom:[roomId intValue] option:option succ:^{
+        NSLog(@"vvv---2");
         NSLog(@"加入房间成功，跳转到房间页");
         [self didJoinRoom];
     } failed:^(NSString *module, int errId, NSString *errMsg) {

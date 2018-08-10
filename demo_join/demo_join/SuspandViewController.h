@@ -11,6 +11,7 @@
 
 
 @protocol  SuspandViewControllerDelegate <NSObject>
+//代理不是万能的 还得写消息 哎
 -(void)overVideo;//视频中 结束
 -(void)cancelInviteVideo;//对方未接受时 结束
 
@@ -28,6 +29,7 @@
 + (SuspandViewController *)shareSuspandViewController;
 -(void)didJoinRoom;
 -(void)close;
+-(void)cancelWindow;
 
 
 @end

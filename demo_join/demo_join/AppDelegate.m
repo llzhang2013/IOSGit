@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <ILiveSDK/ILiveSDK.h>
+#import "Constant.h"
 
 static  const int kSDKAppID = 1400098130;
 static  const int kAccountType = 28332;
@@ -21,6 +22,8 @@ static  const int kAccountType = 28332;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+   
+    NSLog(@"zll---%@",XUserName);
     // 初始化SDK
     ILiveSDK *live =[ILiveSDK getInstance] ;
     [[ILiveSDK getInstance] initSdk:kSDKAppID accountType:kAccountType];

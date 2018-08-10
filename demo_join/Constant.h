@@ -8,6 +8,4 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Constant : NSObject
-
-@end
+extern NSString *const XUserName ;

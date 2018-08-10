@@ -9,6 +9,7 @@
 #import "suspandView.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
+#import "Masonry.h"
 
 
 @interface suspandView(){
@@ -29,7 +30,7 @@
     _smallHeight = 150;
     _bigWidth = WINDOWS.width;
     _bigHeight = WINDOWS.height;
-    self.backgroundColor = [UIColor blackColor];
+    self.backgroundColor = [UIColor whiteColor];
     
     UIWindow *window = [[UIWindow alloc]init];
     [window addSubview:self];
@@ -39,10 +40,11 @@
     
     [self setMode:BigFrame];
     [self showActivity];
+    //[self showCamera:<#(BOOL)#>]
     
 }
 -(void)showActivity{
-    self.activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleWhiteLarge)];
+    self.activityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:(UIActivityIndicatorViewStyleGray)];
     [self addSubview:self.activityIndicator];
     self.activityIndicator.center = self.center;
     self.activityIndicator.hidesWhenStopped = NO;
@@ -65,7 +67,8 @@
 -(void)setMode:(FramMode)mode{
     if(mode==SmallFrame){
         if(self.buttonBKView){
-          [self.buttonBKView removeFromSuperview];
+         // [self.buttonBKView removeFromSuperview];
+            self.buttonBKView.hidden = YES;
         }
         _viewWidth = _smallWidth;
         _viewHeight = _smallHeight;
@@ -77,7 +80,8 @@
         self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
         _myWindow.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
         if(self.buttonBKView){
-          [self addSubview:self.buttonBKView];
+         //[self addSubview:self.buttonBKView];
+            self.buttonBKView.hidden = NO;
         }
     }
     _mode = mode;
@@ -87,17 +91,64 @@
    UIView *view = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     [self addSubview:view];
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(100, 100, 50, 50)];
-    [button setTitle:@"取消" forState:UIControlStateNormal];
+    //[button setTitle:@"取消" forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"refuse"] forState:UIControlStateNormal];
     [button addTarget:self.selfController action:@selector(cancelVideoInvite) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:button];
-    
-    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(100,200 , 200, 50)];
-    lab.text = @"正在等待对方接受";
-    lab.textColor = [UIColor whiteColor];
-    [view addSubview:lab];
+
+    [self makeTopView:view];
     self.waitingAccepetView = view;
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        //make.left.equalTo(@80);
+        //make.center.equalTo(view);
+        make.bottom.equalTo(view).offset(-50);
+        make.width.equalTo(@55);
+        make.height.equalTo(@55);
+        make.centerX.equalTo(view);
+    }];
    
 }
+
+-(void)makeTopView:(UIView *)view{
+    UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@""]];
+    [imageView.layer setCornerRadius:30];
+    imageView.clipsToBounds = YES;
+    imageView.backgroundColor = [UIColor redColor];
+    [view addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(60, 60));
+        make.left.top.equalTo(@40);
+    }];
+    
+    UIView *rightView = [[UIView alloc]init];
+    [view addSubview:rightView];
+    [rightView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(imageView);
+        make.height.equalTo(@60);
+        make.right.equalTo(@20);
+        make.left.equalTo(imageView.mas_right).offset(10);
+        
+    }];
+    
+    UILabel *name = [[UILabel alloc]init];
+    name.text = @"张伟";
+    UILabel *ss = [[UILabel alloc]init];
+    ss.text = @"正在等待对方接受邀请.";
+        name.textColor = [UIColor whiteColor];
+        ss.textColor = [UIColor whiteColor];
+    [rightView addSubview:name];
+    [rightView addSubview:ss];
+    [name mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.equalTo(@0);
+        
+    }];
+    
+    [ss mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.equalTo(@0);
+    }];
+    
+}
+
 
 -(void)makeLivingButtonView{
     if(self.waitingAccepetView){
@@ -105,27 +156,58 @@
         self.waitingAccepetView = nil;
     }
  
-    self.buttonBKView = [[UIView alloc]initWithFrame:CGRectMake(0, self.frame.size.height-100, _viewWidth, 50)];
+    self.buttonBKView = [[UIView alloc]init];
     [self addSubview:self.buttonBKView];
+    [self.buttonBKView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(@0);
+        make.bottom.equalTo(@(-50));
+        make.height.equalTo(@100);
+        
+    }];
+    
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
-    button.tag=100;
-    [button setTitle:@"收起" forState:UIControlStateNormal];
+    //[button setTitle:@"收起" forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"small"] forState:UIControlStateNormal];
     [button addTarget:self.selfController action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *button2 = [[UIButton alloc]initWithFrame:CGRectMake(120, 0, 100, 50)];
     button2.tag = 102;
-    [button2 setTitle:@"切换摄像头" forState:UIControlStateNormal];
+    //[button2 setTitle:@"切换摄像头" forState:UIControlStateNormal];
+    [button2 setBackgroundImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
     [button2 addTarget:self.selfController action:@selector(changeCamera)
       forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *button3 = [[UIButton alloc]initWithFrame:CGRectMake(230, 0, 50, 50)];
     button3.tag = 103;
-    [button3 setTitle:@"结束" forState:UIControlStateNormal];
+    //[button3 setTitle:@"结束" forState:UIControlStateNormal];
+    [button3 setBackgroundImage:[UIImage imageNamed:@"refuse"] forState:UIControlStateNormal];
     [button3 addTarget:self.selfController action:@selector(cancelWindow)
       forControlEvents:UIControlEventTouchUpInside];
     [self.buttonBKView addSubview:button];
     [self.buttonBKView addSubview:button2];
     [self.buttonBKView addSubview:button3];
+    
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(@40);
+        make.size.mas_equalTo(CGSizeMake(50, 30));
+        make.centerY.equalTo(button2);
+        
+    }];
+    
+    [button2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(button.mas_right).offset(40);
+        make.size.mas_equalTo(CGSizeMake(50, 50));
+        make.bottom.equalTo(@0);
+        
+    }];
+    
+    [button3 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(button2.mas_right).offset(40);
+        make.size.mas_equalTo(CGSizeMake(50, 50));
+        make.bottom.equalTo(@0);
+        
+    }];
+    
     
 }
 
