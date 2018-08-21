@@ -1,0 +1,6 @@
+framework module INVSSDK {
+  umbrella header "INVSSDK.h"
+
+  export *
+  module * { export * }
+}

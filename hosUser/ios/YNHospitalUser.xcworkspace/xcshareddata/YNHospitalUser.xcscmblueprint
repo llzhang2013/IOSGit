@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "AD2706F5BD276BED1261B9FE5DB74DB128A41DCD",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "435DD2C1CEFE8CE9D3CA983493C1E14E0521D029" : 9223372036854775807,
+    "AD2706F5BD276BED1261B9FE5DB74DB128A41DCD" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D3F80647-9748-4B8C-95DA-E067919FE3F6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "435DD2C1CEFE8CE9D3CA983493C1E14E0521D029" : "YNHospitalUser\/YNHospitalUser\/node_modules\/react-native-ynimchat\/",
+    "AD2706F5BD276BED1261B9FE5DB74DB128A41DCD" : "YNHospitalUser\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "YNHospitalUser",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "YNHospitalUser\/ios\/YNHospitalUser.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/gitee.com\/zhouchuanwen\/react-native-ynimchat.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "435DD2C1CEFE8CE9D3CA983493C1E14E0521D029"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/git.oschina.net\/sophiaNN\/YNHospitalUser.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "AD2706F5BD276BED1261B9FE5DB74DB128A41DCD"
+    }
+  ]
+}
