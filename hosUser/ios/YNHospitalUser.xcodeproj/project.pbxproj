@@ -158,6 +158,7 @@
 		5B3E01FC20F8A41500D9210A /* IMAPlatform+FriendShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3E01EC20F8A41500D9210A /* IMAPlatform+FriendShip.m */; };
 		5B3E01FD20F8A41500D9210A /* IMAPlatform+AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3E01EF20F8A41500D9210A /* IMAPlatform+AppConfig.m */; };
 		5B4F688C212BD892009B417D /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F688B212BD892009B417D /* LoginViewController.m */; };
+		5B4F68AB212BFB84009B417D /* WaitingAccpectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F68AA212BFB84009B417D /* WaitingAccpectVC.m */; };
 		5B610F871F72739700ED20C6 /* MyLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B610F861F72739700ED20C6 /* MyLabel.m */; };
 		5B7131B5211D58E500A77A7F /* videoMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B71318C211D58E500A77A7F /* videoMusic.mp3 */; };
 		5B7F97FC1EF7D647009CB134 /* getoff.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F97F91EF7D647009CB134 /* getoff.caf */; };
@@ -654,6 +655,8 @@
 		5B3E01F020F8A41500D9210A /* IMAPlatform+IMSDKCallBack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IMAPlatform+IMSDKCallBack.h"; sourceTree = "<group>"; };
 		5B4F688A212BD892009B417D /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		5B4F688B212BD892009B417D /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		5B4F68A9212BFB84009B417D /* WaitingAccpectVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WaitingAccpectVC.h; sourceTree = "<group>"; };
+		5B4F68AA212BFB84009B417D /* WaitingAccpectVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WaitingAccpectVC.m; sourceTree = "<group>"; };
 		5B610F851F72739700ED20C6 /* MyLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLabel.h; sourceTree = "<group>"; };
 		5B610F861F72739700ED20C6 /* MyLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLabel.m; sourceTree = "<group>"; };
 		5B71318C211D58E500A77A7F /* videoMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = videoMusic.mp3; sourceTree = "<group>"; };
@@ -1422,6 +1425,8 @@
 				5B05F90820FD861A00DC8B33 /* LiveSDK */,
 				5B05FA2120FDCE9100DC8B33 /* LiveCommonMethod.h */,
 				5B05FA2220FDCE9100DC8B33 /* LiveCommonMethod.m */,
+				5B4F68A9212BFB84009B417D /* WaitingAccpectVC.h */,
+				5B4F68AA212BFB84009B417D /* WaitingAccpectVC.m */,
 			);
 			path = Live;
 			sourceTree = "<group>";
@@ -3399,6 +3404,7 @@
 				69AAD8301F46E483004C149C /* IMALoginViewController.m in Sources */,
 				5B23A82A2119414000359A1D /* Constant.m in Sources */,
 				69AAD88A1F46E483004C149C /* IMAMsg+UITableViewCell.m in Sources */,
+				5B4F68AB212BFB84009B417D /* WaitingAccpectVC.m in Sources */,
 				69AAD8001F46E483004C149C /* UIImage+WebP.m in Sources */,
 				69AAD81D1F46E483004C149C /* UIImageView+InitMethod.m in Sources */,
 				69AAD8F41F46E484004C149C /* UserProfileViewController.m in Sources */,
