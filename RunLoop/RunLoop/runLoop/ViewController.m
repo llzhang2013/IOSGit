@@ -18,6 +18,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSArray *arr= [[NSArray alloc]init];
+
     // 1.测试线程的销毁
     //[self threadTest];
     //启动了runloop

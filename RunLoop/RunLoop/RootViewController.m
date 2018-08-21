@@ -20,8 +20,9 @@
     [super viewDidLoad];
     self.view.frame = [UIScreen mainScreen].bounds;
     self.view.backgroundColor = [UIColor redColor];
-    UIButton *button =  [[UIButton alloc]initWithFrame:CGRectMake(0, 50, 50, 50)];
+    UIButton *button =  [[UIButton alloc]initWithFrame:CGRectMake(0, 100, 50, 50)];
     button.backgroundColor = [UIColor greenColor];
+    [button setTitle:@"RunLoop" forState:UIControlStateNormal];
     [button addTarget:self action:@selector(goToTimer) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
  
@@ -31,13 +32,23 @@
     ViewController *vc = [[ViewController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
     
+    
+    
 }
 
 -(void)goToTimer{
+    for (int i = 0; i < 1000000; i++) {
+        //  @autoreleasepool {
+        NSString *str = @"abc";
+        str = [str lowercaseString];
+        str = [str stringByAppendingString:@"xyz"];
+        //  }
+    }
+    
+    
     TimerViewController *vc = [[TimerViewController alloc]init];
-     [self.navigationController pushViewController:vc animated:YES];
-    
-    
+    [self.navigationController pushViewController:vc animated:YES];
+  
 }
 
 - (void)didReceiveMemoryWarning {

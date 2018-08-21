@@ -17,6 +17,7 @@
 		5B3EFD0B20F6FD7F00D9210A /* HLThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3EFD0A20F6FD7F00D9210A /* HLThread.m */; };
 		5B3EFD2A20F75B7F00D9210A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3EFD2820F75B7F00D9210A /* RootViewController.m */; };
 		5B3EFD2E20F75DA000D9210A /* TimerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3EFD2D20F75DA000D9210A /* TimerViewController.m */; };
+		5B4F685E212BA53E009B417D /* MyClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F685D212BA53E009B417D /* MyClass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,8 @@
 		5B3EFD2820F75B7F00D9210A /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		5B3EFD2C20F75DA000D9210A /* TimerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimerViewController.h; sourceTree = "<group>"; };
 		5B3EFD2D20F75DA000D9210A /* TimerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimerViewController.m; sourceTree = "<group>"; };
+		5B4F685C212BA53E009B417D /* MyClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyClass.h; sourceTree = "<group>"; };
+		5B4F685D212BA53E009B417D /* MyClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyClass.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +74,7 @@
 		5B3EFCEE20F6FC8500D9210A /* RunLoop */ = {
 			isa = PBXGroup;
 			children = (
+				5B4F685B212BA504009B417D /* RunTime */,
 				5B3EFD0820F6FD4100D9210A /* runLoop */,
 				5B3EFCEF20F6FC8500D9210A /* AppDelegate.h */,
 				5B3EFCF020F6FC8500D9210A /* AppDelegate.m */,
@@ -99,6 +103,15 @@
 				5B3EFCF320F6FC8500D9210A /* ViewController.m */,
 			);
 			path = runLoop;
+			sourceTree = "<group>";
+		};
+		5B4F685B212BA504009B417D /* RunTime */ = {
+			isa = PBXGroup;
+			children = (
+				5B4F685C212BA53E009B417D /* MyClass.h */,
+				5B4F685D212BA53E009B417D /* MyClass.m */,
+			);
+			path = RunTime;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,6 +185,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B4F685E212BA53E009B417D /* MyClass.m in Sources */,
 				5B3EFCFA20F6FC8500D9210A /* RunLoop.xcdatamodeld in Sources */,
 				5B3EFD0B20F6FD7F00D9210A /* HLThread.m in Sources */,
 				5B3EFD2E20F75DA000D9210A /* TimerViewController.m in Sources */,
