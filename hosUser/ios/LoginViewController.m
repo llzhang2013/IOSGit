@@ -20,20 +20,33 @@
     [super viewDidLoad];
   self.view.frame = [UIScreen mainScreen].bounds;
   self.view.backgroundColor = [UIColor whiteColor];
-  UIButton *but = [[UIButton alloc]initWithFrame:CGRectMake(0, 100, 50, 50)];
-  [but setTitle:@"登录" forState:UIControlStateNormal];
+  UIButton *but = [[UIButton alloc]initWithFrame:CGRectMake(0, 100, 200, 50)];
+  [but setTitle:@"登录zhanglilizhenghsi" forState:UIControlStateNormal];
   [but setBackgroundColor:[UIColor redColor]];
   [but addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
   [self.view addSubview:but];
   
+  UIButton *but1 = [[UIButton alloc]initWithFrame:CGRectMake(0, 200, 200, 50)];
+  [but1 setTitle:@"登录zhanglilinew" forState:UIControlStateNormal];
+  [but1 setBackgroundColor:[UIColor redColor]];
+  [but1 addTarget:self action:@selector(login2) forControlEvents:UIControlEventTouchUpInside];
+  [self.view addSubview:but1];
+  
 }
 
 -(void)login{
-  [[[IMALoginViewController alloc] init] initIMSdk:@"" userName:@"zhanglilizhengshi"];
+  [[[IMALoginViewController alloc] init] initIMSdk:@"" userName:@"zhanglilinewno"];
   YNIMModel *mod = [YNIMModel initShareMD];
   mod.myBlock = ^(NSInteger index, id param) {
   };
     
+}
+-(void)login2{
+  [[[IMALoginViewController alloc] init] initIMSdk:@"" userName:@"zhanglilinew"];
+  YNIMModel *mod = [YNIMModel initShareMD];
+  mod.myBlock = ^(NSInteger index, id param) {
+  };
+  
 }
 
 - (void)didReceiveMemoryWarning {

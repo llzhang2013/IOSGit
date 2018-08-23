@@ -17,20 +17,18 @@
 @end
 
 @interface SuspandViewController : UIViewController<ILiveMemStatusListener, ILiveRoomDisconnectListener>
-@property(nonatomic,copy) NSString *roomId;
-@property(nonatomic,copy) NSString *roleName;
-@property(nonatomic,copy) NSString *otherId;//对方的标识
 @property(nonatomic,copy) NSDictionary *userInfo;
 @property(nonatomic,assign) BOOL isMaster;//是不是我发起的视频
 @property(nonatomic,weak) id<SuspandViewControllerDelegate> delegate;
 
 -(void)toJoinRoom:(NSString *)roomId role:(NSDictionary *)userInfo;
 
-
 + (SuspandViewController *)shareSuspandViewController;
--(void)didJoinRoom;
 -(void)close;
--(void)cancelWindow;
+-(void)quitLiveRoom;
 
+-(void)changeCamera;
+-(void)smallView;
+-(void)overButtonCliced;
 
 @end

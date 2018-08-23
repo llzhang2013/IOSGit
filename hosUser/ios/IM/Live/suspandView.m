@@ -9,7 +9,7 @@
 #import "suspandView.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
-
+#import "WaitingAccpectVC.h"
 
 @interface suspandView(){
     CGFloat offX;
@@ -49,11 +49,7 @@
     [self.activityIndicator startAnimating];
 }
 
--(void)showCamera:(BOOL)isMaster userInfo:(NSDictionary*)userInfo{
-  self.userInfo = userInfo;
-//    [self setMode:BigFrame];
-  
-}
+
 -(void)showCameraView:(BOOL)isMaster{
   if(self.activityIndicator){
     [self.activityIndicator removeFromSuperview];
@@ -61,7 +57,7 @@
   }
 
   if(isMaster){
-    [self makeWaitingView];
+   
   }else{
     [self makeLivingButtonView];
   }
@@ -91,68 +87,6 @@
     _mode = mode;
 }
 
--(void)makeWaitingView{
-  UIView *view = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-  [self addSubview:view];
-  UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(100, 100, 50, 50)];
-  //[button setTitle:@"取消" forState:UIControlStateNormal];
-  [button setBackgroundImage:[UIImage imageNamed:@"refuse"] forState:UIControlStateNormal];
-  [button addTarget:self.myController action:@selector(cancelVideoInvite) forControlEvents:UIControlEventTouchUpInside];
-  [view addSubview:button];
-  
-  [self makeTopView:view];
-  self.waitingAccepetView = view;
-  [button mas_makeConstraints:^(MASConstraintMaker *make) {
-    //make.left.equalTo(@80);
-    //make.center.equalTo(view);
-    make.bottom.equalTo(view).offset(-50);
-    make.width.equalTo(@55);
-    make.height.equalTo(@55);
-    make.centerX.equalTo(view);
-  }];
-  
-}
-
--(void)makeTopView:(UIView *)view{
-  UIButton *imageView = [[UIButton alloc]init];
-  [imageView.layer setCornerRadius:30];
-  imageView.clipsToBounds = YES;
-  [imageView sd_setImageWithURL:self.userInfo[@"icon"] forState:UIControlStateNormal placeholderImage:kDefaultUserIcon];
-  imageView.backgroundColor = [UIColor clearColor];
-  [view addSubview:imageView];
-  [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.size.mas_equalTo(CGSizeMake(60, 60));
-    make.left.top.equalTo(@40);
-  }];
-  
-  UIView *rightView = [[UIView alloc]init];
-  [view addSubview:rightView];
-  [rightView mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.top.equalTo(imageView);
-    make.height.equalTo(@60);
-    make.right.equalTo(@20);
-    make.left.equalTo(imageView.mas_right).offset(10);
-    
-  }];
-  
-  UILabel *name = [[UILabel alloc]init];
-  name.text = self.userInfo[@"name"];
-  UILabel *ss = [[UILabel alloc]init];
-  ss.text = @"正在等待对方接受邀请.";
-  name.textColor = [UIColor whiteColor];
-  ss.textColor = [UIColor whiteColor];
-  [rightView addSubview:name];
-  [rightView addSubview:ss];
-  [name mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.top.left.equalTo(@0);
-    
-  }];
-  
-  [ss mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.left.bottom.equalTo(@0);
-  }];
-  
-}
 
 
 -(void)makeLivingButtonView{
@@ -193,9 +127,6 @@
   [self.buttonBKView addSubview:button3];
   
   int size = 55;
-  
-
-  
   [button2 mas_makeConstraints:^(MASConstraintMaker *make) {
     //make.left.equalTo(button.mas_right).offset(60);
     make.centerX.equalTo(self.buttonBKView);
@@ -231,6 +162,7 @@
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     UITouch *touch=[touches anyObject];
     CGPoint currentPoint=[touch locationInView:_rootView];
+//    NSLog(@"self.smallRenderView.frame---%@",NSStringFromCGRect(self.smallRenderView.frame));
     if(_mode==BigFrame){
         if(CGRectContainsPoint(self.smallRenderView.frame, currentPoint)){
             //  [super touchesMoved:touches withEvent:event];

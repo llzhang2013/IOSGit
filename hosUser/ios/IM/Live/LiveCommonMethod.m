@@ -15,6 +15,7 @@
 #import "YNConversionListViewController.h"
 #import "MBProgressHUD.h"
 #import "IMALoginViewController.h"
+#import "TIMTabBarController.h"
 
 
 //static  const int kSDKAppID = 1400098130;
@@ -30,11 +31,12 @@
   
 }
 
+//我已经加入 别人没有加入 我退出
 +(void)quitLiveRoom{
   
   SuspandViewController *liveRoomVC = [SuspandViewController shareSuspandViewController];
-  if(liveRoomVC.roomId&&liveRoomVC.roomId.length>0){
-     [liveRoomVC cancelWindow];
+  if(liveRoomVC.userInfo){
+     [liveRoomVC quitLiveRoom];
   }
 }
 
@@ -44,16 +46,21 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     SuspandViewController *liveRoomVC = [SuspandViewController shareSuspandViewController];
     liveRoomVC.isMaster = isMaster;
-    liveRoomVC.otherId = otherId;
-    if(liveRoomVC.roomId){
+    if(liveRoomVC.userInfo){
       NSLog(@"zlllive---正在视频中 不能再开启了");
       return;
     }
     
     
     
-    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    UINavigationController *nav = app.nav;
+//    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//    UINavigationController *nav = app.nav;
+    
+    //zllsigtodo
+    TIMTabBarController *tab = [TIMTabBarController shareTIMTabBarController];
+    UINavigationController *nav = tab.selectedViewController;
+    //zllsigtodo
+    
     UIViewController *vc =  nav.viewControllers[0];
     
     [vc addChildViewController:liveRoomVC];
@@ -64,7 +71,8 @@
     if(!userName||userName.length==0){
       userName = user.userId;
     }
-    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:user.userId,@"userId",userName,@"name", user.icon,@"icon",nil];
+ 
+    NSDictionary *dic = @{@"userId":user.userId,@"name":userName,@"icon":user.icon,@"roomId":roomId};
     [liveRoomVC toJoinRoom:roomId role:dic];
   });
 }
@@ -85,6 +93,8 @@
       [invite destorySelf];
     }else if([content isEqualToString:kVideoBusy]){//邀请对方时 对方正在视频中
       [self quitLiveRoom];
+    }else if([content isEqualToString:kVideoOver]){//挂断
+      [self quitLiveRoom];
     }
   }
 }
@@ -97,8 +107,8 @@
   if(!user){
     user = other;
   }
-  if(invite.roomId.length>0||sus.roomId.length>0){
-    if([invite.roomId isEqualToString:content]||[sus.roomId isEqualToString:content]){
+  if(invite.roomId.length>0||sus.userInfo){
+    if([invite.roomId isEqualToString:content]||[sus.userInfo[@"roomId"] isEqualToString:content]){
       return;
     }
     
@@ -209,7 +219,7 @@
 +(BOOL)isInVideo{
   InviteLiveViewController *invite = [InviteLiveViewController shareInviteLiveViewController];
   SuspandViewController *sus = [SuspandViewController shareSuspandViewController];
-  if(invite.roomId.length>0||sus.roomId.length>0){
+  if(invite.roomId.length>0||sus.userInfo>0){
     return true;
   }
   return false;
@@ -223,10 +233,36 @@
   IMAConversation *  _conversation = [[IMAPlatform sharedInstance].conversationMgr chatWith:user];
   IMAMsg *msg = [IMAMsg msgWithText:content];
   AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+  
+ //zllsigTODO
+  TIMTabBarController *bar = [TIMTabBarController  shareTIMTabBarController];
+  UIViewController *selectVc = bar.selectedViewController;
+  if ([selectVc isKindOfClass:[UINavigationController class]])
+  {
+    UINavigationController *nav = (UINavigationController *)selectVc;
+    UIViewController *topVc = nav.topViewController;
+    if([topVc isKindOfClass:[ChatViewController class]]){
+      
+      ChatViewController *cvc = (ChatViewController *)topVc;
+      if([cvc checkSelfConversion:otherId]){
+        [cvc sendMsg:msg];
+        return;
+      }
+      
+    }
+    
+  }
+  [_conversation sendMessage:msg completion:^(NSArray *imamsglist, BOOL succ, int code) {
+    
+  }];
+  //zllsigTODO
+  
+  
   UIViewController *vc = app.window.rootViewController;
   if([vc isKindOfClass:[UINavigationController class]]){
     UINavigationController *nav = (UINavigationController *)vc;
     UIViewController *topVc = nav.topViewController;
+
     if([topVc isKindOfClass:[ChatViewController class]]){
       
       ChatViewController *cvc = (ChatViewController *)topVc;
@@ -345,15 +381,15 @@
 }
 
 -(void)playMusic{
-  if(!self.musicPlayer){
-    [self initPlayMusic];
-  }
-  
-  if (![self.musicPlayer isPlaying]){
-    [self.musicPlayer setVolume:1];
-    [self.musicPlayer prepareToPlay];
-    [self.musicPlayer play];
-  }
+//  if(!self.musicPlayer){
+//    [self initPlayMusic];
+//  }
+//
+//  if (![self.musicPlayer isPlaying]){
+//    [self.musicPlayer setVolume:1];
+//    [self.musicPlayer prepareToPlay];
+//    [self.musicPlayer play];
+//  }todo
 }
 
 -(void)stopMusic{

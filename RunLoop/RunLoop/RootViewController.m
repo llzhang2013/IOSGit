@@ -38,11 +38,11 @@
 
 -(void)goToTimer{
     for (int i = 0; i < 1000000; i++) {
-        //  @autoreleasepool {
+          @autoreleasepool {
         NSString *str = @"abc";
         str = [str lowercaseString];
         str = [str stringByAppendingString:@"xyz"];
-        //  }
+          }
     }
     
     

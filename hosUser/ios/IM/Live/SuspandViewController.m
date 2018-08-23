@@ -13,6 +13,7 @@
 #import "videoSmallView.h"
 #import "InviteLiveViewController.h"
 #import "LiveCommonMethod.h"
+#import "WaitingAccpectVC.h"
 
 
 
@@ -27,7 +28,7 @@
 @property (nonatomic, strong) UIView *buttonsBKView;
 @property (nonatomic, strong) UIWindow *myWindow;
 @property (nonatomic, strong) UIAlertController *alertCtrl;     //!< 提示框
-@property (nonatomic,strong)LiveCommonMethod *live;
+@property (nonatomic,strong)WaitingAccpectVC *waitVC;
 
 @end
 
@@ -53,10 +54,7 @@ static dispatch_once_t onceToken;
   self.view.frame = CGRectZero;
   //    self.view.frame=[UIScreen mainScreen].bounds;设置也没用 因为view加载在最底层 会被上面的view覆盖
   [self performSelector:@selector(createBaseUI) withObject:nil afterDelay:0.1];
-  //[self createBaseUI];
 }
-
-
 
 - (void)createBaseUI{
   if(SuspandViewControllerSingle==nil){
@@ -79,60 +77,36 @@ static dispatch_once_t onceToken;
 
 -(void)toJoinRoom:(NSString *)roomId role:(NSDictionary *)userInfo{
   NSString *roleName = userInfo[@"userId"];
-  self.roleName = roleName;
-  self.roomId = roomId;
   self.userInfo = userInfo;
   
   ILiveRoomOption *option = [ILiveRoomOption defaultHostLiveOption];
   option.imOption.imSupport = NO;
-  //    // 不自动打开摄像头
   option.avOption.autoCamera = YES;
-  // 不自动打开mic
   option.avOption.autoMic = YES;
-  // 设置房间内音视频监听
   option.memberStatusListener = self;
-  // 设置房间中断事件监听
   option.roomDisconnectListener = self;
   // 该参数代表进房之后使用什么规格音视频参数，参数具体值为客户在腾讯云实时音视频控制台画面设定中配置的角色名（例如：默认角色名为user, 可设置controlRole = @"user"）
   option.controlRole = roleName;
   NSLog(@"开始加入房间");
   [[ILiveRoomManager getInstance] joinRoom:[roomId intValue] option:option succ:^{
     NSLog(@"加入房间成功，跳转到房间页");
-    [self didJoinRoom];
   } failed:^(NSString *module, int errId, NSString *errMsg) {
-    // 加入房间失败
     NSLog(@"加入房间失败--%@",errMsg);
     [LiveCommonMethod showTip:@"视频通话失败"];
-    //        self.alertCtrl.title = @"加入房间失败";
-    //        self.alertCtrl.message = [NSString stringWithFormat:@"errId:%d errMsg:%@",errId, errMsg];
-    //        [self presentViewController:self.alertCtrl animated:YES completion:nil];
-    [self close];
+    [self destroySelf];
     
   }];
 }
 
--(void)didJoinRoom{
-  [_customView showCamera:self.isMaster userInfo:self.userInfo];
-  if(self.isMaster){
-    [LiveCommonMethod sendVideoMessage:self.roleName roomId:self.roomId];
+-(void)showWaitView{
+  WaitingAccpectVC *vc = [[WaitingAccpectVC alloc]init];
+  vc.userInfo = self.userInfo;
+   self.waitVC = vc;
+  [_customView.myWindow addSubview:vc.view];
+ 
 
-    myTimer = [NSTimer scheduledTimerWithTimeInterval:60 repeats:NO block:^(NSTimer * _Nonnull timer) {
-      if(smallRenders&&smallRenders.count>0){
-        
-      }else{
-        [self cancelVideoInvite];
-      }
-      
-    }];
-    
-  }
-  
 }
 #pragma mark -- Action
--(void)cancelVideoInvite{
-  [self  cancelWindow];
-  [LiveCommonMethod sendMessage:kVideoCancel otherId:self.otherId];
-}
 
 -(void)changeCamera{
   
@@ -146,36 +120,35 @@ static dispatch_once_t onceToken;
   [self changeVideoFrame];
 }
 
--(void)close{
-  
+
+
+-(void)overButtonCliced{//点击结束按钮 谁点击谁发送已结束
+  [LiveCommonMethod sendMessage:kVideoOver otherId:self.userInfo[@"userId"]];
+  [self quitLiveRoom];
+ 
+}
+
+
+- (void)quitLiveRoom{
+
+  [[ILiveRoomManager getInstance] quitRoom:^{
+    NSLog(@"zlllive---退出房间成功");
+    [self destroySelf];
+  } failed:^(NSString *module, int errId, NSString *errMsg) {
+    NSLog(@"zlllive---退出房间失败-%@",errMsg);
+  }];
+}
+
+-(void)destroySelf{
+  if(self.waitVC){
+    [self.waitVC overWaiting];
+  }
   [_customView removeFromSuperview];
   _customView.myWindow = nil;
   [self.view removeFromSuperview];
   [self removeFromParentViewController];
   SuspandViewControllerSingle = nil;
   onceToken = 0;
-  if(self.live){
-    [self.live stopMusic];
-  }
-  
-}
-
--(void)overButtonCliced{//点击结束按钮 谁点击谁发送已结束
-  
-  [self cancelWindow];
-  [LiveCommonMethod sendMessage:kVideoOver otherId:self.otherId];
-}
-- (void)cancelWindow{
-  if(myTimer){
-    [myTimer invalidate];
-    myTimer = nil;
-  }
-  [[ILiveRoomManager getInstance] quitRoom:^{
-    NSLog(@"zlllive---退出房间成功");
-    [self close];
-  } failed:^(NSString *module, int errId, NSString *errMsg) {
-    NSLog(@"zlllive---退出房间失败-%@",errMsg);
-  }];
 }
 
 -(void)changeVideoFrame{
@@ -203,7 +176,7 @@ static dispatch_once_t onceToken;
 -(void)suspendCustomViewClicked:(id)sender point:(CGPoint)point{
   NSLog(@"此处判断点击 还可以通过suspenType类型判断");
   if(_customView.mode==BigFrame){
-    if(CGRectContainsPoint(_customView.smallRenderView.frame,point)&&smallRenders.count>0){
+  if(CGRectContainsPoint(_customView.smallRenderView.frame,point)&&smallRenders.count>0){
       ILiveRenderView *renderView =smallRenders[0];
       [self modifyRenderViewFrame:renderView frame:bigRect];
       [self modifyRenderViewFrame:bigRenderView frame:smallRect];
@@ -222,11 +195,6 @@ static dispatch_once_t onceToken;
 
 #pragma mark - ILiveMemStatusListener
 -(void)onCameraAdd:(ILiveRenderView *)renderView{
-  if(!self.live&&self.isMaster){
-    LiveCommonMethod *live = [[LiveCommonMethod alloc]init];
-    [live playMusic];
-    self.live = live;
-  }
  
   if(!_customView){
     [self createBaseUI];
@@ -241,6 +209,9 @@ static dispatch_once_t onceToken;
   
   if(!bigRenderView){//第一个来
     [_customView showCameraView:self.isMaster];
+    if(self.isMaster){
+      [self showWaitView];
+    }
     bigRenderView = renderView;
     [[ILiveRoomManager getInstance] setBeauty:5.0];
     [[ILiveRoomManager getInstance] setWhite:5.0];
@@ -248,9 +219,8 @@ static dispatch_once_t onceToken;
   }else{//第二个 将原来的变小 这个已经是大的了
     if(self.isMaster){
       [_customView makeLivingButtonView];
-      if(self.live){
-        [self.live stopMusic];
-      }
+      [self.waitVC overWaiting];
+     
     }
     
     [self modifyRenderViewFrame:renderView frame: CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight)];
@@ -303,7 +273,7 @@ static dispatch_once_t onceToken;
 
 -(void)onCameraRemove:(ILiveRenderView *)renderView{
   //有一方离开就结束
-  [self cancelWindow];
+  [self quitLiveRoom];
   return;
   [renderView removeFromSuperview];
   NSLog(@"zlllive----onCameraRemove0-%@,%@",renderView.identifier,bigRenderView.identifier);
@@ -367,23 +337,11 @@ static dispatch_once_t onceToken;
  */
 - (BOOL)onRoomDisconnect:(int)reason {
   NSLog(@"房间异常退出：%d", reason);
-  
-  self.alertCtrl.title = @"视频异常关闭";
-  self.alertCtrl.message = [NSString stringWithFormat:@"errId:%d",reason ];
-  [self presentViewController:self.alertCtrl animated:YES completion:nil];
-  [self cancelWindow];
+  [LiveCommonMethod showTip:@"通讯异常"];
+  [self quitLiveRoom];
   return YES;
 }
-- (UIAlertController *)alertCtrl {
-  if (!_alertCtrl) {
-    _alertCtrl = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-      
-    }] ;
-    [_alertCtrl addAction:action];
-  }
-  return _alertCtrl;
-}
+
 #pragma mark --  selfLife
 
 - (void)didReceiveMemoryWarning {

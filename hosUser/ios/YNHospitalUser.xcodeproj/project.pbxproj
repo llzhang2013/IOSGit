@@ -130,11 +130,6 @@
 		5B05FA1220FD8FEC00DC8B33 /* IMCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B05FA0D20FD8FEC00DC8B33 /* IMCore.framework */; };
 		5B05FA1320FD8FEC00DC8B33 /* QALSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B05FA0E20FD8FEC00DC8B33 /* QALSDK.framework */; };
 		5B05FA1420FD8FEC00DC8B33 /* IMSDKBugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B05FA0F20FD8FEC00DC8B33 /* IMSDKBugly.framework */; };
-		5B05FA1B20FDC11600DC8B33 /* videoSmallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B05FA1620FDC11400DC8B33 /* videoSmallView.m */; };
-		5B05FA1C20FDC11600DC8B33 /* ILiveRenderView+move.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B05FA1820FDC11500DC8B33 /* ILiveRenderView+move.m */; };
-		5B05FA1D20FDC11600DC8B33 /* SuspandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B05FA1920FDC11500DC8B33 /* SuspandViewController.m */; };
-		5B05FA2020FDC7EA00DC8B33 /* suspandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B05FA1E20FDC7E900DC8B33 /* suspandView.m */; };
-		5B05FA2320FDCE9100DC8B33 /* LiveCommonMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B05FA2220FDCE9100DC8B33 /* LiveCommonMethod.m */; };
 		5B23A82A2119414000359A1D /* Constant.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B23A8292119414000359A1D /* Constant.m */; };
 		5B382DE91F55475B0088C164 /* YNIMModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B382DE21F55475B0088C164 /* YNIMModel.m */; };
 		5B382DEB1F55475B0088C164 /* YNConversionListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B382DE61F55475B0088C164 /* YNConversionListViewController.m */; };
@@ -157,15 +152,21 @@
 		5B3E01FB20F8A41500D9210A /* IMAContactManager+User.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3E01EB20F8A41500D9210A /* IMAContactManager+User.m */; };
 		5B3E01FC20F8A41500D9210A /* IMAPlatform+FriendShip.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3E01EC20F8A41500D9210A /* IMAPlatform+FriendShip.m */; };
 		5B3E01FD20F8A41500D9210A /* IMAPlatform+AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B3E01EF20F8A41500D9210A /* IMAPlatform+AppConfig.m */; };
+		5B4004FF212D51AD00D1EA55 /* InviteLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4004F9212D51AC00D1EA55 /* InviteLiveViewController.m */; };
+		5B400500212D51AD00D1EA55 /* ILiveRenderView+move.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4004FB212D51AD00D1EA55 /* ILiveRenderView+move.m */; };
+		5B400501212D51AD00D1EA55 /* LiveCommonMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4004FE212D51AD00D1EA55 /* LiveCommonMethod.m */; };
+		5B40050A212D51B900D1EA55 /* suspandView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B400502212D51B800D1EA55 /* suspandView.m */; };
+		5B40050B212D51B900D1EA55 /* WaitingAccpectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B400505212D51B800D1EA55 /* WaitingAccpectVC.m */; };
+		5B40050C212D51B900D1EA55 /* videoSmallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B400507212D51B800D1EA55 /* videoSmallView.m */; };
+		5B40050D212D51B900D1EA55 /* SuspandViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B400508212D51B800D1EA55 /* SuspandViewController.m */; };
+		5B400529212E845900D1EA55 /* LivingVideoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B400528212E845900D1EA55 /* LivingVideoVC.m */; };
 		5B4F688C212BD892009B417D /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F688B212BD892009B417D /* LoginViewController.m */; };
-		5B4F68AB212BFB84009B417D /* WaitingAccpectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B4F68AA212BFB84009B417D /* WaitingAccpectVC.m */; };
 		5B610F871F72739700ED20C6 /* MyLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B610F861F72739700ED20C6 /* MyLabel.m */; };
 		5B7131B5211D58E500A77A7F /* videoMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5B71318C211D58E500A77A7F /* videoMusic.mp3 */; };
 		5B7F97FC1EF7D647009CB134 /* getoff.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F97F91EF7D647009CB134 /* getoff.caf */; };
 		5B7F97FD1EF7D647009CB134 /* geton.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F97FA1EF7D647009CB134 /* geton.caf */; };
 		5B7F97FE1EF7D647009CB134 /* order.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5B7F97FB1EF7D647009CB134 /* order.caf */; };
 		5B7F980A1EFA62F7009CB134 /* INVSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B7F98091EFA62F7009CB134 /* INVSSDK.framework */; };
-		5B9D209721081B6300C1D134 /* InviteLiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9D209621081B6200C1D134 /* InviteLiveViewController.m */; };
 		5D56B6A35C6D4497B537443A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1013B63A7F9404B990E72D8 /* CoreFoundation.framework */; };
 		69AAD0091F46D81D004C149C /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 69AAD0081F46D81D004C149C /* libsqlite3.tbd */; };
 		69AAD7B21F46E483004C149C /* ADTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 69AAD4921F46E482004C149C /* ADTransition.m */; };
@@ -602,16 +603,6 @@
 		5B05FA0D20FD8FEC00DC8B33 /* IMCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IMCore.framework; sourceTree = "<group>"; };
 		5B05FA0E20FD8FEC00DC8B33 /* QALSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QALSDK.framework; sourceTree = "<group>"; };
 		5B05FA0F20FD8FEC00DC8B33 /* IMSDKBugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IMSDKBugly.framework; sourceTree = "<group>"; };
-		5B05FA1520FDC11400DC8B33 /* videoSmallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videoSmallView.h; sourceTree = "<group>"; };
-		5B05FA1620FDC11400DC8B33 /* videoSmallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = videoSmallView.m; sourceTree = "<group>"; };
-		5B05FA1720FDC11400DC8B33 /* SuspandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuspandViewController.h; sourceTree = "<group>"; };
-		5B05FA1820FDC11500DC8B33 /* ILiveRenderView+move.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ILiveRenderView+move.m"; sourceTree = "<group>"; };
-		5B05FA1920FDC11500DC8B33 /* SuspandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuspandViewController.m; sourceTree = "<group>"; };
-		5B05FA1A20FDC11500DC8B33 /* ILiveRenderView+move.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ILiveRenderView+move.h"; sourceTree = "<group>"; };
-		5B05FA1E20FDC7E900DC8B33 /* suspandView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = suspandView.m; sourceTree = "<group>"; };
-		5B05FA1F20FDC7EA00DC8B33 /* suspandView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = suspandView.h; sourceTree = "<group>"; };
-		5B05FA2120FDCE9100DC8B33 /* LiveCommonMethod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiveCommonMethod.h; sourceTree = "<group>"; };
-		5B05FA2220FDCE9100DC8B33 /* LiveCommonMethod.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LiveCommonMethod.m; sourceTree = "<group>"; };
 		5B23A8282119414000359A1D /* Constant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constant.h; sourceTree = "<group>"; };
 		5B23A8292119414000359A1D /* Constant.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constant.m; sourceTree = "<group>"; };
 		5B382DE11F55475B0088C164 /* YNIMModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YNIMModel.h; sourceTree = "<group>"; };
@@ -653,10 +644,24 @@
 		5B3E01EE20F8A41500D9210A /* IMAContactManager+SubGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IMAContactManager+SubGroup.h"; sourceTree = "<group>"; };
 		5B3E01EF20F8A41500D9210A /* IMAPlatform+AppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IMAPlatform+AppConfig.m"; sourceTree = "<group>"; };
 		5B3E01F020F8A41500D9210A /* IMAPlatform+IMSDKCallBack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IMAPlatform+IMSDKCallBack.h"; sourceTree = "<group>"; };
+		5B4004F9212D51AC00D1EA55 /* InviteLiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteLiveViewController.m; sourceTree = "<group>"; };
+		5B4004FA212D51AD00D1EA55 /* ILiveRenderView+move.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ILiveRenderView+move.h"; sourceTree = "<group>"; };
+		5B4004FB212D51AD00D1EA55 /* ILiveRenderView+move.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ILiveRenderView+move.m"; sourceTree = "<group>"; };
+		5B4004FC212D51AD00D1EA55 /* LiveCommonMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveCommonMethod.h; sourceTree = "<group>"; };
+		5B4004FD212D51AD00D1EA55 /* InviteLiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteLiveViewController.h; sourceTree = "<group>"; };
+		5B4004FE212D51AD00D1EA55 /* LiveCommonMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveCommonMethod.m; sourceTree = "<group>"; };
+		5B400502212D51B800D1EA55 /* suspandView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = suspandView.m; sourceTree = "<group>"; };
+		5B400503212D51B800D1EA55 /* suspandView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = suspandView.h; sourceTree = "<group>"; };
+		5B400504212D51B800D1EA55 /* WaitingAccpectVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingAccpectVC.h; sourceTree = "<group>"; };
+		5B400505212D51B800D1EA55 /* WaitingAccpectVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitingAccpectVC.m; sourceTree = "<group>"; };
+		5B400506212D51B800D1EA55 /* videoSmallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = videoSmallView.h; sourceTree = "<group>"; };
+		5B400507212D51B800D1EA55 /* videoSmallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = videoSmallView.m; sourceTree = "<group>"; };
+		5B400508212D51B800D1EA55 /* SuspandViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuspandViewController.m; sourceTree = "<group>"; };
+		5B400509212D51B800D1EA55 /* SuspandViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuspandViewController.h; sourceTree = "<group>"; };
+		5B400527212E845900D1EA55 /* LivingVideoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LivingVideoVC.h; sourceTree = "<group>"; };
+		5B400528212E845900D1EA55 /* LivingVideoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LivingVideoVC.m; sourceTree = "<group>"; };
 		5B4F688A212BD892009B417D /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		5B4F688B212BD892009B417D /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		5B4F68A9212BFB84009B417D /* WaitingAccpectVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WaitingAccpectVC.h; sourceTree = "<group>"; };
-		5B4F68AA212BFB84009B417D /* WaitingAccpectVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WaitingAccpectVC.m; sourceTree = "<group>"; };
 		5B610F851F72739700ED20C6 /* MyLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyLabel.h; sourceTree = "<group>"; };
 		5B610F861F72739700ED20C6 /* MyLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyLabel.m; sourceTree = "<group>"; };
 		5B71318C211D58E500A77A7F /* videoMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = videoMusic.mp3; sourceTree = "<group>"; };
@@ -664,8 +669,6 @@
 		5B7F97FA1EF7D647009CB134 /* geton.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = geton.caf; sourceTree = "<group>"; };
 		5B7F97FB1EF7D647009CB134 /* order.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = order.caf; sourceTree = "<group>"; };
 		5B7F98091EFA62F7009CB134 /* INVSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = INVSSDK.framework; sourceTree = "<group>"; };
-		5B9D206D21081B6200C1D134 /* InviteLiveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteLiveViewController.h; sourceTree = "<group>"; };
-		5B9D209621081B6200C1D134 /* InviteLiveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteLiveViewController.m; sourceTree = "<group>"; };
 		5E26794ADE0C4B0EB26DD366 /* CFNetwork.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		5F510667AC8848A196D85BA5 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
 		671A3E8FC3DE4FDE95D95320 /* Roboto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto.ttf; path = "../node_modules/native-base/Fonts/Roboto.ttf"; sourceTree = "<group>"; };
@@ -1412,21 +1415,23 @@
 		5B05F8DF20FD860900DC8B33 /* Live */ = {
 			isa = PBXGroup;
 			children = (
-				5B9D206D21081B6200C1D134 /* InviteLiveViewController.h */,
-				5B9D209621081B6200C1D134 /* InviteLiveViewController.m */,
-				5B05FA1A20FDC11500DC8B33 /* ILiveRenderView+move.h */,
-				5B05FA1820FDC11500DC8B33 /* ILiveRenderView+move.m */,
-				5B05FA1720FDC11400DC8B33 /* SuspandViewController.h */,
-				5B05FA1920FDC11500DC8B33 /* SuspandViewController.m */,
-				5B05FA1F20FDC7EA00DC8B33 /* suspandView.h */,
-				5B05FA1E20FDC7E900DC8B33 /* suspandView.m */,
-				5B05FA1520FDC11400DC8B33 /* videoSmallView.h */,
-				5B05FA1620FDC11400DC8B33 /* videoSmallView.m */,
+				5B400503212D51B800D1EA55 /* suspandView.h */,
+				5B400502212D51B800D1EA55 /* suspandView.m */,
+				5B400509212D51B800D1EA55 /* SuspandViewController.h */,
+				5B400508212D51B800D1EA55 /* SuspandViewController.m */,
+				5B400506212D51B800D1EA55 /* videoSmallView.h */,
+				5B400507212D51B800D1EA55 /* videoSmallView.m */,
+				5B400504212D51B800D1EA55 /* WaitingAccpectVC.h */,
+				5B400505212D51B800D1EA55 /* WaitingAccpectVC.m */,
+				5B400527212E845900D1EA55 /* LivingVideoVC.h */,
+				5B400528212E845900D1EA55 /* LivingVideoVC.m */,
+				5B4004FA212D51AD00D1EA55 /* ILiveRenderView+move.h */,
+				5B4004FB212D51AD00D1EA55 /* ILiveRenderView+move.m */,
+				5B4004FD212D51AD00D1EA55 /* InviteLiveViewController.h */,
+				5B4004F9212D51AC00D1EA55 /* InviteLiveViewController.m */,
+				5B4004FC212D51AD00D1EA55 /* LiveCommonMethod.h */,
+				5B4004FE212D51AD00D1EA55 /* LiveCommonMethod.m */,
 				5B05F90820FD861A00DC8B33 /* LiveSDK */,
-				5B05FA2120FDCE9100DC8B33 /* LiveCommonMethod.h */,
-				5B05FA2220FDCE9100DC8B33 /* LiveCommonMethod.m */,
-				5B4F68A9212BFB84009B417D /* WaitingAccpectVC.h */,
-				5B4F68AA212BFB84009B417D /* WaitingAccpectVC.m */,
 			);
 			path = Live;
 			sourceTree = "<group>";
@@ -3201,7 +3206,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				69AAD8E21F46E484004C149C /* ConversationListTableViewCell.m in Sources */,
-				5B05FA2020FDC7EA00DC8B33 /* suspandView.m in Sources */,
 				69AAD8F21F46E484004C149C /* UserProfileFooterPanel.m in Sources */,
 				69AAD7BD1F46E483004C149C /* FTAnimationManager.m in Sources */,
 				69AAD8E91F46E484004C149C /* ChatRoomProfileViewController.m in Sources */,
@@ -3217,6 +3221,7 @@
 				5B382DE91F55475B0088C164 /* YNIMModel.m in Sources */,
 				69AAD9021F46E484004C149C /* CommonInputToolBar.m in Sources */,
 				69AAD8561F46E483004C149C /* EditInfoViewController.m in Sources */,
+				5B40050B212D51B900D1EA55 /* WaitingAccpectVC.m in Sources */,
 				69AAD7EB1F46E483004C149C /* NSDictionary+RequestEncoding.m in Sources */,
 				69AAD80E1F46E483004C149C /* MenuItem.m in Sources */,
 				69AAD7C41F46E483004C149C /* MKMapView+ZoomLevel.m in Sources */,
@@ -3225,6 +3230,7 @@
 				69AAD7B31F46E483004C149C /* ADFlipTransition.m in Sources */,
 				69AAD8111F46E483004C149C /* PageMenuScrollView.m in Sources */,
 				69AAD8F31F46E484004C149C /* UserProfileHeaderView.m in Sources */,
+				5B400500212D51AD00D1EA55 /* ILiveRenderView+move.m in Sources */,
 				69AAD8E61F46E484004C149C /* ChatGroupMemberListViewController.m in Sources */,
 				69AAD8D61F46E484004C149C /* ContactItemTableViewCell.m in Sources */,
 				69AAD81A1F46E483004C149C /* UINavigationController+Transition.m in Sources */,
@@ -3243,7 +3249,6 @@
 				69AAD80A1F46E483004C149C /* KeyValue.m in Sources */,
 				69AAD7ED1F46E483004C149C /* UIAlertView+MKNetworkKitAdditions.m in Sources */,
 				5B3E01FC20F8A41500D9210A /* IMAPlatform+FriendShip.m in Sources */,
-				5B05FA2320FDCE9100DC8B33 /* LiveCommonMethod.m in Sources */,
 				69AAD85B1F46E483004C149C /* ChatEmojView.m in Sources */,
 				69AAD8DD1F46E484004C149C /* GroupTableViewCell.m in Sources */,
 				69AAD9071F46E484004C149C /* RichMenuTableViewCell.m in Sources */,
@@ -3254,10 +3259,10 @@
 				69AAD8611F46E483004C149C /* ChatSystemFacePageView.m in Sources */,
 				69AAD8DC1F46E484004C149C /* GroupSystemMsgViewController.m in Sources */,
 				69AAD8621F46E483004C149C /* ChatBaseTableViewCell.m in Sources */,
-				5B05FA1D20FDC11600DC8B33 /* SuspandViewController.m in Sources */,
 				69AAD8061F46E483004C149C /* BaseAppDelegate.m in Sources */,
 				69AAD7F81F46E483004C149C /* SDWebImageDecoder.m in Sources */,
 				69AAD8161F46E483004C149C /* ScrollRefreshViewController.m in Sources */,
+				5B400529212E845900D1EA55 /* LivingVideoVC.m in Sources */,
 				5B3E01F220F8A41500D9210A /* IMAContactManager+Group.m in Sources */,
 				5B3E01F120F8A41500D9210A /* IMAPlatform+Friend.m in Sources */,
 				5B3E01F320F8A41500D9210A /* IMAPlatform+Login.m in Sources */,
@@ -3280,6 +3285,7 @@
 				69AAD7EC1F46E483004C149C /* NSString+MKNetworkKitAdditions.m in Sources */,
 				69AAD8401F46E483004C149C /* IMAGroup+Admin.m in Sources */,
 				69AAD8141F46E483004C149C /* RefreshView.m in Sources */,
+				5B40050D212D51B900D1EA55 /* SuspandViewController.m in Sources */,
 				69AAD8EE1F46E484004C149C /* MyProfileViewController.m in Sources */,
 				69AAD7F41F46E483004C149C /* MKAnnotationView+WebCache.m in Sources */,
 				69AAD9041F46E484004C149C /* PopupMenu.m in Sources */,
@@ -3303,7 +3309,6 @@
 				69AAD7F51F46E483004C149C /* NSData+ImageContentType.m in Sources */,
 				69AAD8EF1F46E484004C149C /* RichItemTableViewController.m in Sources */,
 				69AAD8531F46E483004C149C /* AddGroupProfileViewController.m in Sources */,
-				5B05FA1C20FDC11600DC8B33 /* ILiveRenderView+move.m in Sources */,
 				5B3E01FA20F8A41500D9210A /* IMAConversationManager.m in Sources */,
 				69AAD8121F46E483004C149C /* PageScrollView.m in Sources */,
 				69AAD8A01F46E483004C149C /* UIViewAdditions.m in Sources */,
@@ -3351,7 +3356,6 @@
 				69AAD8D01F46E484004C149C /* RichChatTableViewCell.m in Sources */,
 				69AAD84E1F46E483004C149C /* IMSDK+ShowAble.m in Sources */,
 				69AAD7E11F46E483004C149C /* FBKVOController.m in Sources */,
-				5B9D209721081B6300C1D134 /* InviteLiveViewController.m in Sources */,
 				69AAD8D51F46E484004C149C /* ContactDrawerView.m in Sources */,
 				5B3E01FB20F8A41500D9210A /* IMAContactManager+User.m in Sources */,
 				69AAD7DE1F46E483004C149C /* MenuButton.m in Sources */,
@@ -3364,6 +3368,7 @@
 				69AAD7DB1F46E483004C149C /* EGORefreshTableHeaderView.m in Sources */,
 				69AAD82F1F46E483004C149C /* IMAAppDelegate.m in Sources */,
 				69AAD7FD1F46E483004C149C /* UIButton+WebCache.m in Sources */,
+				5B4004FF212D51AD00D1EA55 /* InviteLiveViewController.m in Sources */,
 				69AAD9081F46E484004C149C /* TextFieldTableViewCell.m in Sources */,
 				69AAD89C1F46E483004C149C /* MyUIDefine.m in Sources */,
 				69AAD90C1F46E484004C149C /* UIPlaceHolderTextView.m in Sources */,
@@ -3386,6 +3391,7 @@
 				69AAD8F51F46E484004C149C /* SearchResultViewController.m in Sources */,
 				69AAD8441F46E483004C149C /* IMASubGroup.m in Sources */,
 				69AAD90B1F46E484004C149C /* TipTextFieldTableViewCell.m in Sources */,
+				5B400501212D51AD00D1EA55 /* LiveCommonMethod.m in Sources */,
 				69AAD8DE1F46E484004C149C /* NewGroupViewController.m in Sources */,
 				69AAD8F71F46E484004C149C /* NotifySetupController.m in Sources */,
 				5B3E01F620F8A41500D9210A /* IMAContactManager+SubGroup.m in Sources */,
@@ -3404,9 +3410,9 @@
 				69AAD8301F46E483004C149C /* IMALoginViewController.m in Sources */,
 				5B23A82A2119414000359A1D /* Constant.m in Sources */,
 				69AAD88A1F46E483004C149C /* IMAMsg+UITableViewCell.m in Sources */,
-				5B4F68AB212BFB84009B417D /* WaitingAccpectVC.m in Sources */,
 				69AAD8001F46E483004C149C /* UIImage+WebP.m in Sources */,
 				69AAD81D1F46E483004C149C /* UIImageView+InitMethod.m in Sources */,
+				5B40050A212D51B900D1EA55 /* suspandView.m in Sources */,
 				69AAD8F41F46E484004C149C /* UserProfileViewController.m in Sources */,
 				69AAD8011F46E483004C149C /* UIImageView+HighlightedWebCache.m in Sources */,
 				69AAD8FE1F46E484004C149C /* SubGroupPickerViewController.m in Sources */,
@@ -3436,7 +3442,7 @@
 				69AAD8911F46E483004C149C /* ChatViewController.m in Sources */,
 				69AAD80D1F46E483004C149C /* LibraryViewController.m in Sources */,
 				69AAD8151F46E483004C149C /* ScrollBaseViewController.m in Sources */,
-				5B05FA1B20FDC11600DC8B33 /* videoSmallView.m in Sources */,
+				5B40050C212D51B900D1EA55 /* videoSmallView.m in Sources */,
 				69AAD8EA1F46E484004C149C /* FriendProfileViewController.m in Sources */,
 				69AAD8941F46E483004C149C /* EmojHelper.m in Sources */,
 				69AAD8421F46E483004C149C /* IMAGroup+Profile.m in Sources */,
@@ -3527,6 +3533,7 @@
 				PRODUCT_NAME = YNHospitalUser;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -3574,6 +3581,7 @@
 				PRODUCT_NAME = YNHospitalUser;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

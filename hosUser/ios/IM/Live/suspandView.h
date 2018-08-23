@@ -53,7 +53,6 @@ typedef NS_ENUM(NSInteger,FramMode){
 
 -(void)initWithController:(UIViewController *)viewController rootView:(UIView *)rootView;
 -(void)showActivity;
--(void)showCamera:(BOOL)isMaster userInfo:(NSDictionary*)userInfo;
 -(void)makeLivingButtonView;
 -(void)showCameraView:(BOOL)isMaster;
 
