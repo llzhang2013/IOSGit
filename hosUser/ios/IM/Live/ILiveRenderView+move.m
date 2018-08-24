@@ -9,10 +9,19 @@
 #import "ILiveRenderView+move.h"
 
 #import <objc/runtime.h>
-static BOOL moved = NO;
+
+
 @implementation ILiveRenderView (move)//当开始触摸屏幕的时候调用
 
+-(void)setMode:(NSNumber *)mode
+{
+  objc_setAssociatedObject(self, @selector(mode), mode, OBJC_ASSOCIATION_RETAIN);
+}
 
+-(NSNumber *)mode
+{
+  return objc_getAssociatedObject(self, @selector(mode));
+}
 //- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
 //
 //    NSLog(@"touchesBegan==%s", __func__);

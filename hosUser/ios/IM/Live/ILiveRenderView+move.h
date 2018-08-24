@@ -13,6 +13,7 @@
 
 
 @interface ILiveRenderView (move)
+@property (nonatomic,strong)NSNumber * mode;//0 小 1 大
 
 
 @end

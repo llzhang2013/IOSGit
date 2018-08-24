@@ -15,6 +15,7 @@
 #import "LiveCommonMethod.h"
 #import "WaitingAccpectVC.h"
 #import "LivingVideoVC.h"
+#import "ILiveRenderView+move.h"
 
 @interface SuspandViewController ()<SuspendCustomViewDelegate>{
   ILiveRenderView *bigRenderView;
@@ -204,11 +205,15 @@ static dispatch_once_t onceToken;
   [smallRenders removeObject:renderView];
   [_customView sendSubviewToBack:bigRenderView];
   NSLog(@"引用计数%@,%@",[bigRenderView valueForKey:@"retainCount"],[renderView valueForKey:@"retainCount"]);
+  bigRenderView.mode = @0;
+  ILiveRenderView *renderView1 =smallRenders[0];
+  renderView1.mode = @1;
+  
+  
 }
 
 #pragma mark - ILiveMemStatusListener
 -(void)onCameraAdd:(ILiveRenderView *)renderView{
- 
   if(!_customView){
     [self createBaseUI];
   }
@@ -235,73 +240,26 @@ static dispatch_once_t onceToken;
   
   if(!bigRenderView){//第一个来
     bigRenderView = renderView;
+    renderView.mode = @0;
     [[ILiveRoomManager getInstance] setBeauty:5.0];
     [[ILiveRoomManager getInstance] setWhite:5.0];
     
-  }else{//第二个 是对方就把big变小 使对方为大
-//    if([renderView.identifier isEqualToString:self.userInfo[@"userId"]]){
-//
-//      [self modifyRenderViewFrame:bigRenderView frame: CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight)];
-//      if(!smallRenders){
-//        smallRenders = [[NSMutableArray alloc]init];
-//      }
-//      [smallRenders addObject:bigRenderView];
-//      _customView.smallRenderView = bigRenderView;
-//      bigRenderView = renderView;
-   // }else{
-      
+  }else{
+       renderView.mode = @1;
       [self modifyRenderViewFrame:renderView frame: CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight)];
       if(!smallRenders){
         smallRenders = [[NSMutableArray alloc]init];
       }
       [smallRenders addObject:renderView];
       _customView.smallRenderView = renderView;
-   // }
     if([renderView.identifier isEqualToString:self.userInfo[@"userId"]]){
-      [self performSelector:@selector(changSmallRenderToBig) withObject:nil afterDelay:0.1];
-     // [self changSmallRenderToBig];
+      [self performSelector:@selector(changSmallRenderToBig) withObject:nil afterDelay:1];
+  
     }
     
 
   }
   [_customView sendSubviewToBack:bigRenderView];
-  
-  /*永远使对方为大图  但是在切换过程中会有一闪黑屏出现
-   [_customView addSubview:renderView];
-   NSString *selfName =  [[TIMManager sharedInstance] getLoginUser];
-   if(renderView.identifier==selfName){
-   [[ILiveRoomManager getInstance] setBeauty:5.0];
-   [[ILiveRoomManager getInstance] setWhite:5.0];
-   }
-   
-   if(!bigRenderView){//第一个来是全屏的
-   renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
-   // [_customView addSubview:renderView];
-   bigRenderView = renderView;
-   
-   
-   }else{//第二个来后 是自己是就是小的  是别人就是大的
-   
-   if(renderView.identifier==selfName){//自己 作为小的添加即可
-   renderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
-   
-   [smallRenders addObject:renderView];
-   _customView.smallRenderView = renderView;
-   //  [_customView addSubview:renderView];
-   
-   }else{//别人 得变大的 把大的变小的
-   renderView.frame = CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height);
-   // [_customView addSubview:renderView];
-   //  bigRenderView.frame = CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight);
-   [[TILLiveManager getInstance] modifyAVRenderView:CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight) forIdentifier:bigRenderView.identifier srcType:QAVVIDEO_SRC_TYPE_CAMERA];
-   _customView.smallRenderView = bigRenderView;
-   [smallRenders addObject:bigRenderView];
-   bigRenderView = renderView;
-   
-   }//TODO  没实现
-   
-   }*/
-   
   
 }
 
