@@ -72,7 +72,7 @@
       userName = user.userId;
     }
  
-    NSDictionary *dic = @{@"userId":user.userId,@"name":userName,@"icon":user.icon,@"roomId":roomId};
+    NSDictionary *dic = @{@"userId":user.userId,@"name":userName,@"icon":user.icon,@"roomId":roomId,@"masterId":controlRole};
     [liveRoomVC toJoinRoom:roomId role:dic];
   });
 }

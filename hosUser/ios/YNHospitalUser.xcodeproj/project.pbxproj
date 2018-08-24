@@ -1415,12 +1415,10 @@
 		5B05F8DF20FD860900DC8B33 /* Live */ = {
 			isa = PBXGroup;
 			children = (
-				5B400503212D51B800D1EA55 /* suspandView.h */,
-				5B400502212D51B800D1EA55 /* suspandView.m */,
 				5B400509212D51B800D1EA55 /* SuspandViewController.h */,
 				5B400508212D51B800D1EA55 /* SuspandViewController.m */,
-				5B400506212D51B800D1EA55 /* videoSmallView.h */,
-				5B400507212D51B800D1EA55 /* videoSmallView.m */,
+				5B400503212D51B800D1EA55 /* suspandView.h */,
+				5B400502212D51B800D1EA55 /* suspandView.m */,
 				5B400504212D51B800D1EA55 /* WaitingAccpectVC.h */,
 				5B400505212D51B800D1EA55 /* WaitingAccpectVC.m */,
 				5B400527212E845900D1EA55 /* LivingVideoVC.h */,
@@ -1431,6 +1429,8 @@
 				5B4004F9212D51AC00D1EA55 /* InviteLiveViewController.m */,
 				5B4004FC212D51AD00D1EA55 /* LiveCommonMethod.h */,
 				5B4004FE212D51AD00D1EA55 /* LiveCommonMethod.m */,
+				5B400506212D51B800D1EA55 /* videoSmallView.h */,
+				5B400507212D51B800D1EA55 /* videoSmallView.m */,
 				5B05F90820FD861A00DC8B33 /* LiveSDK */,
 			);
 			path = Live;

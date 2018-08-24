@@ -12,5 +12,6 @@
 @interface LivingVideoVC : UIViewController
 @property (nonatomic, strong) UIView *buttonBKView;//通话过程中
 @property (nonatomic,strong) SuspandViewController *susVC;
+@property(nonatomic,copy) NSDictionary *userInfo;
 
 @end

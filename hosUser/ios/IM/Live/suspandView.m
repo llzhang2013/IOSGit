@@ -55,19 +55,13 @@
     [self.activityIndicator removeFromSuperview];
     self.activityIndicator = nil;
   }
-
-  if(isMaster){
-   
-  }else{
-    [self makeLivingButtonView];
-  }
 }
 
 -(void)setMode:(FramMode)mode{
     if(mode==SmallFrame){
-        if(self.buttonBKView){
-          self.buttonBKView.hidden = YES;
-        }
+//        if(self.buttonBKView){
+//          self.buttonBKView.hidden = YES;
+//        }
         _viewWidth = _smallWidth;
         _viewHeight = _smallHeight;
         self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
@@ -77,9 +71,9 @@
         _viewHeight = _bigHeight;
         self.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
         _myWindow.frame = CGRectMake(0, 0, _viewWidth, _viewHeight);
-        if(self.buttonBKView){
-          self.buttonBKView.hidden = NO;
-        }
+//        if(self.buttonBKView){
+//          self.buttonBKView.hidden = NO;
+//        }
     }else if(mode==NoneFrame){
       self.frame = CGRectZero;
       _myWindow.frame = CGRectZero;
@@ -87,69 +81,6 @@
     _mode = mode;
 }
 
-
-
--(void)makeLivingButtonView{
-  if(self.waitingAccepetView){
-    [self.waitingAccepetView removeFromSuperview];
-    self.waitingAccepetView = nil;
-  }
-  
-  self.buttonBKView = [[UIView alloc]init];
-  [self addSubview:self.buttonBKView];
-  [self.buttonBKView mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.left.right.equalTo(@0);
-    make.bottom.equalTo(@(-50));
-    make.height.equalTo(@100);
-    
-  }];
-  
-  UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 65, 65)];
-  //[button setTitle:@"收起" forState:UIControlStateNormal];
-  [button setBackgroundImage:[UIImage imageNamed:@"small"] forState:UIControlStateNormal];
-  [button addTarget:self.myController action:@selector(smallView) forControlEvents:UIControlEventTouchUpInside];
-  
-  UIButton *button2 = [[UIButton alloc]initWithFrame:CGRectMake(120, 0, 100, 50)];
-  button2.tag = 102;
-  //[button2 setTitle:@"切换摄像头" forState:UIControlStateNormal];
-  [button2 setBackgroundImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
-  [button2 addTarget:self.myController action:@selector(changeCamera)
-    forControlEvents:UIControlEventTouchUpInside];
-  
-  UIButton *button3 = [[UIButton alloc]initWithFrame:CGRectMake(230, 0, 65, 65)];
-  button3.tag = 103;
-  //[button3 setTitle:@"结束" forState:UIControlStateNormal];
-  [button3 setBackgroundImage:[UIImage imageNamed:@"refuse"] forState:UIControlStateNormal];
-  [button3 addTarget:self.myController action:@selector(overButtonCliced)
-    forControlEvents:UIControlEventTouchUpInside];
-  [self.buttonBKView addSubview:button];
-  [self.buttonBKView addSubview:button2];
-  [self.buttonBKView addSubview:button3];
-  
-  int size = 55;
-  [button2 mas_makeConstraints:^(MASConstraintMaker *make) {
-    //make.left.equalTo(button.mas_right).offset(60);
-    make.centerX.equalTo(self.buttonBKView);
-    make.size.mas_equalTo(CGSizeMake(size, size));
-    make.bottom.equalTo(@0);
-    
-  }];
-  [button mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.right.equalTo(button2.mas_left).offset(-50);
-    make.size.mas_equalTo(CGSizeMake(size, size));
-    make.centerY.equalTo(button2);
-    
-  }];
-  
-  [button3 mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.left.equalTo(button2.mas_right).offset(50);
-    make.size.mas_equalTo(CGSizeMake(size, size));
-    make.bottom.equalTo(@0);
-    
-  }];
-  
-  
-}
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [super touchesBegan:touches withEvent:event];
     UITouch *touch=[touches anyObject];
@@ -162,12 +93,8 @@
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     UITouch *touch=[touches anyObject];
     CGPoint currentPoint=[touch locationInView:_rootView];
-//    NSLog(@"self.smallRenderView.frame---%@",NSStringFromCGRect(self.smallRenderView.frame));
     if(_mode==BigFrame){
         if(CGRectContainsPoint(self.smallRenderView.frame, currentPoint)){
-            //  [super touchesMoved:touches withEvent:event];
-            
-            //            CGPoint newPoint = CGPointMake(currentPoint.x+offX, currentPoint.y+offY);
             CGPoint newPoint = CGPointMake(currentPoint.x, currentPoint.y);
             self.smallRenderView.center=newPoint;
         }

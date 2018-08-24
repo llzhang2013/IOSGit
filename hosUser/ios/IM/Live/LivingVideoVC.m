@@ -7,6 +7,7 @@
 //
 
 #import "LivingVideoVC.h"
+#import "LiveCommonMethod.h"
 
 
 @interface LivingVideoVC ()
@@ -33,6 +34,7 @@
 }
 
 -(void)overButtonCliced{
+   [LiveCommonMethod sendMessage:kVideoOver otherId:self.userInfo[@"userId"]];
   [self.susVC overButtonCliced];
 }
 
@@ -91,8 +93,28 @@
     make.bottom.equalTo(@0);
     
   }];
-  
-  
+}
+ //touchesBegan 这四个方法在UIResponder里定义 如果不复写 就不会调用self.nextResponder 事件不会向上传递 就不会有任何反应
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+ 
+  [self.nextResponder touchesBegan:touches withEvent:event];
+  //self.nextResponder 是self.view的父控件 如果是self.view.nextResponder = self
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+   [self.nextResponder touchesEnded:touches withEvent:event];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+  [self.nextResponder touchesCancelled:touches withEvent:event];
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+   [self.nextResponder touchesMoved:touches withEvent:event];
 }
 
 - (void)didReceiveMemoryWarning {

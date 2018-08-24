@@ -14,8 +14,7 @@
 #import "InviteLiveViewController.h"
 #import "LiveCommonMethod.h"
 #import "WaitingAccpectVC.h"
-
-
+#import "LivingVideoVC.h"
 
 @interface SuspandViewController ()<SuspendCustomViewDelegate>{
   ILiveRenderView *bigRenderView;
@@ -29,6 +28,7 @@
 @property (nonatomic, strong) UIWindow *myWindow;
 @property (nonatomic, strong) UIAlertController *alertCtrl;     //!< 提示框
 @property (nonatomic,strong)WaitingAccpectVC *waitVC;
+@property (nonatomic,strong)LivingVideoVC *videoButtonVC;
 
 @end
 
@@ -92,45 +92,14 @@ static dispatch_once_t onceToken;
     NSLog(@"加入房间成功，跳转到房间页");
   } failed:^(NSString *module, int errId, NSString *errMsg) {
     NSLog(@"加入房间失败--%@",errMsg);
-    [LiveCommonMethod showTip:@"视频通话失败"];
+    [LiveCommonMethod showTip:[NSString stringWithFormat:@"视频通话失败%@",errMsg]];
     [self destroySelf];
     
   }];
 }
 
--(void)showWaitView{
-  WaitingAccpectVC *vc = [[WaitingAccpectVC alloc]init];
-  vc.userInfo = self.userInfo;
-   self.waitVC = vc;
-  [_customView.myWindow addSubview:vc.view];
- 
-
-}
-#pragma mark -- Action
-
--(void)changeCamera{
-  
-  [[ILiveRoomManager getInstance] switchCamera:^{
-  } failed:^(NSString *module, int errId, NSString *errMsg) {
-  }];
-}
-
--(void)smallView{
-  _customView.mode = SmallFrame;
-  [self changeVideoFrame];
-}
-
-
-
--(void)overButtonCliced{//点击结束按钮 谁点击谁发送已结束
-  [LiveCommonMethod sendMessage:kVideoOver otherId:self.userInfo[@"userId"]];
-  [self quitLiveRoom];
- 
-}
-
-
 - (void)quitLiveRoom{
-
+  
   [[ILiveRoomManager getInstance] quitRoom:^{
     NSLog(@"zlllive---退出房间成功");
     [self destroySelf];
@@ -151,16 +120,56 @@ static dispatch_once_t onceToken;
   onceToken = 0;
 }
 
+#pragma mark --- addView
+
+-(void)showWaitView{
+ 
+  WaitingAccpectVC *vc = [[WaitingAccpectVC alloc]init];
+  vc.userInfo = self.userInfo;
+   self.waitVC = vc;
+  [_customView.myWindow addSubview:vc.view];
+}
+
+-(void)showVideoView{
+  if(!self.videoButtonVC){
+    LivingVideoVC *vc = [[LivingVideoVC alloc]init];
+    vc.userInfo = self.userInfo;
+    self.videoButtonVC = vc;
+  }
+ 
+  [_customView addSubview:self.videoButtonVC.view];
+}
+
+#pragma mark --- action
+-(void)changeCamera{
+  
+  [[ILiveRoomManager getInstance] switchCamera:^{
+  } failed:^(NSString *module, int errId, NSString *errMsg) {
+  }];
+}
+
+-(void)smallView{
+  _customView.mode = SmallFrame;
+  [self changeVideoFrame];
+}
+
+-(void)overButtonCliced{//点击结束按钮 谁点击谁发送已结束
+  [self quitLiveRoom];
+}
+
+#pragma mark -------
+
 -(void)changeVideoFrame{
   [self modifyRenderViewFrame:bigRenderView frame:CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height)];
   //先出线对方 对方结束  点击收起 就没了
   NSLog(@"zll---bigRenderView---%@",bigRenderView);
   if(_customView.mode == SmallFrame){//大的变小的 小的变没有
+    self.videoButtonVC.view.hidden = YES;
     [smallRenders enumerateObjectsUsingBlock:^(ILiveRenderView *renderView, NSUInteger idx, BOOL * _Nonnull stop) {
       [self modifyRenderViewFrame:renderView frame:CGRectZero];
     }];
   }else{
-    
+    self.videoButtonVC.view.hidden = NO;
     [smallRenders enumerateObjectsUsingBlock:^(ILiveRenderView *renderView, NSUInteger idx, BOOL * _Nonnull stop) {
       [self modifyRenderViewFrame:renderView frame:CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight)];
     }];
@@ -177,20 +186,24 @@ static dispatch_once_t onceToken;
   NSLog(@"此处判断点击 还可以通过suspenType类型判断");
   if(_customView.mode==BigFrame){
   if(CGRectContainsPoint(_customView.smallRenderView.frame,point)&&smallRenders.count>0){
-      ILiveRenderView *renderView =smallRenders[0];
-      [self modifyRenderViewFrame:renderView frame:bigRect];
-      [self modifyRenderViewFrame:bigRenderView frame:smallRect];
-      _customView.smallRenderView = bigRenderView;
-      [smallRenders addObject:bigRenderView];
-      bigRenderView = renderView;
-      [smallRenders removeObject:renderView];
-      [_customView sendSubviewToBack:bigRenderView];
-      NSLog(@"引用计数%@,%@",[bigRenderView valueForKey:@"retainCount"],[renderView valueForKey:@"retainCount"]);
+    [self changSmallRenderToBig];
     }
   }else{
     _customView.mode = BigFrame;
     [self changeVideoFrame];
   }
+}
+
+-(void)changSmallRenderToBig{
+  ILiveRenderView *renderView =smallRenders[0];
+  [self modifyRenderViewFrame:renderView frame:bigRect];
+  [self modifyRenderViewFrame:bigRenderView frame:smallRect];
+  _customView.smallRenderView = bigRenderView;
+  [smallRenders addObject:bigRenderView];
+  bigRenderView = renderView;
+  [smallRenders removeObject:renderView];
+  [_customView sendSubviewToBack:bigRenderView];
+  NSLog(@"引用计数%@,%@",[bigRenderView valueForKey:@"retainCount"],[renderView valueForKey:@"retainCount"]);
 }
 
 #pragma mark - ILiveMemStatusListener
@@ -199,36 +212,57 @@ static dispatch_once_t onceToken;
   if(!_customView){
     [self createBaseUI];
   }
+
+  if(!bigRenderView){
+    [_customView showCameraView:self.isMaster];
+    if(self.isMaster){
+      [self showWaitView];
+    }
+  }else{
+    if(self.isMaster){
+      [self.waitVC overWaiting];
+    }
+    [self showVideoView];
+  }
   
   if(!smallRenders){
     smallRenders = [[NSMutableArray alloc]init];
   }
   
+  
   [self modifyRenderViewFrame:renderView frame:CGRectMake(0, 0,  _customView.frame.size.width,  _customView.frame.size.height)];
   [_customView addSubview:renderView];
   
   if(!bigRenderView){//第一个来
-    [_customView showCameraView:self.isMaster];
-    if(self.isMaster){
-      [self showWaitView];
-    }
     bigRenderView = renderView;
     [[ILiveRoomManager getInstance] setBeauty:5.0];
     [[ILiveRoomManager getInstance] setWhite:5.0];
     
-  }else{//第二个 将原来的变小 这个已经是大的了
-    if(self.isMaster){
-      [_customView makeLivingButtonView];
-      [self.waitVC overWaiting];
-     
+  }else{//第二个 是对方就把big变小 使对方为大
+//    if([renderView.identifier isEqualToString:self.userInfo[@"userId"]]){
+//
+//      [self modifyRenderViewFrame:bigRenderView frame: CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight)];
+//      if(!smallRenders){
+//        smallRenders = [[NSMutableArray alloc]init];
+//      }
+//      [smallRenders addObject:bigRenderView];
+//      _customView.smallRenderView = bigRenderView;
+//      bigRenderView = renderView;
+   // }else{
+      
+      [self modifyRenderViewFrame:renderView frame: CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight)];
+      if(!smallRenders){
+        smallRenders = [[NSMutableArray alloc]init];
+      }
+      [smallRenders addObject:renderView];
+      _customView.smallRenderView = renderView;
+   // }
+    if([renderView.identifier isEqualToString:self.userInfo[@"userId"]]){
+      [self performSelector:@selector(changSmallRenderToBig) withObject:nil afterDelay:0.1];
+     // [self changSmallRenderToBig];
     }
     
-    [self modifyRenderViewFrame:renderView frame: CGRectMake(_customView.frame.size.width-_customView.smallWidth, 0,  _customView.smallWidth,  _customView.smallHeight)];
-    if(!smallRenders){
-      smallRenders = [[NSMutableArray alloc]init];
-    }
-    [smallRenders addObject:renderView];
-    _customView.smallRenderView = renderView;
+
   }
   [_customView sendSubviewToBack:bigRenderView];
   
@@ -266,10 +300,12 @@ static dispatch_once_t onceToken;
    
    }//TODO  没实现
    
-   }
-   */
+   }*/
+   
   
 }
+
+
 
 -(void)onCameraRemove:(ILiveRenderView *)renderView{
   //有一方离开就结束
