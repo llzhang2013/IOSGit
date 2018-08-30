@@ -368,7 +368,7 @@
 -(void)initPlayMusic{
 
 //    AVAudioSession * session = [AVAudioSession sharedInstance];
-//    [session setActive:YES error:nil];
+////    [session setActive:YES error:nil];
 //    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
   
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"videoMusic" ofType:@"mp3"];
@@ -381,20 +381,21 @@
 }
 
 -(void)playMusic{
-//  if(!self.musicPlayer){
-//    [self initPlayMusic];
-//  }
-//
-//  if (![self.musicPlayer isPlaying]){
-//    [self.musicPlayer setVolume:1];
-//    [self.musicPlayer prepareToPlay];
-//    [self.musicPlayer play];
-//  }todo
+  if(!self.musicPlayer){
+    [self initPlayMusic];
+  }
+
+  if (![self.musicPlayer isPlaying]){
+    [self.musicPlayer setVolume:1];
+    [self.musicPlayer prepareToPlay];
+    [self.musicPlayer play];
+  }
 }
 
 -(void)stopMusic{
 //  if ([self.musicPlayer isPlaying]){
   [self.musicPlayer stop];
+
 //  }
 }
 
